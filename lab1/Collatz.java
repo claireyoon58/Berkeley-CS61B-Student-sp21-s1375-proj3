@@ -4,21 +4,23 @@
 public class Collatz {
     public static void main(String[] args) {
         int n = 5;
-        while (n > 0) {
-            System.out.print(n + "");
+        while (n > 1) {
+            System.out.print(n + " ");
             n = nextNumber(n);
         }
+
+        System.out.print(1);
 
 
     }
 
     public static int nextNumber(int n) {
             if (n % 2 == 0) {
-                int even = n / 2;
-                return even;
+                n = n / 2;
+                return n;
             } else {
-                int odd = (3 * n) + 1;
-                return odd;
+                n = (3 * n) + 1;
+                return n;
             }
         }
 

@@ -9,12 +9,14 @@ public class Collatz {
     }
 
     public static int nextNumber(int n) {
-        if (n % 2 == 0) {
+        if (n == 1) {
+            return 0;
+        } else if (n % 2 == 0) {
             int even = n / 2;
-            return even;
+            return (nextNumber(even) + 1);
         } else {
             int odd = (3 * n) + 1;
-            return odd;
+            return (nextNumber(odd) + 1);
         }
     }
 }

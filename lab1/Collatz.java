@@ -10,8 +10,6 @@ public class Collatz {
         }
 
         System.out.print(1);
-
-
     }
 
     public static int nextNumber(int n) {

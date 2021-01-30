@@ -117,29 +117,28 @@ public class Model extends Observable {
         board.setViewingPerspective(side);
         for (int col = 0; col < this.size(); col += 1) {
             int endindex = board.size() - 1;
-
-
             for (int row = board.size() - 2 ; row >= 0; row -= 1) {
                 Tile newtile = board.tile(col, row);
                 if (tile(col, row) != null) {
                     if (tile(col, endindex) == null) {
                         board.move(col, endindex, newtile);
-                    } else if (tile(col, endindex).value() != newtile.value()) {
-                        board.move(col, endindex - 1, newtile);
-                        endindex -= 1;
-                    } else {
+                        endindex += 1;
+                    } else if (tile(col, endindex).value() == newtile.value()) {
                         board.move(col, endindex, newtile);
                         score += tile(col, endindex).value();
-                        endindex -= 1;
-                    }
 
+                    } else {
+
+                        board.move(col, endindex - 1, newtile);
+                    }
+                    endindex -=1;
                     changed = true;
                 }
 
             }
         }
 
-        board.setViewingPerspective(side);
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {

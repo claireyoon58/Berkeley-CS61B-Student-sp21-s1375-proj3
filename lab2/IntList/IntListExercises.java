@@ -14,6 +14,8 @@ public class IntListExercises {
             head.first += c;
             head = head.rest;
         }
+        head.first += c;
+
     }
 
     /**
@@ -73,10 +75,15 @@ public class IntListExercises {
 
         boolean currElemIsPrime = Primes.isPrime(lst.first);
 
-        if (currElemIsPrime) {
-            lst.first *= lst.first;
-        }
+        while (lst != null) {
 
+            if (currElemIsPrime) {
+            lst.first *= lst.first;
+             }
+            lst = lst.rest;
+
+         }
         return currElemIsPrime || squarePrimes(lst.rest);
-    }
+
 }
+

@@ -1,3 +1,5 @@
+package deque;
+
 public class ArrayDeque<T> {
     private int size;
     private int newFirst;

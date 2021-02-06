@@ -32,7 +32,7 @@ public class TimeAList {
         for (int i = 0; i < numbers.size(); i++) {
             AList<Integer> timeconstruct = new AList<Integer>();
             Stopwatch watch = new Stopwatch();
-            for (int b = 0; b < numbers.get(i); b++) {
+            for (int k = 0; k < numbers.get(i); k++) {
                 timeconstruct.addLast((1));
             }
             t.add(watch.elapsedTime());

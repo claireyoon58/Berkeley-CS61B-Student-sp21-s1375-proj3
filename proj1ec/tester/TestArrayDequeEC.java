@@ -14,17 +14,18 @@ public class TestArrayDequeEC {
         StudentArrayDeque<Integer> a = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> b = new ArrayDequeSolution<>();
 
-
+        List methods = new ArrayList();
 
         for (int i = 0; i < 10000; i ++) {
             int randomNum = StdRandom.uniform(100);
             a.addFirst(randomNum);
             b.addFirst(randomNum);
+            methods.add("addFirst(" + randomNum + ")");
         }
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals(, "a", "f");
+            assertEquals("Error Expected" + methods, expected, actual);
         }
 //        addlast
 
@@ -33,25 +34,27 @@ public class TestArrayDequeEC {
             int randomNum = StdRandom.uniform(100);
             a.addLast(randomNum);
             b.addLast(randomNum);
+            methods.add("addLast(" + randomNum + ")");
         }
 
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("a", "a", "f");
+            assertEquals("Error Expected" + methods, expected, actual);
         }
 
 //        removeFirst
 
         for (int i = 0; i < 10000; i ++) {
             int randomNum = StdRandom.uniform(100);
-            a.removeFirst(randomNum);
-            b.removeFirst(randomNum);
+            a.removeFirst();
+            b.removeFirst();
+            methods.add("removeFirst()");
         }
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("a", "a", "f");
+            assertEquals("Error Expected" + methods, expected, actual);
         }
 
 
@@ -59,13 +62,13 @@ public class TestArrayDequeEC {
 
         for (int i = 0; i < 10000; i ++) {
             int randomNum = StdRandom.uniform(100);
-            a.removeLast(randomNum);
-            b.removeLast(randomNum);
+            a.removeLast();
+            b.removeLast();
         }
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("a", "a", "f");
+            assertEquals("Error Expected" + methods, expected, actual);
         }
 
 

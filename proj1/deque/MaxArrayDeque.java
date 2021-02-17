@@ -23,7 +23,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         int maxNum = 0;
 
         for (int i = 0; i < size(); i++) {
-            if (c.compare(get(i), get(maxNum)) > 1) {
+            if (c.compare(get(i), get(maxNum)) > 0) {
                 maxNum = i;
 
             }
@@ -33,6 +33,6 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
 
     }
 
-    
+
 }
 

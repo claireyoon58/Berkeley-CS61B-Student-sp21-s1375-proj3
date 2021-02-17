@@ -14,6 +14,8 @@ public class TestArrayDequeEC {
         StudentArrayDeque<Integer> a = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> b = new ArrayDequeSolution<>();
 
+
+
         for (int i = 0; i < 10000; i ++) {
             int randomNum = StdRandom.uniform(100);
             a.addFirst(randomNum);
@@ -22,7 +24,7 @@ public class TestArrayDequeEC {
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("a", "a", "f");
+            assertEquals(, "a", "f");
         }
 //        addlast
 

@@ -1,5 +1,5 @@
 package deque;
-import java.util.*;
+import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
@@ -115,7 +115,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return x;
     }
 
-    private class iteratorHelper implements Iterator<T> {
+    private class IteratorHelper implements Iterator<T> {
         private int index = 0;
 
         public boolean hasNext() {
@@ -123,7 +123,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         public T next() {
-            if (hasNext() == true) {
+            if (hasNext()) {
                 T result = get(index);
                 index += 1;
                 return result;
@@ -134,7 +134,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     public Iterator<T> iterator() {
 
-        return new iteratorHelper();
+        return new IteratorHelper();
     }
 
     public boolean equals(Object o) {

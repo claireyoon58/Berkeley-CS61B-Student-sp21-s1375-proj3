@@ -16,38 +16,98 @@ public class TestArrayDequeEC {
 
 //        List methods = new ArrayList();
 
-        for (int i = 0; i < 100; i++) {
-            int methodcall = StdRandom.uniform(0, 4);
-//            int randomNum = StdRandom.uniform(1000);
+        for (int i = 0; i < 10; i++) {
+//            int methodcall = StdRandom.uniform(0, 4);
+            int randomNum = StdRandom.uniform(1000);
 
-            if (methodcall == 0) {
-                a.addFirst(i);
-                b.addFirst(i);
+//            if (methodcall == 0) {
+            a.addFirst(randomNum);
+            b.addFirst(randomNum);
+        }
 //                int expected = ;
 //                int actual = b.get(0);
-                assertEquals( a.get(0) , b.get(0) );
-                System.out.println("addFirst(" + i + ")");
-            } else if (methodcall == 1) {
-                a.addLast(i);
-                b.addLast(i);
-                int expected = a.get(a.size() - 1);
-                int actual = b.get(b.size() - 1);
-                assertEquals(expected, actual);
-                System.out.println("addLast(" + i + ")");
-            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
-                    int expected = a.removeFirst();
-                    int actual = b.removeFirst();
-                    assertEquals(a.get(0) , b.get(0));
-                    System.out.println("removeFirst()");
-            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
-                    int expected = a.removeLast();
-                    int actual = b.removeLast();
-                    assertEquals(expected, actual);
-                    System.out.println("removeLast()");
-                }
+
+        for (int i = 0; i < 10; i++) {
+            int expected = a.get(i);
+            int actual = b.get(i);
+
+            assertEquals(expected, actual);
+            System.out.println("addFirst(" + i + ")");
+        }
+        for (int i = 0; i < 10; i++) {
+            int randomNum = StdRandom.uniform(1000);
+            a.addLast(randomNum);
+            b.addLast(randomNum);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            int expected = a.get(i);
+            int actual = b.get(i);
+            assertEquals(expected, actual);
+            System.out.println("addLast(" + i + ")");
+        }
+
+        List<Integer> actualL = new ArrayList<>();
+        List<Integer> expectedL = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            actualL.add(a.removeFirst());
+            expectedL.add(b.removeFirst());
+        }
+
+        for (int i = 0; i < 10; i++) {
+            int expected = a.get(i);
+            int actual = b.get(i);
+            assertEquals(expected, actual);
+            System.out.println("removeFirst()");
+        }
+
+        List<Integer> actualL2 = new ArrayList<>();
+        List<Integer> expectedL2 = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            actualL2.add(a.removeLast());
+            expectedL2.add(b.removeLast());
+        }
+        int expectedSize = a.size();
+        int actualSize = b.size();
+
+
+        assertEquals(expectedSize, actualSize);
+
+        for (int i = 0; i < 10; i++) {
+            assertEquals(expectedL2.get(i), actualL2.get(i));
+            System.out.println("removeLast()");
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+//            } else if (methodcall == 1) {
+
+//            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
+//                    int expected = a.removeFirst();
+//                    int actual = b.removeFirst();
+//                    assertEquals(a.get(0) , b.get(0));
+//                    System.out.println("removeFirst()");
+//            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
+//                    int expected = a.removeLast();
+//                    int actual = b.removeLast();
+//                    assertEquals(expected, actual);
+//                    System.out.println("removeLast()");
+//                }
+//        }
+//    }
+//}
 
 
 

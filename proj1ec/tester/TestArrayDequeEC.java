@@ -21,18 +21,7 @@ public class TestArrayDequeEC {
             if (randomNum < 0.25) {
                 //            } else if (methodcall == 1) {
 
-//            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
-//                    int expected = a.removeFirst();
-//                    int actual = b.removeFirst();
-//                    assertEquals(a.get(0) , b.get(0));
-//                    System.out.println("removeFirst()");
-//            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
-//                    int expected = a.removeLast();
-//                    int actual = b.removeLast();
-//                    assertEquals(expected, actual);
-//                    System.out.println("removeLast()");
-//                }
-//        }
+//
 //    }
 //}
                 a.addLast(i);
@@ -200,12 +189,12 @@ public class TestArrayDequeEC {
 ////            int randomNum = StdRandom.uniform(1000);
 
 //
-//            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
+//
 //                Integer expected = a.removeFirst();
 //                Integer actual = b.removeFirst();
 //                assertEquals(expected, actual);
 //                System.out.println("removeFirst()");
-//            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
+// 
 //                Integer expected = a.removeLast();
 //                Integer actual = b.removeLast();
 //                assertEquals(expected, actual);

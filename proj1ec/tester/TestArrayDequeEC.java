@@ -11,77 +11,106 @@ public class TestArrayDequeEC {
 
     @Test
     public void TestStudentArray() {
-        StudentArrayDeque<Integer> a = new StudentArrayDeque<>();
-        ArrayDequeSolution<Integer> b = new ArrayDequeSolution<>();
+        ArrayDequeSolution<Integer> a = new ArrayDequeSolution<>();
+        StudentArrayDeque<Integer> b = new StudentArrayDeque<>();
 
-//        List methods = new ArrayList();
-
-        for (int i = 0; i < 10; i++) {
-//            int methodcall = StdRandom.uniform(0, 4);
-            int randomNum = StdRandom.uniform(1000);
-
-//            if (methodcall == 0) {
-            a.addFirst(randomNum);
-            b.addFirst(randomNum);
-        }
-//                int expected = ;
-//                int actual = b.get(0);
 
         for (int i = 0; i < 10; i++) {
-            int expected = a.get(i);
-            int actual = b.get(i);
+            int random = StdRandom.uniform(100);
+            a.addFirst(random);
+            b.addFirst(random);
+            int actual = a.get(0);
+            int expected = b.get(0);
+            assertEquals("addFirst(" + random + ")", actual, expected);
+            System.out.println("addFirst(" + random + ")");
 
-            assertEquals(expected, actual);
-            System.out.println("addFirst(" + i + ")");
-        }
-        for (int i = 0; i < 10; i++) {
-            int randomNum = StdRandom.uniform(1000);
-            a.addLast(randomNum);
-            b.addLast(randomNum);
-        }
+            random = StdRandom.uniform(100);
+            a.addLast(random);
+            b.addLast(random);
+            actual = a.get(1);
+            expected = b.get(1);
+            assertEquals("addLast(" + random + ")", actual, expected);
+            System.out.println("addLast(" + random + ")");
 
-        for (int i = 0; i < 10; i++) {
-            int expected = a.get(i);
-            int actual = b.get(i);
-            assertEquals(expected, actual);
-            System.out.println("addLast(" + i + ")");
-        }
-
-        List<Integer> actualL = new ArrayList<>();
-        List<Integer> expectedL = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            actualL.add(a.removeFirst());
-            expectedL.add(b.removeFirst());
-        }
-
-        for (int i = 0; i < 10; i++) {
-            int expected = a.get(i);
-            int actual = b.get(i);
-            assertEquals(expected, actual);
+            actual = a.removeFirst();
+            expected = b.removeFirst();
+            assertEquals("removeFirst()", actual, expected);
             System.out.println("removeFirst()");
-        }
 
-        List<Integer> actualL2 = new ArrayList<>();
-        List<Integer> expectedL2 = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            actualL2.add(a.removeLast());
-            expectedL2.add(b.removeLast());
-        }
-        int expectedSize = a.size();
-        int actualSize = b.size();
-
-
-        assertEquals(expectedSize, actualSize);
-
-        for (int i = 0; i < 10; i++) {
-            assertEquals(expectedL2.get(i), actualL2.get(i));
+            actual = a.removeLast();
+            expected = b.removeLast();
+            assertEquals("removeLast()", actual, expected);
             System.out.println("removeLast()");
         }
     }
 }
 
+//for (int i = 0; i < 10; i++) {
+////            int methodcall = StdRandom.uniform(0, 4);
+//        int randomNum = StdRandom.uniform(1000);
+//
+////            if (methodcall == 0) {
+//        a.addFirst(randomNum);
+//        b.addFirst(randomNum);
+//        }
+////                int expected = ;
+////                int actual = b.get(0);
+//
+//        for (int i = 0; i < 10; i++) {
+//        int expected = a.get(i);
+//        int actual = b.get(i);
+//
+//        assertEquals(expected, actual);
+//        System.out.println("addFirst(" + i + ")");
+//        }
+//        for (int i = 0; i < 10; i++) {
+//        int randomNum = StdRandom.uniform(1000);
+//        a.addLast(randomNum);
+//        b.addLast(randomNum);
+//        }
+//
+//        for (int i = 0; i < 10; i++) {
+//        int expected = a.get(i);
+//        int actual = b.get(i);
+//        assertEquals(expected, actual);
+//        System.out.println("addLast(" + i + ")");
+//        }
+//
+//        List<Integer> actualL = new ArrayList<>();
+//        List<Integer> expectedL = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; i++) {
+//        actualL.add(a.removeFirst());
+//        expectedL.add(b.removeFirst());
+//        }
+//
+//        for (int i = 0; i < 10; i++) {
+//        int expected = a.get(i);
+//        int actual = b.get(i);
+//        assertEquals(expected, actual);
+//        System.out.println("removeFirst()");
+//        }
+//
+//        List<Integer> actualL2 = new ArrayList<>();
+//        List<Integer> expectedL2 = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; i++) {
+//        actualL2.add(a.removeLast());
+//        expectedL2.add(b.removeLast());
+//        }
+//        int expectedSize = a.size();
+//        int actualSize = b.size();
+//
+//
+//        assertEquals(expectedSize, actualSize);
+//
+//        for (int i = 0; i < 10; i++) {
+//        assertEquals(expectedL2.get(i), actualL2.get(i));
+//        System.out.println("removeLast()");
+//        }
+//        }
+//        }
+//
 
 
 
@@ -166,3 +195,4 @@ public class TestArrayDequeEC {
 //            int actual = b.get(i);
 //            assertEquals(expected, actual );
 //            System.out.println("removeLast(" + i + ")");
+

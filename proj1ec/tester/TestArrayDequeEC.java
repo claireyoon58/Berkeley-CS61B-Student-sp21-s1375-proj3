@@ -13,40 +13,81 @@ public class TestArrayDequeEC {
     public void TestStudentArray() {
         StudentArrayDeque<Integer> a = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> b = new ArrayDequeSolution<>();
-//        List methods = new ArrayList();
-        for (Integer i = 0; i < 100; i++) {
-            Integer methodcall = StdRandom.uniform(0, 4);
-//            int randomNum = StdRandom.uniform(1000);
-            if (methodcall == 0) {
+        String message = "\n";
+
+        for (int i = 0; i < 500; i += 1) {
+            double randomNum = StdRandom.uniform();
+
+            if (randomNum < 0.25) {
                 a.addLast(i);
                 b.addLast(i);
-                Integer expected = a.get(a.size() - 1);
-                Integer actual = b.get(b.size() - 1);
-                assertEquals(expected, actual);
-                System.out.println("addLast(" + i + ")");
+                message += "addLast(" + i + ")\n";
+                Integer expected = b.get(b.size() - 1);
+                Integer actual = a.get(a.size() - 1);
+                assertEquals(message, expected, actual);
 
-            } else if (methodcall == 1) {
+            } else if (randomNum < 0.5) {
                 a.addFirst(i);
                 b.addFirst(i);
-                Integer expected = a.get(0);
-                Integer actual = b.get(0);
-                assertEquals(expected, actual);
-                System.out.println("addFirst(" + i + ")");
+                message += "addFirst(" + i + ")\n";
+                Integer expected = b.get(0);
+                Integer actual = a.get(0);
+                assertEquals(message, expected, actual);
+            } else if (randomNum < 0.75) {
+                if (b.size() == 0) {
+                    continue;
+                }
+                Integer actual = a.removeFirst();
+                Integer expected = b.removeFirst();
+                message += "removeFirst()\n";
+                assertEquals(message, expected, actual);
+            } else {
+                if (b.size() == 0) {
+                    continue;
+                }
 
-            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
-                Integer expected = a.removeFirst();
-                Integer actual = b.removeFirst();
-                assertEquals(expected, actual);
-                System.out.println("removeFirst()");
-            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
-                Integer expected = a.removeLast();
-                Integer actual = b.removeLast();
-                assertEquals(expected, actual);
-                System.out.println("removeLast()");
+                Integer actual = a.removeLast();
+                Integer expected = b.removeLast();
+                message += "removeLast()\n";
+                assertEquals(message, expected, actual);
             }
         }
+
     }
 }
+////        List methods = new ArrayList();
+//        for (Integer i = 0; i < 100; i++) {
+//            Integer methodcall = StdRandom.uniform(0, 4);
+////            int randomNum = StdRandom.uniform(1000);
+//            if (methodcall == 0) {
+//                a.addLast(i);
+//                b.addLast(i);
+//                Integer expected = a.get(a.size() - 1);
+//                Integer actual = b.get(b.size() - 1);
+//                assertEquals(expected, actual);
+//                System.out.println("addLast(" + i + ")");
+//
+//            } else if (methodcall == 1) {
+//                a.addFirst(i);
+//                b.addFirst(i);
+//                Integer expected = a.get(0);
+//                Integer actual = b.get(0);
+//                assertEquals(expected, actual);
+//                System.out.println("addFirst(" + i + ")");
+//
+//            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
+//                Integer expected = a.removeFirst();
+//                Integer actual = b.removeFirst();
+//                assertEquals(expected, actual);
+//                System.out.println("removeFirst()");
+//            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
+//                Integer expected = a.removeLast();
+//                Integer actual = b.removeLast();
+//                assertEquals(expected, actual);
+//                System.out.println("removeLast()");
+//            }
+//        }
+//    }
 
 
 //        for (int i = 0; i < 10; i++) {

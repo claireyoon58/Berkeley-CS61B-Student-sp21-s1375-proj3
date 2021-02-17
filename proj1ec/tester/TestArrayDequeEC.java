@@ -23,9 +23,9 @@ public class TestArrayDequeEC {
             if (methodcall == 0) {
                 a.addFirst(i);
                 b.addFirst(i);
-                int expected = a.get(0);
-                int actual = b.get(0);
-                assertEquals(expected, actual);
+//                int expected = ;
+//                int actual = b.get(0);
+                assertEquals( a.get(0) , b.get(0) );
                 System.out.println("addFirst(" + i + ")");
             } else if (methodcall == 1) {
                 a.addLast(i);
@@ -34,21 +34,17 @@ public class TestArrayDequeEC {
                 int actual = b.get(b.size() - 1);
                 assertEquals(expected, actual);
                 System.out.println("addLast(" + i + ")");
-            } else if (methodcall == 2) {
-                if (a.size() != 0 && b.size() != 0) {
+            } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
                     int expected = a.removeFirst();
                     int actual = b.removeFirst();
-                    assertEquals(expected, actual);
+                    assertEquals(a.get(0) , b.get(0));
                     System.out.println("removeFirst()");
-                }
-            } else if (methodcall == 3) {
-                if (a.size() != 0 && b.size() != 0) {
+            } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
                     int expected = a.removeLast();
                     int actual = b.removeLast();
                     assertEquals(expected, actual);
                     System.out.println("removeLast()");
                 }
-            }
         }
     }
 }

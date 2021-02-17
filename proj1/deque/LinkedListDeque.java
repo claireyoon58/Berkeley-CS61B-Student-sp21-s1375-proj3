@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         private static class Node<T> {
             private T item;
             private Node prev;
@@ -38,21 +40,22 @@ public class LinkedListDeque<T> {
             sentinel.prev.prev.next = sentinel.prev;
             size += 1;
         }
-        public boolean isEmpty() {
-            if (size > 0) {
-                return false;
-            }
-            return true;
-        }
+//        public boolean isEmpty() {
+//            if (size > 0) {
+//                return false;
+//            }
+//            return true;
+//        }
+
         public int size() {
             return size;
         }
 
         public void printDeque() {
-            Node dequeprint = sentinel.next;
-            while (dequeprint != sentinel) {
-                System.out.print(dequeprint.item + " ");
-                dequeprint = dequeprint.next;
+            Node dequePrint = sentinel.next;
+            while (dequePrint != sentinel) {
+                System.out.print(dequePrint.item + " ");
+                dequePrint = dequePrint.next;
             }
             System.out.println();
         }
@@ -80,12 +83,12 @@ public class LinkedListDeque<T> {
             if (index > size) {
                 return null;
             }
-            Node getitem = sentinel.next;
+            Node getItem = sentinel.next;
             while (index > 0) {
-                getitem = getitem.next;
+                getItem = getItem.next;
                 index -= 1;
             }
-            return (T) getitem.item;
+            return (T) getItem.item;
         }
 
         public LinkedListDeque() {
@@ -105,6 +108,51 @@ public class LinkedListDeque<T> {
                 return getRecursiveHelper(index - 1, recur.next);
             }
         }
+
+
+    private class iteratorHelper implements Iterator<T> {
+        private int index = 0;
+
+        public boolean hasNext() {
+            return index < size();
+        }
+
+        public T next() {
+            if (hasNext() == true) {
+                T result = get(index);
+                index += 1;
+                return result;
+            }
+            return null;
+        }
+    }
+
+    public Iterator<T> iterator() {
+
+        return new iteratorHelper();
+    }
+
+    public boolean equals(Object o) {
+        if (o instanceof Deque) {
+            Deque<T> compare = (Deque<T>) o;
+            if (compare.size() != size()) {
+                return false;
+            }
+
+            for (int i = 0; i < size(); i++) {
+                if (!compare.get(i).equals(get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
 
 
 

@@ -18,18 +18,18 @@ public class TestArrayDequeEC {
 
         for (int i = 0; i < 10000; i++) {
             int methodcall = StdRandom.uniform(0, 4);
-            int randomNum = StdRandom.uniform(1000);
+//            int randomNum = StdRandom.uniform(1000);
 
             if (methodcall == 0) {
-                a.addFirst(randomNum);
-                b.addFirst(randomNum);
+                a.addFirst(i);
+                b.addFirst(i);
                 int expected = a.get(0);
                 int actual = b.get(0);
                 assertEquals(expected, actual);
                 System.out.println("addFirst(" + i + ")");
             } else if (methodcall == 1) {
-                a.addLast(randomNum);
-                b.addLast(randomNum);
+                a.addLast(i);
+                b.addLast(i);
                 int expected = a.get(a.size() - 1);
                 int actual = b.get(b.size() - 1);
                 assertEquals(expected, actual);

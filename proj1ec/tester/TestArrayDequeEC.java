@@ -25,50 +25,61 @@ public class TestArrayDequeEC {
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("Error Expected" + methods, expected, actual);
+            assertEquals(expected, actual);
+            System.out.println(methods);
+
         }
 //        addlast
 
 
         for (int i = 0; i < 10000; i ++) {
-            int randomNum = StdRandom.uniform(100);
-            a.addLast(randomNum);
-            b.addLast(randomNum);
-            methods.add("addLast(" + randomNum + ")");
+            if (a.size() != 0 && b.size() != 0) {
+                int randomNum = StdRandom.uniform(100);
+                a.addLast(randomNum);
+                b.addLast(randomNum);
+                methods.add("addLast(" + randomNum + ")");
+            }
         }
 
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("Error Expected" + methods, expected, actual);
+            assertEquals(expected, actual);
+            System.out.println(methods);
         }
 
 //        removeFirst
 
         for (int i = 0; i < 10000; i ++) {
-            int randomNum = StdRandom.uniform(100);
-            a.removeFirst();
-            b.removeFirst();
-            methods.add("removeFirst()");
+            if (a.size() != 0 && b.size() != 0) {
+                int randomNum = StdRandom.uniform(100);
+                a.removeFirst();
+                b.removeFirst();
+                methods.add("removeFirst()");
+            }
         }
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("Error Expected" + methods, expected, actual);
+            assertEquals(expected, actual);
+            System.out.println(methods);
         }
 
 
 //        removeLast
 
         for (int i = 0; i < 10000; i ++) {
-            int randomNum = StdRandom.uniform(100);
-            a.removeLast();
-            b.removeLast();
+            if (a.size() != 0 && b.size() != 0) {
+                int randomNum = StdRandom.uniform(100);
+                a.removeLast();
+                b.removeLast();
+            }
         }
         for (int i = 0; i < 10000; i++) {
             int expected = a.get(i);
             int actual = b.get(i);
-            assertEquals("Error Expected" + methods, expected, actual);
+            assertEquals(expected, actual);
+            System.out.println(methods);
         }
 
 

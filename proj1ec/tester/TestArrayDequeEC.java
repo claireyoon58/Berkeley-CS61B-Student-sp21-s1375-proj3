@@ -14,35 +14,35 @@ public class TestArrayDequeEC {
         StudentArrayDeque<Integer> a = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> b = new ArrayDequeSolution<>();
 //        List methods = new ArrayList();
-        for (int i = 0; i < 100; i++) {
-            int methodcall = StdRandom.uniform(0, 4);
+        for (Integer i = 0; i < 100; i++) {
+            Integer methodcall = StdRandom.uniform(0, 4);
 //            int randomNum = StdRandom.uniform(1000);
             if (methodcall == 0) {
                 a.addLast(i);
                 b.addLast(i);
-                int expected = a.get(a.size() - 1);
-                int actual = b.get(b.size() - 1);
+                Integer expected = a.get(a.size() - 1);
+                Integer actual = b.get(b.size() - 1);
                 assertEquals(expected, actual);
                 System.out.println("addLast(" + i + ")");
 
             } else if (methodcall == 1) {
                 a.addFirst(i);
                 b.addFirst(i);
-                int expected = a.get(0);
-                int actual = b.get(0);
+                Integer expected = a.get(0);
+                Integer actual = b.get(0);
                 assertEquals(expected, actual);
                 System.out.println("addFirst(" + i + ")");
 
             } else if (methodcall == 2 && a.size() != 0 && b.size() != 0) {
-                    int expected = a.removeFirst();
-                    int actual = b.removeFirst();
-                    assertEquals(expected, actual);
-                    System.out.println("removeFirst()");
+                Integer expected = a.removeFirst();
+                Integer actual = b.removeFirst();
+                assertEquals(expected, actual);
+                System.out.println("removeFirst()");
             } else if (methodcall == 3 && a.size() != 0 && b.size() != 0) {
-                    int expected = a.removeLast();
-                    int actual = b.removeLast();
-                    assertEquals(expected, actual);
-                    System.out.println("removeLast()");
+                Integer expected = a.removeLast();
+                Integer actual = b.removeLast();
+                assertEquals(expected, actual);
+                System.out.println("removeLast()");
             }
         }
     }

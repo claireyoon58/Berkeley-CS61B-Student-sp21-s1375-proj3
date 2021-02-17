@@ -16,7 +16,7 @@ public class TestArrayDequeEC {
 
 //        List methods = new ArrayList();
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100; i++) {
             int methodcall = StdRandom.uniform(0, 4);
 //            int randomNum = StdRandom.uniform(1000);
 

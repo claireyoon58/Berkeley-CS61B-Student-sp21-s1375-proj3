@@ -55,6 +55,7 @@ public class TestArrayDequeEC {
 
 
 
+
 //        for (int i = 0; i < 10000; i++) {
 //            int expected = a.get(i);
 //            int actual = b.get(i);
@@ -70,8 +71,7 @@ public class TestArrayDequeEC {
 //                a.addLast(randomNum);
 //                b.addLast(randomNum);
 //                ethods.add("addLast(" + randomNum + ")")m;
-            }
-        }
+
 
 //        for (int i = 0; i < 10000; i++) {
 //            int expected = a.get(i);
@@ -88,8 +88,7 @@ public class TestArrayDequeEC {
 //                a.removeFirst();
 //                b.removeFirst();
 //                methods.add("removeFirst()");
-            }
-        }
+
 //        for (int i = 0; i < 10000; i++) {
 //            int expected = a.get(i);
 //            int actual = b.get(i);
@@ -106,7 +105,6 @@ public class TestArrayDequeEC {
 //                a.removeLast();
 //                b.removeLast();
 //            }
-        }
 //        for (int i = 0; i < 10000; i++) {
 //            int expected = a.get(i);
 //            int actual = b.get(i);

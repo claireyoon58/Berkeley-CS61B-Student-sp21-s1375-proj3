@@ -194,7 +194,7 @@ public class TestArrayDequeEC {
 //                Integer actual = b.removeFirst();
 //                assertEquals(expected, actual);
 //                System.out.println("removeFirst()");
-// 
+//
 //                Integer expected = a.removeLast();
 //                Integer actual = b.removeLast();
 //                assertEquals(expected, actual);

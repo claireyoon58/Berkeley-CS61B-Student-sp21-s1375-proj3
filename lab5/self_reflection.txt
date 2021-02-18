@@ -4,27 +4,31 @@ ArrayDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: The wrap around function was interesting because I had a lot of helper function to make sure the arraydeque work. I made a lot of helper functions to solve this code. 
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A:I felt proud that I was able to finish the project although I submitted it late. I was struggling at first to understand the concept so I had to go to Office hours a lot but using resize and creating a lot of helper functions to link to other methods made me feel proud of myself, allowing other methods to be written out more simpler. 
+
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A:I made a method called usage ratio where the array size was able to resize more simpler and and used that for my other methods such as add first remove first and etc. That method helped me organize and use the methods much easier for me. I don't think I would've been able to think of it until I went to office hours and had help but the fact I was able to implement that and use it for remove last and other functions that was pretty nice about it. 
+
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A: My partners made two separate cases for the resize method where the first index is in the last index and everything where they had to make helper function. Their code was also much more complicated than what could've came out. Another partner didn't use the get function for the resize solutions, because she split the check size and resize into different methods, making it long. 
+
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
-A:
+A:I wish to have had a more of a visual help and more directions before writing Arraydeque because I felt that the instructions were unclear and confusing at first. I wish I could have had more instructions and sights so I could order my code more clear and simple when I had to resizee the array because I was solving the code as I went. 
+
 
 Q: If you wrote ArrayDeque again, what would you do differently, if anything?
 
-A:
+A:I had to rewrite arraydeque two times because I couldn't figure what exactly was my error and thought I would have a better understanding if I rewrote it. And that helped me a lot because I took two different approaches to writing the methods but I would reconsider not having the helper method of usage ratio and try to do it otherwise. 
 
 -----
 
@@ -60,4 +64,4 @@ Meta:
 
 Q: Did you like this design review process? Anything we should do differently next time?
 
-A: 
+A: Yes, I wish that we could've had the slides shared on the piazza afterwards though so we could review. 

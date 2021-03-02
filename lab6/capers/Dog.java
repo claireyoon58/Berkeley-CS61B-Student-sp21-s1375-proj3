@@ -38,10 +38,8 @@ public class Dog implements Serializable { // TODO
      * @return Dog read from file
      */
     public static Dog fromFile(String name) {
-        Dog deserialized;
         File dog1 = Utils.join(DOG_FOLDER, name);
-        deserialized = readObject(dog1, Dog.class);
-        return deserialized;
+        return readObject(dog1, Dog.class);
     }
 
     /**

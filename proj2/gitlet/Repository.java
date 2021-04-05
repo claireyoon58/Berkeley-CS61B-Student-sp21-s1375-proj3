@@ -652,11 +652,11 @@ public class Repository {
         if (!_allcommits.containsKey(id)) {
             helperErrorExit("No commit with that id exists.");
         }
-        Commit com = _allcommits.get(id);
-        File dir = new File("");
-        File[] files = dir.listFiles();
-        if (files != null) {
-            for (File f : files) {
+        Commit comitted = _allcommits.get(id);
+        File d = new File("");
+        File[] fi = d.listFiles();
+        if (fi != null) {
+            for (File f : fi) {
                 boolean stageK = (_staged.containsKey(f) == false);
                 boolean containT = _untracked.contains(f);
                 boolean containK = (_currblobs.containsKey(f) == false);
@@ -667,18 +667,19 @@ public class Repository {
                 }
             }
         }
-        if (com != null) {
-            for (String name : com.get_Blob().keySet()) {
-                if (_staged.containsKey(name)
-                        || _currblobs.containsKey(name)) {
+        if (comitted != null) {
+            for (String name : comitted.get_Blob().keySet()) {
+                boolean stageK = _staged.containsKey(name);
+                boolean currK = _currblobs.containsKey(name);
+                if (stageK || currK) {
                     checkout_Commited(id, name);
                 }
             }
         }
         _staged.clear();
-        _curbranch = com.get_Branchname();
+        _curbranch = comitted.get_Branchname();
         _branchhash.put(_curbranch, hashcode);
-        _head = com;
+        _head = comitted;
         _idparent = hashcode;
     }
 

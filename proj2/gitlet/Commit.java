@@ -3,14 +3,12 @@ package gitlet;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.*;
-import java.util.logging.Logger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.Date;
+//import java.util.logging.Logger;
+//import java.nio.charset.StandardCharsets;
+//import java.security.MessageDigest;
+//import java.util.Date;
 
 /** Represents a gitlet commit object.
- *  TODO: It's a good idea to give a description here of what else this Class
- *  does at a high level.
  *
  *  @author Claire Yoon
  */
@@ -31,16 +29,16 @@ public class Commit implements Serializable {
     private String message;
 
 //    private Date dateofcommit;
-    public String time;
-    public String SHAparent1;
-    public String SHAparent2;
-    public List<String> filename;
-    public HashMap<String, Blob> storingfile;
+    private String time;
+    private String SHAparent1;
+    private String SHAparent2;
+    private List<String> filename;
+    private HashMap<String, Blob> storingfile;
     private HashMap<String, List<Object>> hashmap;
     private String storehashcode;
     private String storebranchname;
 
-    public String get_branchname() {
+    public String get_Branchname() {
         return storebranchname;
     }
 
@@ -48,28 +46,28 @@ public class Commit implements Serializable {
         return filename;
     }
 
-    public String get_message() {
+    public String get_Message() {
         return message;
     }
 
-    public String get_timestamp() {
+    public String get_Timestamp() {
         return time;
     }
 
-    public HashMap<String, Blob> get_blob() {
+    public HashMap<String, Blob> get_Blob() {
         return storingfile;
     }
 
 
 
     public Commit(String original, String original2, String message, String time, HashMap<String, Blob> blobfiles, String branchname) {
-        this.hashmap =new HashMap<>();
+        this.hashmap = new HashMap<>();
         this.message = message;
         this.storingfile = blobfiles;
         this.SHAparent1 = original;
         this.SHAparent2 = original2;
         this.storebranchname = branchname;
-        this.storehashcode = commit_hc();
+        this.storehashcode = commithc();
         this.filename = new ArrayList<>();
         this.filename.addAll(blobfiles.keySet());
 
@@ -86,18 +84,22 @@ public class Commit implements Serializable {
         for (String key : hashmap.keySet()) {
             if (hashmap.get(key).equals(newlist)) {
                 tracker = true;
-                storehashcode= key;
+                storehashcode = key;
                 break;
             }
         }
         if (tracker == false) {
-            storehashcode = commit_hc();
+            storehashcode = commithc();
         }
-        storehashcode = commit_hc();
+        storehashcode = commithc();
 
         }
 
-    private String commit_hc() {
+
+
+
+
+    public String commithc() {
         List<Object> list1 = new ArrayList<>();
         list1.add(message);
         if (storingfile.size() != 0) {

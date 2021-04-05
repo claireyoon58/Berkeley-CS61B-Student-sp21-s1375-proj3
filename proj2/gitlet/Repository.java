@@ -1,14 +1,15 @@
 package gitlet;
 
 import java.io.File;
-import static gitlet.Utils.*;
+//import static gitlet.Utils.*;
 import java.io.*;
-import java.io.Serializable;
+//import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.*;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.io.ObjectInputStream;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.text.*;
 import java.util.LinkedHashMap;
 
 //  @author Claire Yoon
-public class Repository implements Serializable {
+public class Repository {
     /**
      *
      * List all instance variables of the Repository class here with a useful
@@ -28,7 +29,7 @@ public class Repository implements Serializable {
     private static HashMap<String, Blob> _staged;
     private static HashMap<String, Commit> _commits;
     private  HashMap<String, String> _changes;
-    private static LinkedHashMap<String, String> _branchhash;
+    public static LinkedHashMap<String, String> _branchhash;
     private  LinkedHashMap<String, Commit> _allcommits;
     private static HashMap<String, Blob> _currblobs;
     private static ArrayList<String> _untracked;
@@ -86,12 +87,12 @@ public class Repository implements Serializable {
     /**
      * The .gitlet directory.
      */
-    public static final File GITLET_DIR = join(CWD, ".gitlet");
-    public static final File BRANCH_DIR = join(GITLET_DIR, "refs");
-    public static final File OBJ_DIR = join(GITLET_DIR, "objective");
-    public static final File COMMIT_DIR = join(Repository.OBJ_DIR, "commits");
+//    public static final File GITLET_DIR = join(CWD, ".gitlet");
+//    public static final File BRANCH_DIR = join(GITLET_DIR, "refs");
+//    public static final File OBJ_DIR = join(GITLET_DIR, "objective");
+//    public static final File COMMIT_DIR = join(Repository.OBJ_DIR, "commits");
 
-    //    Main Method  continues the main function w
+
     public void main(String... args) throws IOException, ClassNotFoundException {
         Repository gitlet1 = new  Repository();
         if (Repository.getsaved() != null) {
@@ -106,8 +107,7 @@ public class Repository implements Serializable {
         _operand = commands;
         if (_command.equals("init")) {
             if (_operand.size() != 0) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.init();
         }
@@ -117,15 +117,13 @@ public class Repository implements Serializable {
             return;
         } else if (_command.equals("commit")) {
             if (_operand.size() != 1 || _operand.get(0) == null) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             String message = _operand.get(0);
             gitlet1.commit(message);
         } else if (_command.equals("add")) {
             if (_operand.size() != 1 || _operand.get(0) == null) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             String argg = _operand.get(0);
             gitlet1.add(argg);
@@ -133,69 +131,55 @@ public class Repository implements Serializable {
             gitlet1.checkout(_operand);
         } else if (_command.equals("log")) {
             if (_operand.size() != 0) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.log();
         } else if (_command.equals("rm")) {
             if (_operand.size() != 1) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.rm(_operand.get(0));
         } else if (_command.equals("global-log")) {
             if (_operand.size() != 0) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.globallog();
-        }
-        continuemain(gitlet1); save(gitlet1);
-    }
-
-    /** Continues main function with gitlet G. */
-    public void continuemain(Repository gitlet1)
-            throws IOException, ClassNotFoundException {
-        if (_command.equals("status")) {
+        } else if (_command.equals("status")) {
             if (_operand.size() != 0) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.status();
         } else if (_command.equals("branch")) {
             if (_operand.size() != 1) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.branch(_operand.get(0));
         } else if (_command.equals("rm_branch")) {
             if (_operand.size() != 1) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.rm_branch(_operand.get(0));
         } else if (_command.equals("reset")) {
             if (_operand.size() != 1) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.reset(_operand.get(0));
         } else if (_command.equals("find")) {
             if (_operand.size() != 1) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
+                helperErrorExit("Incorrect operands.");
             }
             gitlet1.find(_operand.get(0));
-        } else if (_command.equals("merge")) {
-            if (_operand.size() != 1) {
-                System.out.println("Incorrect operands.");
-                System.exit(0);
-            }
-            gitlet1.merge(_operand.get(0));
         }
+//        } else if (_command.equals("merge")) {
+//            if (_operand.size() != 1) {
+//                System.out.println("Incorrect operands.");
+//                System.exit(0);
+//            }
+//            gitlet1.merge(_operand.get(0));
+//        }
     }
 
-    /** Saves the current Gitlet G. */
+
     private void save(Repository gitlet1) {
         try {
             File savegitlet = new File(".gitlet/savedgitlet.ser");
@@ -209,10 +193,14 @@ public class Repository implements Serializable {
         }
     }
 
-    /** Returns the last saved Gitlet object. */
     private static Repository getsaved() {
         Repository prevGitlet = null;
         if (new File(".gitlet/savedgitlet.ser").exists()) {
+            //        public void saveDog() {
+//            File dogsaved = Utils.join(DOG_FOLDER, this.name);
+//            try {
+
+//
             try {
                 FileInputStream fin = new
                         FileInputStream(".gitlet/savedgitlet.ser");
@@ -221,9 +209,15 @@ public class Repository implements Serializable {
                 prevGitlet = (Repository) historyObject;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                //                dogsaved.createNewFile();
+//            } catch (IOException exception) {
+
+//            Utils.writeObject(dogsaved, this);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                //                exception.printStackTrace();
+//            }
                 e.printStackTrace();
             }
         }
@@ -265,7 +259,6 @@ public class Repository implements Serializable {
 //            gitlet.mkdir();
 
             gitlet.mkdir();
-
             try {
                 Files.createDirectory(Paths.get(".gitlet/merge"));
                 gitlet.createNewFile();
@@ -327,11 +320,11 @@ public class Repository implements Serializable {
         }
         Blob blob1 = new Blob(filename);
         Path path1 = Paths.get(".gitlet/commit/" + _idparent);
-        HashMap<String, Blob> headblob = _head.get_blob();
+        HashMap<String, Blob> headblob = _head.get_Blob();
         for (String hash : headblob.keySet()) {
-            if (_head.get_blob().equals((_head.get_blob().get(hash)))) {
+            if (_head.get_Blob().equals((_head.get_Blob().get(hash)))) {
                 if (_staged.containsKey(filename)) {
-                    File old = new File("gitlet/stage/" + _staged.get(filename).get_blob());
+                    File old = new File("gitlet/stage/" + _staged.get(filename).get_Blob());
                     old.delete();
                     _staged.remove(filename);
                     return;
@@ -339,39 +332,64 @@ public class Repository implements Serializable {
                 return;
             }
         }
-        if (!_idparent.equals(blob1.get_blob())) {
+        if (_staged.isEmpty() || !_staged.containsKey(filename)) {
+            byte[] serialize_B = Utils.serialize(blob1);
+            if (!_removed.contains(filename)) {
+
+                _staged.put(filename, blob1);
+                File newfile = new File(".gitlet/stage/" + blob1.get_Blob());
+                Utils.writeContents(newfile, serialize_B);
+            } else {
+                File newfile = new File(filename);
+                Utils.writeContents(newfile, serialize_B);
+                _removed.remove(filename);
+            }
+            _currblobs.put(filename, blob1);
+        } else if (!_idparent.equals(blob1.get_Blob())) {
+            byte[] serialize_B = Utils.serialize(blob1);
             if (!_staged.isEmpty() && _staged.containsKey(filename)) {
-                File old = new File(".gitlet/stage/" + blob1.get_blob());
+                File old = new File(".gitlet/stage/" + blob1.get_Blob());
                 old.delete();
                 if (!_removed.contains(filename)) {
-                    _staged.put(filename, blob1); _currblobs.put(filename, blob1);
-                    File newfile = new File(".gitlet/stage/" + blob1.get_blob());
-                    Utils.writeContents(newfile, Utils.serialize(blob1));
-                } else {
-                    File newfile = new File(filename);
-                    Utils.writeContents(newfile, Utils.serialize(blob1));
-                    _removed.remove(filename); _changes.remove(filename);
-                }
-                _currblobs.put(filename, blob1);
-            } else if (_staged.isEmpty() || !_staged.containsKey(filename)) {
-                if (!_removed.contains(filename)) {
+//                    addStage.containsKey(name)) {
+//                        addStage.replace(name, ident);
                     _staged.put(filename, blob1);
-                    File newfile = new File(".gitlet/stage/"
-                            + blob1.get_blob());
-                    Utils.writeContents(newfile, Utils.serialize(blob1));
+                    _currblobs.put(filename, blob1);
+                    File newfile = new File(".gitlet/stage/" + blob1.get_Blob());
+                    Utils.writeContents(newfile, serialize_B);
                 } else {
                     File newfile = new File(filename);
-                    Utils.writeContents(newfile, Utils.serialize(blob1));
+
+//                    Utils.readObject(head, Commit.class);
+                    Utils.writeContents(newfile, serialize_B);
                     _removed.remove(filename);
+//                    Utils.readObject(add, Stage.class);
+//                    rUtils.readObject(rm, Stage.class);
+                    _changes.remove(filename);
                 }
                 _currblobs.put(filename, blob1);
+            } else {
+                File old = new File(".gitlet/stage/"
+                        + _staged.get(filename).get_Blob());
+                old.delete();
+                _staged.remove(filename);
+//                Utils.writeObject(currFile, blobb);
+//                Utils.writeObject(remFile, remStage);
             }
-        } else {
-            File old = new File(".gitlet/stage/"
-                    + _staged.get(filename).get_blob());
-            old.delete();
-            _staged.remove(filename);
         }
+    }
+    public static Object serialize_Helper(Path p) {
+        File tempo = p.toFile();
+        Object o =  null;
+        try {
+            ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(tempo));
+            o = in.readObject();
+            in.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 
     public void commit(String message) throws IOException, ClassNotFoundException {
@@ -382,12 +400,10 @@ public class Repository implements Serializable {
             }
         }
         if (_staged.isEmpty() && _untracked.isEmpty()) {
-            System.out.println("No changes added to the commit.");
-            System.exit(0);
+            helperErrorExit("No changes added to the commit.");
         }
         if (message.equals("")) {
-            System.out.println("Please enter a commit message");
-            System.exit(0);
+            helperErrorExit("Please enter a commit message");
         }
         Date curr = new Date();
         String date = new
@@ -404,8 +420,7 @@ public class Repository implements Serializable {
         _idparent = com.get_Stringhash();
         _branchhash.put(_curbranch, _idparent);
         _head = com;
-        File newf = new File(".gitlet/commit/"
-                + com.get_Stringhash());
+        File newf = new File(".gitlet/commit/" + com.get_Stringhash());
         Utils.writeContents(newf, Utils.serialize(com));
         File stage = new File(".gitlet/stage/");
         for (File f : stage.listFiles()) {
@@ -429,7 +444,7 @@ public class Repository implements Serializable {
         boolean rem = true;
         File file = new File(filename);
         Commit commit = _allcommits.get(_idparent);
-        HashMap<String, Blob> tracked = commit.get_blob();
+        HashMap<String, Blob> tracked = commit.get_Blob();
         if (!file.exists() && !tracked.containsKey(filename)) {
             System.out.println("File does not exist.");
         }
@@ -466,7 +481,7 @@ public class Repository implements Serializable {
         List<String> temp = new ArrayList<>();
         String store = null;
         for (String hash : _allcommits.keySet()) {
-            if (_allcommits.get(hash).get_message().equals("initial "
+            if (_allcommits.get(hash).get_Message().equals("initial "
                     + "commit")) {
                 store = hash;
             } else {
@@ -480,9 +495,9 @@ public class Repository implements Serializable {
             String rethash = hash.substring(7);
             System.out.println("===");
             System.out.println("commit " + rethash);
-            String date = com.get_timestamp();
+            String date = com.get_Timestamp();
             System.out.println("Date: " + date);
-            String msg = com.get_message();
+            String msg = com.get_Message();
             System.out.println(msg);
             System.out.println();
         }
@@ -497,7 +512,7 @@ public class Repository implements Serializable {
         List<String> temp = new ArrayList<>();
         String store = null;
         for (String hash : _allcommits.keySet()) {
-            if (_allcommits.get(hash).get_message().equals("initial commit")) {
+            if (_allcommits.get(hash).get_Message().equals("initial commit")) {
                 store = hash;
             } else {
                 temp.add(hash);
@@ -510,9 +525,9 @@ public class Repository implements Serializable {
             String rethash = hash.substring(7);
             System.out.println("===");
             System.out.println("commit " + rethash);
-            String date = com.get_timestamp();
+            String date = com.get_Timestamp();
             System.out.println("Date: " + date);
-            String msg = com.get_message();
+            String msg = com.get_Message();
             System.out.println(msg);
             System.out.println();
         }
@@ -523,7 +538,7 @@ public class Repository implements Serializable {
             throws IOException, ClassNotFoundException {
         boolean tracker = false;
         for (String hash : _allcommits.keySet()) {
-            if (_allcommits.get(hash).get_message().equals(message)) {
+            if (_allcommits.get(hash).get_Message().equals(message)) {
                 tracker = true;
                 String id = hash.substring(7);
                 System.out.println(id);
@@ -577,10 +592,10 @@ public class Repository implements Serializable {
         System.out.println();
     }
     public static void helperErrorExit(String message) {
-        if (message != null && !message.equals(""))
+        if (message != null && !message.equals("")) {
             System.out.println(message);
-        System.exit(0);
-
+            System.exit(0);
+        }
     }
 
 //    public static void checkout(String[] args) throws IOException {
@@ -617,10 +632,9 @@ public class Repository implements Serializable {
     /** Removes the branch with NAME. */
     public void rm_branch(String name) {
         if (name.equals(_curbranch)) {
-            System.out.println("Cannot remove the current branch.");
+            helperErrorExit("Cannot remove the current branch.");
         } else if (!_branchhash.containsKey(name)) {
-            System.out.println("A branch with that name does "
-                    + "not exist.");
+            helperErrorExit("A branch with that name does not exist.");
         } else {
             _branchhash.remove(name);
         }
@@ -636,143 +650,201 @@ public class Repository implements Serializable {
             id = hashcode;
         }
         if (!_allcommits.containsKey(id)) {
-            System.out.println("No commit with that id exists.");
-            System.exit(0);
+            helperErrorExit("No commit with that id exists.");
         }
         Commit com = _allcommits.get(id);
         File dir = new File("");
         File[] files = dir.listFiles();
         if (files != null) {
             for (File f : files) {
-                if ((!_staged.containsKey(f) && !_currblobs.containsKey(f))
-                        || (_untracked.contains(f) || checkout_helper(_curbranch))) {
-                    System.out.println("There is an untracked file "
-                            + "in the way; delete it or add it first");
-                    System.exit(0);
+                boolean stageK = (_staged.containsKey(f) == false);
+                boolean containT = _untracked.contains(f);
+                boolean containK = (_currblobs.containsKey(f) == false);
+                boolean currb = tracker_helper(_curbranch);
+                boolean StageCK = (stageK && containK);
+                if (StageCK || containT || currb) {
+                    helperErrorExit("There is an untracked file in the way; delete it or add it first");
                 }
             }
         }
         if (com != null) {
-            for (String name : com.get_blob().keySet()) {
+            for (String name : com.get_Blob().keySet()) {
                 if (_staged.containsKey(name)
                         || _currblobs.containsKey(name)) {
-                    checkout(id, name);
+                    checkout_Commited(id, name);
                 }
             }
         }
         _staged.clear();
-        _curbranch = com.get_branchname();
+        _curbranch = com.get_Branchname();
         _branchhash.put(_curbranch, hashcode);
         _head = com;
         _idparent = hashcode;
     }
 
-    public static String checkout(String[] args) throws IOException, ClassNotFoundException {
-        if (args.length == 2) {
-            String branchname = args[0];
-            if (_branchhash.get(branchname) == null) {
-                System.out.println("No such branch exists.");
-                System.exit(0);
+
+
+    public void checkout_Branch(String branch) {
+
+        HashMap<String, Blob> current_files = new HashMap<>();
+        Path branchname_co = Paths.get(".getlet/commit/" + _branchhash.get(branch));
+
+        Commit committ = (Commit) serialize_Helper(branchname_co);
+        boolean tracker = tracker_helper(branch);
+        for (String filename : committ.get_Stringfile()) {
+//            String file : Utils.plainFilenamesIn(System.getProp
+            for (String file : Utils.plainFilenamesIn(System.getProperty("user.dir"))) {
+//                Path branchname_co = Paths.get(".getlet/commit/" + _branchhash.get(branchname));
+//                Commit committ = (Commit) Utils.helper2(branchname_co);
+                boolean file_Contain = committ.get_Blob().containsKey(file);
+                boolean tracker_Contain = (_untracked.contains(file) || tracker);
+                if (tracker_Contain && file_Contain ) {
+                    helperErrorExit("There is an untracked file in the way; delete it or add it first.");
+                }
             }
-            if (branchname.equals(args[1])) {
-                System.out.println("No need to checkout the current branch.");
-                System.exit(0);
+        }
+
+        for (String s : committ.get_Stringfile()) {
+            File newfile = new File(s);
+            Blob old = committ.get_Blob().get(s);
+//            File CWD = new File(CWD.getPath() + "/" + set.getKey());
+//            File value = new File(stage.getPath() + "/" + set.getValue());
+            String content = old.getcontent_string();
+            Utils.writeContents(newfile, content);
+            current_files.put(s, committ.get_Blob().get(s));
+        }
+
+        for (String filename : _currblobs.keySet()) {
+//            Utils.writeObject(add, new Stage());
+//
+            if (current_files.containsKey(filename) == false) {
+                File newfile = new File(filename);
+                newfile.delete();
             }
-            HashMap<String, Blob> current_files = new HashMap<>();
-            Path branchname_co = Paths.get(".getlet/commit/" + _branchhash.get(branchname));
-            Commit committ = (Commit) Utils.helper2(branchname_co);
-            boolean tracker = checker(branchname);
-            for (String filename : committ.get_Stringfile()) {
-                for (String file: Utils.plainFilenamesIn(System.getProperty("user.dir"))) {
-                    if ((_untracked.contains(file) || tracker) && committ.get_blob().containsKey(file)) {
-                        System.out.println(
-                                "There is an untracked file in the way; delete it or add it first.");
-                        System.exit(0);
+        }
+
+        _currblobs.clear();
+        _currblobs.putAll(current_files);
+        _idparent = _branchhash.get(branch);
+//        Utils.writeObject(remFile, new Stage());
+        _head = _allcommits.get(_idparent);
+        _curbranch = branch;
+        File staging = new File(".gitlet/stage");
+        for (File file : staging.listFiles()) {
+            if (file.isDirectory() == false) {
+                file.delete();
+            }
+        }
+        _staged.clear();
+    }
+
+    public void checkout_File(String file) {
+        String commid = _head.get_Branchname();
+        String n_File = ".gitlet/commit/" + commid;
+        if (n_File == null) {
+            helperErrorExit("File does not exist in that commit.");
+        }
+        if (_head.get_Blob().containsKey(file)) {
+            File file_Updated = new File(file);
+            Blob old = _head.get_Blob().get(file);
+            String info =  old.getcontent_string();
+            Utils.writeContents(file_Updated, info);
+        }
+
+    }
+
+    public void checkout_Commited(String id, String file) {
+        String id_C;
+//        char id_First = id.charAt(0);
+//        boolean checkout_helper = id_First
+        if (id.contains("commit")) {
+            id_C = "commit-" + id;
+        } else {
+            id_C = id;
+        }
+        Path file_Commit = Paths.get(".gitlet/commit/" + id_C);
+        if (_allcommits.containsKey(id_C) == false) {
+            helperErrorExit("No commit with that id exists.");
+        }
+        Commit curr = (Commit) serialize_Helper(file_Commit);
+        if (!curr.get_Blob().keySet().contains(file)) {
+            helperErrorExit("File does not exist in that commit");
+        }
+//        File file_Updated = new File(file);
+//        Blob old = _head.get_blob().get(file);
+//        String info =  old.getcontent_string();
+//        Utils.writeContents(file_Updated, info);
+        File file_Updated = new File(file);
+        Blob old = curr.get_Blob().get(file);
+        String contents = old.getcontent_string();
+        Utils.writeContents(file_Updated, contents);
+    }
+
+
+
+//    public static checkout(String[] args) throws IOException, ClassNotFoundException {
+    public void checkout(ArrayList<String> operand) throws IOException, ClassNotFoundException {
+//        if (args.length == 2) {
+//            String branchname = args[0];
+        if (operand.size() == 1) {
+            String branch = operand.get(0);
+            //            if (_branchhash.get(branchname) == null) {
+//            String commit_id = operands.get(0);
+//            String dashes = operands.get(1);
+//            String file_name = operands.get(2)
+//                System.out.println("No such branch exists.");
+//                System.exit(0);
+            String getbranch = _branchhash.get(branch);
+            if (branch.equals(_curbranch)) {
+                helperErrorExit("No need to checkout the current branch.");
+            }
+            if (getbranch == null) {
+                helperErrorExit("No such branch exists.");
+            }
+//            if (file == null) {
+//                System.out.println("File does not exist in that commit.");
+//                System.exit(0);
+//            }
+            checkout_Branch(branch);
+        } else if (operand.size() == 2) {
+            String file = operand.get(1);
+            if ((operand.get(0).equals("--") == false)) {
+                helperErrorExit("Incorrect operands");
+            }
+            checkout_File(file);
+        } else if (operand.size() == 3) {
+            boolean operand_ = (operand.get(1).equals("--"));
+            if (operand_ == false) {
+                helperErrorExit("Incorrect operands.");
+            }
+            checkout_Commited(operand.get(0), operand.get(2));
+        }
+    }
+
+
+
+
+        public boolean tracker_helper(String branch) {
+//            int _length = args.length();
+            Path finish = Paths.get(".gitlet/commit/" + _branchhash.get(branch));
+            HashMap<String, Blob> header = _head.get_Blob();
+//            List<String> directory = Utils.plainFilenamesIn(_commits).stream().filter(s -> (s.substring(0, _length)).equals(args)).collect(Collectors.toList());
+//            if (directory.size() > 1) {
+            Commit com = (Commit) serialize_Helper(finish);
+            for (String f : Utils.plainFilenamesIn(System.getProperty("user.dir"))) {
+                boolean headerr = _head.get_Stringfile().isEmpty();
+                boolean headercon = (_head.get_Stringfile().contains(f) == false);
+                if ( headerr || headercon) {
+                    return true;
+                } else if (header.isEmpty()) {
+                    String info = header.get(f).getcontent_string();
+                    Blob blob1 = new Blob(f);
+                    if (blob1.getcontent_string().equals(info) == false) {
+                        return true;
                     }
                 }
             }
-
-            for (String s : committ.get_Stringfile()) {
-                File newfile = new File(s);
-                Blob old = committ.get_blob().get(s);
-                String content = old.getcontent_string();
-                Utils.writeContents(newfile, content);
-                newfile.put(s, committ.get_blob().get(s));
-            }
-
-            for (String filename: _currblobs.keySet()) {
-                if (current_files.containsKey(filename) == false) {
-                    File newfile = new File(filename);
-                    newfile.delete();
-                }
-            }
-
-            _currblobs.clear.putAll(current_files);
-            _idparent = _branchhash.get(branchname);
-            _head = _allcommits.get(_idparent);
-            _curbranch = branchname;
-            File staging = new File(".gitlet/stage");
-            for (File file: staging.listFiles()) {
-                if (file.isDirectory() == false) {
-                    file.delete();
-                }
-            }
-            _staged.clear();
-
-        } else if ((args.length == 3) && (args[1].equals("--"))) {
-            String id;
-            id = _head.get_Stringhash();
-            String file = ".gitlet/commit" + id;
-            if (file == null) {
-                System.out.println("File does not exist in that commit.");
-                System.exit(0);
-            }
-            if (_head.get_blob().containsKey(filename)) {
-                File newfile = new File(filename);
-                Blob old = _head.get_blob();
-                old = old.get(filename);
-                String content = old.getcontent_string();
-                Utils.writeContents(newfile, content);
-            }
-        } else if ((args.length == 4) && (args[2].equals("--"))) {
-            String id;
-            String committ_id = args[2];
-            if (committ_id.charAt(0) != 'c') {
-                id = "commit-" + committ_id;
-            } else {
-                id = committ_id;
-            }
-            Path finish = Paths.get(".gitlet/commit/" + id);
-            if (_allcommits.containsKey(id) == false) {
-                System.out.println("No commit with that id exists.");
-                System.exit(0);
-            }
-
-            Commit current = (Commit) Utils.helper2(finish);
-            if (current.get_blob().keySet().contains(filename) == false)) {
-                System.out.println("File does not exist in that commit");
-                System.exit(0);
-            }
-            File newFile = new File(filename);
-            Blob old = current.get_blob().get(filename);
-            String content = old.getcontent_string();
-            Utils.writeContents(newFile, content);
-
-        } else {
-            return helperErrorExit("Incorrect operands.");
-
-        }
-
-
-        public static String checkout_helper(String[] args) {
-            int _length = args.length();
-            List<String> directory = Utils.plainFilenamesIn(_commits).stream().filter(s -> (s.substring(0, _length)).equals(args)).collect(Collectors.toList());
-            if (directory.size() > 1) {
-                helperErrorExit("");
-            } else if (directory.size() == 1) {
-                return directory.get(0);
-            }
-            return null;
+            return false;
         }
 
 
@@ -782,6 +854,22 @@ public class Repository implements Serializable {
 
 
 
+
+
+
+
+
+//1.find the split point
+//    -track back ancestors within the tree
+//    split pint, current brand(head), given branch
+//    three scenarios: base) a file in the split point, in the current and given, same content--> don't do anything because we want to combine
+//    2. One file in current, and the other in given(different),
+//    but not present in the split point, all three versions
+//    in the file is different(deleting the file counts),
+//    merge conflict appears
+//    3. Modified in one commmit but not the other, this file is modified in EITHER given or current
+//    ex) present in the commit and not changed within the split point, given branch is changed--> keep the changed one
+//    to-do: are these two files exist in given or current helper function that checks whether the files are in the given and current
 
 
 

@@ -7,10 +7,10 @@ import java.util.*;
 public class Blob extends Commit implements Serializable {
     static final long serialVersionUID = 0;
     static boolean hasMergeConflict = false;
-    public String _blobhash;
+    private String _blobhash;
     public String _getfilename;
     public String _makestringcont;
-    private HashMap<String, List<Object>> hashmap1= new HashMap<>();
+    private HashMap<String, List<Object>> hashmap1 = new HashMap<>();
     private String SHA;
     private String shortSHA;
     private String fileN;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.io.File;
 import java.util.*;
 
-public class Blob extends Commit implements Serializable {
+public class Blob implements Serializable {
     static final long serialVersionUID = 0;
     static boolean hasMergeConflict = false;
     private String _blobhash;
@@ -18,6 +18,7 @@ public class Blob extends Commit implements Serializable {
     private byte[] content;
 
     public Blob(String nameOfFile) {
+//        super();
         File fileN = new File(nameOfFile);
 //        _getfilename = nameOfFile;
         _getfilename = nameOfFile;

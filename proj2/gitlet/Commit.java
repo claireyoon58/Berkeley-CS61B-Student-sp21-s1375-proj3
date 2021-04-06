@@ -37,6 +37,10 @@ public class Commit implements Serializable {
     private String storehashcode;
     private String storebranchname;
 
+    public Commit() {
+
+    }
+
     public String getstringbranch() {
         return storebranchname;
     }

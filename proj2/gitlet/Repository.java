@@ -94,7 +94,7 @@ public class Repository {
 //    public static final File COMMIT_DIR = join(Repository.OBJ_DIR, "commits");
 
 
-    public void main(String... args) throws IOException, ClassNotFoundException {
+    public void main(String[] args) throws IOException, ClassNotFoundException {
         Repository gitlet1 = new Repository();
         boolean gitletsave = Repository.getold() != null;
         if (gitletsave) {
@@ -141,7 +141,7 @@ public class Repository {
     }
 
     public void mainpart2(Repository gitlet) throws IOException, ClassNotFoundException {
-        boolean opsize0 =(_op.size() != 0);
+        boolean opsize0 = (_op.size() != 0);
         boolean opsize1 = (_op.size() != 1);
         if (function.equals("log")) {
             if (opsize0) {
@@ -871,8 +871,8 @@ public class Repository {
                 boolean currblob = trackerHelper(_curbranch);
                 boolean stageck = (stageK && containK);
                 if (stageck || containT || currblob) {
-                    helperErrorExit("There is an untracked file in the way; " +
-                            "delete it or add it first");
+                    helperErrorExit("There is an untracked file in the way; "
+                            + "delete it or add it first");
                 }
             }
         }

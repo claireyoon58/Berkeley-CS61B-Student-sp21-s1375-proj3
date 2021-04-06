@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class Main extends Repository implements Serializable {
 
-    public static void main(String... args) throws ClassNotFoundException, IOException {
+    public static void Main(String[] args) throws ClassNotFoundException, IOException {
         boolean argslen = (args.length == 0);
 //        String firstArg = args[0];
 //        switch(firstArg) {

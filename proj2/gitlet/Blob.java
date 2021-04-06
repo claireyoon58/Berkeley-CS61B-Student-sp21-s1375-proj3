@@ -17,18 +17,6 @@ public class Blob extends Commit implements Serializable {
     private File dir;
     private byte[] content;
 
-
-    private String blobhash() {
-        List<Object> list1 = new ArrayList<>();
-        list1.add(_getfilename);
-        list1.add(content);
-        list1.add(_makestringcont);
-        String hh = Utils.sha1(list1);
-        String hashblob = "blob-" + hh;
-        hashmap1.put(hashblob, list1);
-        return hashblob;
-    }
-
     public Blob(String nameOfFile) {
         File fileN = new File(nameOfFile);
 //        _getfilename = nameOfFile;
@@ -56,10 +44,22 @@ public class Blob extends Commit implements Serializable {
         }
 //        } else {
 //            content = Utils.readContents(dir);
-//        }
-//    }
 
     }
+
+
+    private String blobhash() {
+        List<Object> list1 = new ArrayList<>();
+        list1.add(_getfilename);
+        list1.add(content);
+        list1.add(_makestringcont);
+        String hh = Utils.sha1(list1);
+        String hashblob = "blob-" + hh;
+        hashmap1.put(hashblob, list1);
+        return hashblob;
+    }
+
+
 //
 
 

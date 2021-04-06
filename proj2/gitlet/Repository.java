@@ -248,7 +248,7 @@ public class Repository implements Serializable {
         }
         return old;
     }
-    public void init() {
+    public void init() throws IOException {
 //        if (GITLET_DIR.exists()) {;
 //            File gitlet = new File(".gitlet");
 //            gitlet.mkdir();
@@ -256,30 +256,30 @@ public class Repository implements Serializable {
         Path gitletPath = Paths.get(".gitlet");
         if (!Files.exists(gitletPath)) {
             File gitlet = new File(".gitlet");
-//        GITLET_DIR.mkdir();
-//        BRANCH_DIR.mkdir();
-//        OBJ_DIR.mkdir();
-//        COMMIT_DIR.mkdir();
+
 //        Commit init = new Commit();
             gitlet.mkdir();
-            try {
-                Files.createDirectory(Paths.get(".gitlet/merge"));
-                gitlet.createNewFile();
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-            try {
-                Files.createDirectory(Paths.get(".gitlet/commit"));
-                gitlet.createNewFile();
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-            try {
-                Files.createDirectory(Paths.get(".gitlet/stage"));
-                gitlet.createNewFile();
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
+//            try {
+            Files.createDirectory(Paths.get(".gitlet/merge"));
+            Files.createDirectory(Paths.get(".gitlet/commit"));
+            Files.createDirectory(Paths.get(".gitlet/stage"));
+//                Files.createDirectory(Paths.get(".gitlet/merge"));
+//                gitlet.createNewFile();
+//            } catch (IOException exception) {
+//                exception.printStackTrace();
+//            }
+//            try {
+//                Files.createDirectory(Paths.get(".gitlet/commit"));
+//                gitlet.createNewFile();
+//            } catch (IOException exception) {
+//                exception.printStackTrace();
+//            }
+//            try {
+//                Files.createDirectory(Paths.get(".gitlet/stage"));
+//                gitlet.createNewFile();
+//            } catch (IOException exception) {
+//                exception.printStackTrace();
+//            }
         } else {
             helperErrorExit("A Gitlet version-control system "
                     + "already exists in the current directory.");
@@ -300,11 +300,12 @@ public class Repository implements Serializable {
         String p2 = null;
         _curbranch = "master";
         String time = "Wed Dec 31 00:00:00 1969 -0800";
-        boolean current = (_curbranch.equals("master"));
+//        boolean current = (_curbranch.equals("master"));
         HashMap<String, Blob> blobfile = new HashMap<>();
-        boolean bh = _branchhash != null;
-        boolean bhkey = _branchhash.containsKey(_curbranch);
-        if (!current && bh && bhkey) {
+//        boolean bh = _branchhash != null;
+//        boolean bhkey = _branchhash.containsKey(_curbranch);
+        if (!_curbranch.equals("master") && _branchhash != null
+                && _branchhash.containsKey(_curbranch)) {
             helperErrorExit("A branch with that name already exists.");
         } else {
             _branchhash.put(_curbranch, _idparent);
@@ -316,8 +317,8 @@ public class Repository implements Serializable {
         allcoms.put(method.getstringhash(), method);
         _head = method;
         _idparent = _head.inithash();
-        LinkedList<Commit> branchcommits = new LinkedList<>();
-        branchcommits.add(_head);
+        LinkedList<Commit> branchc = new LinkedList<>();
+        branchc.add(_head);
         File file = new File(".gitlet/commit/" + _idparent);
         Utils.writeContents(file, Utils.serialize(method));
     }

@@ -311,8 +311,7 @@ public class Repository {
     public void add(String filename) throws IOException {
         File f = new File(filename);
         if (!f.exists()) {
-            System.out.println("File does not exist");
-            System.exit(0);
+            helperErrorExit("File does not exist");
         }
         if (_toremove.contains(filename)) {
             _toremove.remove(filename);
@@ -405,23 +404,24 @@ public class Repository {
         if (message.equals("")) {
             helperErrorExit("Please enter a commit message");
         }
-        Date curr = new Date();
-        String date = new
-                SimpleDateFormat("EEE MMM d HH:mm:ss yyyy")
-                .format(curr);
-        String cur = date + " -0800";
-        Commit com = new Commit( _idparent,  null, message, cur, _currblobs, _curbranch);
-        if (_idparent != null && _idparent.equals(com.get_Stringhash())) {
+        Date currenttime = new Date();
+        String datec = new
+                SimpleDateFormat("EEE MMM d HH:mm:ss yyyy").format(currenttime);
+        String current = datec + " -0800";
+        Commit committed = new Commit( _idparent,  null, message, current, _currblobs, _curbranch);
+        boolean equalhash = _idparent.equals(committed.get_Stringhash());
+        boolean parentcheck = (_idparent != null);
+        if (equalhash && parentcheck ) {
             System.out.println("No changes added to commit");
         }
-        _branchhash.put(_curbranch, com.get_Stringhash());
-        _allcommits.put(com.get_Stringhash(), com);
-        _commits.put(com.get_Stringhash(), com);
-        _idparent = com.get_Stringhash();
+        _branchhash.put(_curbranch, committed.get_Stringhash());
+        _allcommits.put(committed.get_Stringhash(), committed);
+        _commits.put(committed.get_Stringhash(), committed);
+        _idparent = committed.get_Stringhash();
         _branchhash.put(_curbranch, _idparent);
-        _head = com;
-        File newf = new File(".gitlet/commit/" + com.get_Stringhash());
-        Utils.writeContents(newf, Utils.serialize(com));
+        _head = committed;
+        File newf = new File(".gitlet/commit/" + committed.get_Stringhash());
+        Utils.writeContents(newf, Utils.serialize(committed));
         File stage = new File(".gitlet/stage/");
         for (File f : stage.listFiles()) {
             if (!f.isDirectory()) {
@@ -439,66 +439,69 @@ public class Repository {
 
 
     //    method RM
-    private void rm(String filename)
-            throws IOException, ClassNotFoundException {
-        boolean rem = true;
-        File file = new File(filename);
+    private void rm(String file) {
+        boolean rm = true;
+        File file = new File(file);
         Commit commit = _allcommits.get(_idparent);
         HashMap<String, Blob> tracked = commit.get_Blob();
-        if (!file.exists() && !tracked.containsKey(filename)) {
-            System.out.println("File does not exist.");
+        boolean emptystage = (_staged.isEmpty() == false);
+        boolean trackedkey = (tracked.containsKey(file) == false);
+        boolean containkey = _staged.containsKey(file);
+        boolean existfile = (file.exists() == false);
+
+        if (trackedkey && existfile) {
+            helperErrorExit("File does not exist.");
         }
-        if (!_staged.isEmpty()
-                && _staged.containsKey(filename)) {
-            File old = new File(".gitlet/stage/"
-                    + _staged.get(filename).getblobhash());
-            old.delete();
-            _staged.remove(filename);
-            _currblobs.remove(filename);
-            _untracked.add(filename);
-            rem = false;
+        if (rm) {
+            helperErrorExit("No reason to remove the file.");
         }
-        if (tracked != null & tracked.containsKey(filename)) {
-            _currblobs.remove(filename);
-            _toremove.add(filename);
-            if (_untracked.contains(filename)) {
-                _untracked.remove(filename);
+        if (tracked != null & tracked.containsKey(file)) {
+            _currblobs.remove(file);
+            _toremove.add(file);
+            if (_untracked.contains(file)) {
+                _untracked.remove(file);
                 return;
             }
-            File old = new File(filename);
+            File old = new File(file);
             old.delete();
-            _removed.add(filename);
-            rem = false;
+            _removed.add(file);
+            rm = false;
         }
-        if (rem) {
-            System.out.println("No reason to remove the file.");
+        if  (containkey && emptystage) {
+            String addold = _staged.get(file).getblobhash();
+            File old = new File(".gitlet/stage/" + addold);
+            old.delete();
+            _staged.remove(file);
+            _currblobs.remove(file);
+            _untracked.add(file);
+            rm = false;
         }
+
+
     }
 
 //Method Log
 
     private void log() throws IOException, ClassNotFoundException {
-        List<String> temp = new ArrayList<>();
-        String store = null;
+        List<String> arraylist= new ArrayList<>();
+        String save = null;
         for (String hash : _allcommits.keySet()) {
-            if (_allcommits.get(hash).get_Message().equals("initial "
-                    + "commit")) {
-                store = hash;
+            if (_allcommits.get(hash).get_Message().equals("initial commit")) {
+                save = hash;
             } else {
-                temp.add(hash);
+                arraylist.add(hash);
             }
         }
-        Collections.reverse(temp);
-        temp.add(store);
-        for (String hash : temp) {
-            Commit com = _allcommits.get(hash);
-            String rethash = hash.substring(7);
+        Collections.reverse(arraylist);
+        arraylist.add(save);
+        for (String h : arraylist) {
+            Commit committed = _allcommits.get(h);
+//            String reash = ;
             System.out.println("===");
-            System.out.println("commit " + rethash);
-            String date = com.get_Timestamp();
-            System.out.println("Date: " + date);
-            String msg = com.get_Message();
-            System.out.println(msg);
+            System.out.println("commit " + h.substring(7));
+//            String date = ;
+            System.out.println("Date: " + committed.get_Timestamp());
+            System.out.println(committed.get_Message());
             System.out.println();
         }
     }
@@ -522,9 +525,9 @@ public class Repository {
         temp.add(store);
         for (String hash : temp) {
             Commit com = _allcommits.get(hash);
-            String rethash = hash.substring(7);
+            String r = hash.substring(7);
             System.out.println("===");
-            System.out.println("commit " + rethash);
+            System.out.println("commit " + r);
             String date = com.get_Timestamp();
             System.out.println("Date: " + date);
             String msg = com.get_Message();

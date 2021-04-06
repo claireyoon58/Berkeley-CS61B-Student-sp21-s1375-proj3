@@ -18,7 +18,7 @@ public class Blob extends Commit implements Serializable {
     private byte[] content;
 
 
-    private String BlobHash() {
+    private String blobhash() {
         List<Object> list1 = new ArrayList<>();
         list1.add(_getfilename);
         list1.add(content);
@@ -52,7 +52,7 @@ public class Blob extends Commit implements Serializable {
         }
 //            content = null;
         if (!tracker) {
-            _blobhash = BlobHash();
+            _blobhash = blobhash();
         }
 //        } else {
 //            content = Utils.readContents(dir);

@@ -194,7 +194,7 @@ public class Repository {
     }
 
 //use lab 6
-    private void saveGitlet(Repository gitlet1) {
+    private static void saveGitlet(Repository gitlet1) {
 
         try {
             File hold = new File(".gitlet/hold.ser");

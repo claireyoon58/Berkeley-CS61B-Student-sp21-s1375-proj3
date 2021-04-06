@@ -28,17 +28,17 @@ public class Repository {
 
     private static HashMap<String, Blob> _staged;
     private static HashMap<String, Commit> _commits;
-    private  HashMap<String, String> _changes;
+    private static HashMap<String, String> _changes;
     private static LinkedHashMap<String, String> _branchhash;
-    private  LinkedHashMap<String, Commit> allcoms;
+    private static LinkedHashMap<String, Commit> allcoms;
     private static HashMap<String, Blob> _currblobs;
     private static ArrayList<String> _untracked;
-    private  HashMap<String, String> _splits;
-    private  Commit _split;
-    private  ArrayList<String> _toremove;
-    private  ArrayList<String> _removed;
-    private  String function;
-    private  ArrayList<String> _op;
+    private static HashMap<String, String> _splits;
+    private static Commit _split;
+    private static ArrayList<String> _toremove;
+    private static ArrayList<String> _removed;
+    private static String function;
+    private static ArrayList<String> _op;
     private static String _idparent;
     private static String _curbranch;
     private static Commit _head;
@@ -94,7 +94,7 @@ public class Repository {
 //    public static final File COMMIT_DIR = join(Repository.OBJ_DIR, "commits");
 
 
-    public void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         Repository gitlet1 = new Repository();
         boolean gitletsave = Repository.getold() != null;
         if (gitletsave) {
@@ -140,7 +140,7 @@ public class Repository {
         saveGitlet(gitlet1);
     }
 
-    public void mainpart2(Repository gitlet) throws IOException, ClassNotFoundException {
+    public static void mainpart2(Repository gitlet) throws IOException, ClassNotFoundException {
         boolean opsize0 = (_op.size() != 0);
         boolean opsize1 = (_op.size() != 1);
         if (function.equals("log")) {

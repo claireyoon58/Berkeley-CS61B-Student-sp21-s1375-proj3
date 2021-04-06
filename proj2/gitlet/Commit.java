@@ -16,8 +16,7 @@ public class Commit implements Serializable {
 
 //    getblbs
     /**
-     * TODO: add instance variables here.
-     *
+
      * List all instance variables of the Commit class here with a useful
      * comment above them describing what that variable represents and how that
      * variable is used. We've provided one example for `message`.
@@ -30,53 +29,55 @@ public class Commit implements Serializable {
 
 //    private Date dateofcommit;
     private String time;
-    private String SHAparent1;
-    private String SHAparent2;
+    private String shaparent1;
+    private String shaparent2;
     private List<String> filename;
-    private HashMap<String, Blob> storingfile;
+    private HashMap<String, Blob> blob;
     private HashMap<String, List<Object>> hashmap;
     private String storehashcode;
     private String storebranchname;
 
-    public String get_Branchname() {
+    public String getstringbranch() {
         return storebranchname;
     }
 
-    public List<String> get_Stringfile() {
+    public List<String> getstringfile() {
         return filename;
     }
 
-    public String get_Message() {
+    public String getmessage() {
         return message;
     }
 
-    public String get_Timestamp() {
+    public String gettime() {
         return time;
     }
 
-    public HashMap<String, Blob> get_Blob() {
-        return storingfile;
+    public HashMap<String, Blob> getblob() {
+        return blob;
     }
 
 
 
-    public Commit(String original, String original2, String message, String time, HashMap<String, Blob> blobfiles, String branchname) {
+    public Commit(String original, String original2, String message,
+                  String time, HashMap<String, Blob> blob, String branchname) {
         this.hashmap = new HashMap<>();
         this.message = message;
-        this.storingfile = blobfiles;
-        this.SHAparent1 = original;
-        this.SHAparent2 = original2;
+        this.blob = blob;
+        this.time = time;
+        this.shaparent1 = original;
+        this.shaparent2 = original2;
         this.storebranchname = branchname;
         this.storehashcode = commithc();
         this.filename = new ArrayList<>();
-        this.filename.addAll(blobfiles.keySet());
+        this.filename.addAll(blob.keySet());
 
 
         LinkedList<Object> newlist = new LinkedList<>();
         newlist.add(message);
-        newlist.add(blobfiles);
-        newlist.add(SHAparent1);
-        newlist.add(SHAparent2);
+        newlist.add(blob);
+        newlist.add(shaparent1);
+        newlist.add(shaparent2);
 
         Boolean tracker = false;
 
@@ -88,12 +89,12 @@ public class Commit implements Serializable {
                 break;
             }
         }
-        if (tracker == false) {
+        if (!tracker) {
             storehashcode = commithc();
         }
         storehashcode = commithc();
 
-        }
+    }
 
 
 
@@ -102,16 +103,16 @@ public class Commit implements Serializable {
     public String commithc() {
         List<Object> list1 = new ArrayList<>();
         list1.add(message);
-        if (storingfile.size() != 0) {
-            for (String b : storingfile.keySet()) {
+        if (blob.size() != 0) {
+            for (String b : blob.keySet()) {
                 list1.add(b);
             }
         }
-        if (SHAparent1 != null) {
-            list1.add(SHAparent1);
+        if (shaparent1 != null) {
+            list1.add(shaparent1);
         }
-        if (SHAparent2 != null) {
-            list1.add(SHAparent2);
+        if (shaparent2 != null) {
+            list1.add(shaparent2);
         }
         String commith = Utils.sha1(list1);
         String hash = "commit-" + commith;
@@ -129,7 +130,7 @@ public class Commit implements Serializable {
     }
 
 
-    public String get_Stringhash() {
+    public String getstringhash() {
         return storehashcode;
     }
 
@@ -139,7 +140,9 @@ public class Commit implements Serializable {
 
 
 
-//new commit will want have the same parent file but want to make changes based in the staging area, make changes to the storing hashmap
+//new commit will want have the same parent file
+// but want to make changes based in the staging area,
+// make changes to the storing hashmap
 //    write COmmit to a file
 //    new Commit store= parent
 

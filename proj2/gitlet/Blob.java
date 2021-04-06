@@ -8,25 +8,25 @@ public class Blob extends Commit implements Serializable {
     static final long serialVersionUID = 0;
     static boolean hasMergeConflict = false;
     private String _blobhash;
-    public String _getfilename;
-    public String _makestringcont;
+    private String _getfilename;
+    private String _makestringcont;
     private HashMap<String, List<Object>> hashmap1 = new HashMap<>();
     private String SHA;
     private String shortSHA;
-    private String fileN;
+//    private String fileN;
     private File dir;
     private byte[] content;
 
 
-    private String blob_hash() {
+    private String BlobHash() {
         List<Object> list1 = new ArrayList<>();
         list1.add(_getfilename);
         list1.add(content);
         list1.add(_makestringcont);
         String hh = Utils.sha1(list1);
-        String hash_blob = "blob-" + hh;
-        hashmap1.put(hash_blob, list1);
-        return hash_blob;
+        String hashblob = "blob-" + hh;
+        hashmap1.put(hashblob, list1);
+        return hashblob;
     }
 
     public Blob(String nameOfFile) {
@@ -51,8 +51,8 @@ public class Blob extends Commit implements Serializable {
             }
         }
 //            content = null;
-        if (tracker == false) {
-            _blobhash = blob_hash();
+        if (!tracker) {
+            _blobhash = BlobHash();
         }
 //        } else {
 //            content = Utils.readContents(dir);
@@ -70,7 +70,7 @@ public class Blob extends Commit implements Serializable {
 //        this.dir = given.dir;
 //    }
 
-    public String getcontent_string() {
+    public String getcontentstring() {
         return _makestringcont;
     }
 

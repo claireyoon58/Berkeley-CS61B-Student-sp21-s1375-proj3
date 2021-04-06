@@ -10,26 +10,31 @@ public class Main extends Repository implements Serializable {
 
 
     public static void main(String... args) throws ClassNotFoundException, IOException {
-
+        boolean argslen = (args.length == 0);
 //        String firstArg = args[0];
 //        switch(firstArg) {
+        boolean nullcase = (args == null);
 //            case "init":
 //
 //                break;
-        boolean argslen = (args.length == 0);
-        boolean nullcase = (args == null);
         if (argslen || nullcase) {
-            System.out.println("Please enter a command");
-            System.exit(0);
+            helperErrorExit("Please enter a command");
         }
 
 //           break;
 //        case "add":
 //
         Repository c = new Repository();
-        c.main(args);
+        c.Main(args);
 //
 //
 //
+    }
+
+    public static void helperErrorExit(String message) {
+        if (message != null && !message.equals("")) {
+            System.out.println(message);
+            System.exit(0);
+        }
     }
 }

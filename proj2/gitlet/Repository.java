@@ -18,7 +18,7 @@ import java.text.*;
 import java.util.LinkedHashMap;
 
 //  @author Claire Yoon
-public class Repository {
+public class Repository implements Serializable {
     /**
      *
      * List all instance variables of the Repository class here with a useful

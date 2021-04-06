@@ -17,6 +17,29 @@ public class Blob extends Commit implements Serializable {
     private File dir;
     private byte[] content;
 
+
+
+    public String getcontentstring() {
+        return _makestringcont;
+    }
+
+    boolean compareBlobs(Blob blob1, Blob blob2) {
+        return blob1.shortSHA.equals(blob2.shortSHA);
+    }
+
+    public String getfilename() {
+        return _getfilename;
+    }
+
+    boolean compareContent(Blob blob1) {
+        return shortSHA.equals(blob1.shortSHA);
+    }
+
+
+    public String getblobhash() {
+        return _blobhash;
+    }
+
     public Blob(String nameOfFile) {
 //        super();
         File fileN = new File(nameOfFile);
@@ -24,7 +47,7 @@ public class Blob extends Commit implements Serializable {
         _getfilename = nameOfFile;
         content = Utils.serialize(fileN);
         _makestringcont = Utils.readContentsAsString(fileN);
-        List<Object> list1 = new ArrayList<>();
+        List<Object> list1 = new LinkedList<>();
         list1.add(_getfilename);
         list1.add(content);
         list1.add(_makestringcont);
@@ -33,7 +56,7 @@ public class Blob extends Commit implements Serializable {
         Boolean tracker = false;
 //        if (!dir.exists()) {
         for (String key: hashmap1.keySet()) {
-            if (hashmap1.get(key) == list1) {
+            if (hashmap1.get(key).equals(list1)) {
                 tracker = true;
                 _blobhash = key;
                 break;
@@ -72,26 +95,7 @@ public class Blob extends Commit implements Serializable {
 //        this.dir = given.dir;
 //    }
 
-    public String getcontentstring() {
-        return _makestringcont;
-    }
 
-    boolean compareBlobs(Blob blob1, Blob blob2) {
-        return blob1.shortSHA.equals(blob2.shortSHA);
-    }
-
-    public String getfilename() {
-        return _getfilename;
-    }
-
-    boolean compareContent(Blob blob1) {
-        return shortSHA.equals(blob1.shortSHA);
-    }
-
-
-    public String getblobhash() {
-        return _blobhash;
-    }
 
 //    public String getblob() {
 //        return _blob

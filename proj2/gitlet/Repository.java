@@ -280,6 +280,10 @@ public class Repository implements Serializable {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+        } else {
+            helperErrorExit("A Gitlet version-control system "
+                    + "already exists in the current directory.");
+        }
             //        public void saveDog() {
 //            File dogsaved = Utils.join(DOG_FOLDER, this.name);
 //            try {
@@ -289,34 +293,33 @@ public class Repository implements Serializable {
 //            }
 //            Utils.writeObject(dogsaved, this);
 //
-// Relationship between a Branch and a Commit
-        } else {
-            helperErrorExit("A Gitlet version-control system "
-                    + "already exists in the current directory.");
-        }
+// Relationship between a Branch and a Commielse {
+
         String message = "initial commit";
         String p1 = null;
         String p2 = null;
         _curbranch = "master";
-        String timestamp = "Wed Dec 31 00:00:00 1969 -0800";
-        boolean current = (!_curbranch.equals("master"));
+        String time = "Wed Dec 31 00:00:00 1969 -0800";
+        boolean current = (_curbranch.equals("master"));
         HashMap<String, Blob> blobfile = new HashMap<>();
         boolean bh = _branchhash != null;
         boolean bhkey = _branchhash.containsKey(_curbranch);
-        if (current && bh && bhkey) {
+        if (!current && bh && bhkey) {
             helperErrorExit("A branch with that name already exists.");
         } else {
             _branchhash.put(_curbranch, _idparent);
             _splits.put(_curbranch, _idparent);
         }
-        Commit commitmethod = new Commit(p1, p2, message, timestamp, blobfile, _curbranch);
-        allcoms.put(commitmethod.getstringhash(), commitmethod);
-        _head = commitmethod;
+//        Commit commitmethod = new Commit(p1, p2, message, timestamp, blobfile, _curbranch);
+        Commit method = new Commit(message, time,
+                blobfile, p1, p2, _curbranch);
+        allcoms.put(method.getstringhash(), method);
+        _head = method;
         _idparent = _head.inithash();
         LinkedList<Commit> branchcommits = new LinkedList<>();
         branchcommits.add(_head);
         File file = new File(".gitlet/commit/" + _idparent);
-        Utils.writeContents(file, Utils.serialize(commitmethod));
+        Utils.writeContents(file, Utils.serialize(method));
     }
 
     //            byte[] serialb = Utils.serialize(blob1);
@@ -464,8 +467,8 @@ public class Repository implements Serializable {
         String datec = new
                 SimpleDateFormat("EEE MMM d HH:mm:ss yyyy").format(currenttime);
         String current = datec + " -0800";
-        Commit committed = new Commit(_idparent, null,
-                message, current, _currblobs, _curbranch);
+        Commit committed = new Commit(message, current, _currblobs,
+                _idparent, null, _curbranch);
         boolean equalhash = _idparent.equals(committed.getstringhash());
         boolean parentcheck = (_idparent != null);
         if (equalhash && parentcheck) {
@@ -922,11 +925,23 @@ public class Repository implements Serializable {
         _head = comitted;
         _idparent = hashcode;
     }
+//    2. One file in current, and the other in given(different),
+//    but not present in the split point, all three versions
+//    in the file is different(deleting the file counts),
+//    merge conflict appears
 
-
-
-
-
+//    private void mergeCurrandmerge1(
+//    )
+////    3. Modified in one commmit but not the other,
+////    this file is modified in EITHER given or current
+////    ex) present in the commit and not changed within
+////    the split point, given branch is changed--> keep the changed one
+////    to-do: are these two files exist in given or current helper
+////    function that checks whether the files are in the given and current
+//
+//
+//
+//
 //    private void merge(String branch) throws IOException, ClassNotFoundException {
 //        Commit currentbranch = allcoms.get(_branchhash.get(_curbranch));
 //        Commit merged = allcoms.get(_branchhash.get(branch));
@@ -951,10 +966,46 @@ public class Repository implements Serializable {
 //                        + "delete it or add it first.");
 //            }
 //        }
+////1.find the split point
+////    -track back ancestors within the tree
+////    split pint, current brand(head), given branch
+////    three scenarios: base) a file in the split point, in the
+////    current and given, same content--> don't do anything because we want to combine
+//        mergeCurrandmerge1(merged, currentbranch);
+//        mergeCurrandmerge2(merged, currentbranch);
+//        mergeCurrandmerge3(merged, currentbranch);
+//        Date newdate = new Date();
+//        String date = new
+//                SimpleDateFormat("EEE MMM d HH:mm:ss yyyy").format(newdate);
+//        String time = date + " -0800";
+//        String message =  "merged " + branch + " into " + _curbranch + ".";
 //
-//        mergeCurrandmerge()
 //
+//        Commit commit = new Commit(message, time, _currblobs, _idparent,
+//                _branchhash.get(branch), _curbranch);
+//        String commithash = commit.getstringhash();
+//        _idparent = commit.getstringhash();
+//        allcoms.put(commithash, commit);
+//
+//        File newf= new File(".gitlet/commit/"
+//                + commit.getstringhash());
+//        Utils.writeContents(newf, Utils.serialize(commit));
+//        File dir = new File(".gitlet/stage/");
+//        for (File ff : dir.listFiles()) {
+//            boolean ffdirect = ff.isDirectory();
+//            if (!ffdirect) {
+//                ff.delete();
+//            }
 //        }
+//        _branchhash.put(_curbranch, commit.getstringhash());
+//        if (!_staged.isEmpty()) {
+//            _staged.clear();
+//        }
+//        _removing.clear();
+//
+//    }
+//
+//
 
 
 
@@ -962,21 +1013,6 @@ public class Repository implements Serializable {
 
 
 
-//1.find the split point
-//    -track back ancestors within the tree
-//    split pint, current brand(head), given branch
-//    three scenarios: base) a file in the split point, in the
-//    current and given, same content--> don't do anything because we want to combine
-//    2. One file in current, and the other in given(different),
-//    but not present in the split point, all three versions
-//    in the file is different(deleting the file counts),
-//    merge conflict appears
-//    3. Modified in one commmit but not the other,
-//    this file is modified in EITHER given or current
-//    ex) present in the commit and not changed within
-//    the split point, given branch is changed--> keep the changed one
-//    to-do: are these two files exist in given or current helper
-//    function that checks whether the files are in the given and current
 
 
 

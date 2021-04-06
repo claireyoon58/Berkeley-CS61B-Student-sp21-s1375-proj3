@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.io.File;
 import java.util.*;
 
-public class Blob implements Serializable {
+public class Blob extends Commit implements Serializable {
     static final long serialVersionUID = 0;
     static boolean hasMergeConflict = false;
     private String _blobhash;
@@ -92,8 +92,13 @@ public class Blob implements Serializable {
         return _blobhash;
     }
 
+//    public String getblob() {
+//        return _blob
+//    }
 
-
-
+//
+//    public HashMap<String, Blob> getblob() {
+//        return blob;
+//    }
 }
 

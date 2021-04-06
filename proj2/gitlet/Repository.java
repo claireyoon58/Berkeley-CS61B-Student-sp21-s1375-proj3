@@ -321,6 +321,7 @@ public class Repository implements Serializable {
 
 
     //    Add Method
+//    Cannot invoke "gitlet.Blob.getblob()" because the return value of "java.util.HashMap.get(Object)" is null
     public void add(String filename) throws IOException {
         String commitparent = ".gitlet/commit/" + _idparent;
         File f = new File(filename);
@@ -339,7 +340,7 @@ public class Repository implements Serializable {
 
             if (_head.getblob().equals((_head.getblob().get(hash)))) {
                 if (_staged.containsKey(filename)) {
-                    String stage = "gitlet/stage/" + _staged.get(filename).getblob();
+//                    String stage = "gitlet/stage/" + _staged.get(filename).getblob();
                     File old = new File("gitlet/stage/" + _staged.get(filename).getblob());
                     old.delete();
                     _staged.remove(filename);
@@ -355,9 +356,9 @@ public class Repository implements Serializable {
 //            assiged B ahead of time
             boolean containrm = _removed.contains(filename);
             if (!containrm) {
-                String blobstage = ".gitlet/stage/" + blob1.getblob();
+//                String blobstage = ".gitlet/stage/" + blob1.getblob();
                 _staged.put(filename, blob1);
-                File newf = new File(blobstage);
+                File newf = new File(".gitlet/stage/" + blob1.getblob());
                 Utils.writeContents(newf, serialb);
             } else {
                 File newfile = new File(filename);
@@ -368,8 +369,8 @@ public class Repository implements Serializable {
         } else if (!_idparent.equals(blob1.getblob())) {
             byte[] serialb = Utils.serialize(blob1);
             if (!_staged.isEmpty() && _staged.containsKey(filename)) {
-                String blobstage = ".gitlet/stage/" + blob1.getblob();
-                File old = new File(blobstage);
+//                String blobstage = ".gitlet/stage/" + blob1.getblob();
+                File old = new File(".gitlet/stage/" + blob1.getblob());
                 old.delete();
                 boolean containrm = _removed.contains(filename);
                 if (!containrm) {
@@ -584,6 +585,7 @@ public class Repository implements Serializable {
         System.out.println("=== Branches ===");
         boolean bhempty = _branchhash.isEmpty();
         Set<String> key = _branchhash.keySet();
+        _curbranch = "master";
         if (!bhempty) {
             for (String s : key) {
                 if (s.equals(_curbranch)) {
@@ -895,6 +897,19 @@ public class Repository implements Serializable {
 
 
 
+
+//    private void merge(String branch) throws IOException, ClassNotFoundException {
+//        Commit currentbranch = allcoms.get(_branchhash.get(_curbranch));
+//        Commit merged = allcoms.get(_branchhash.get(branch));
+//        String user = System.getProperty("user.dir");
+//        List<String> file = Utils.plainFilenamesIn(user);
+//        boolean fastfoward =
+//        boolean ancestor = _split.getstringhash().equals(merged.getstringhash());
+//
+//        if (ancestor) {
+//            helperErrorExit("Given branch is an ancestor"
+//                    + " of the current branch.");
+//        }
 
 
 

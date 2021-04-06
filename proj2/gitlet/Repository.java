@@ -324,7 +324,7 @@ public class Repository implements Serializable {
     public void add(String filename) throws IOException {
         String commitparent = ".gitlet/commit/" + _idparent;
         File f = new File(filename);
-        String stagefolder = "gitlet/stage/" + _staged.get(filename).getblob();
+//        String stagefolder = "gitlet/stage/" + _staged.get(filename).getblob();
         if (!f.exists()) {
             helperErrorExit("File does not exist");
         }
@@ -340,7 +340,7 @@ public class Repository implements Serializable {
             if (_head.getblob().equals((_head.getblob().get(hash)))) {
                 if (_staged.containsKey(filename)) {
                     String stage = "gitlet/stage/" + _staged.get(filename).getblob();
-                    File old = new File(stage);
+                    File old = new File("gitlet/stage/" + _staged.get(filename).getblob());
                     old.delete();
                     _staged.remove(filename);
                     return;

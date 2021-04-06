@@ -62,7 +62,7 @@ public class Repository {
         _changes = new HashMap<>();
     }
 
-    public void replicate(Repository copy) {
+    public static void replicate(Repository copy) {
         _staged = copy._staged;
         _untracked = copy._untracked;
         _toremove = copy._toremove;

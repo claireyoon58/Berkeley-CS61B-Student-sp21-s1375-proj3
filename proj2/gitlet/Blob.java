@@ -23,12 +23,12 @@ public class Blob extends Commit implements Serializable {
 //        _getfilename = nameOfFile;
         _getfilename = nameOfFile;
         content = Utils.serialize(fileN);
-//        _makestringcont = Utils.readContentsAsString(fileN);
+        _makestringcont = Utils.readContentsAsString(fileN);
         List<Object> list1 = new ArrayList<>();
         list1.add(_getfilename);
         list1.add(content);
         list1.add(_makestringcont);
-        String hh = Utils.sha1(list1);
+//        String hh = Utils.sha1(list1);
 //        dir = Utils.join(dir_loc, nameOfFile);
         Boolean tracker = false;
 //        if (!dir.exists()) {
@@ -54,6 +54,7 @@ public class Blob extends Commit implements Serializable {
         list1.add(_getfilename);
         list1.add(content);
         list1.add(_makestringcont);
+
         String hh = Utils.sha1(list1);
         String hashblob = "blob-" + hh;
         hashmap1.put(hashblob, list1);

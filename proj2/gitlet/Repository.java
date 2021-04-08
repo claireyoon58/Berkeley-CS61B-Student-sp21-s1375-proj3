@@ -890,7 +890,7 @@ public class Repository implements Serializable {
         if (hashcode.charAt(0) != 'c') {
             id = "commit-" + hashcode;
         } else {
-            id = hashcode; 
+            id = hashcode;
         }
         if (!allcoms.containsKey(id)) {
             helperErrorExit("No commit with that id exists.");

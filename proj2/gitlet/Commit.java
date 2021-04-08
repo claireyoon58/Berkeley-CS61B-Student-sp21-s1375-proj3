@@ -66,7 +66,7 @@ public class Commit implements Serializable {
     public Commit(String message, String time, HashMap<String, Blob> blob,
                   String p1, String p2, String branch) {
 //                  String time, HashMap<String, Blob> blob, String branchname) {
-//        this.hashmap = new HashMap<>();
+        this.hashmap = new HashMap<>();
         this.message = message;
         this.blob = blob;
         this.time = time;

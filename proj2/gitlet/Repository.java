@@ -315,6 +315,7 @@ public class Repository implements Serializable {
         Commit method = new Commit(message, time,
                 blobfile, p1, p2, _curbranch);
         allcoms.put(method.getstringhash(), method);
+        System.out.println(method);
         _head = method;
         _idparent = _head.inithash();
         LinkedList<Commit> branchc = new LinkedList<>();

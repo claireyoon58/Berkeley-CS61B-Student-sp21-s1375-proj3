@@ -4,9 +4,9 @@ import java.util.*;
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author Claire Yoon
  */
-public class Main extends Repository implements Serializable {
+public class Main {
 
-    public static void Main(String[] args) throws ClassNotFoundException, IOException {
+    public static void main(String... args) throws ClassNotFoundException, IOException {
         boolean argslen = (args.length == 0);
 //        String firstArg = args[0];
 //        switch(firstArg) {

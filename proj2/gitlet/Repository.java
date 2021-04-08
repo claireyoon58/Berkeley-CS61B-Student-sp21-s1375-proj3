@@ -26,22 +26,22 @@ public class Repository implements Serializable {
      * variable is used. We've provided two examples for you.
      */
 
-    private static HashMap<String, Blob> _staged;
-    private static HashMap<String, Commit> _commits;
-    private static HashMap<String, String> _changes;
-    private static LinkedHashMap<String, String> _branchhash;
-    private static LinkedHashMap<String, Commit> allcoms;
-    private static HashMap<String, Blob> _currblobs;
-    private static ArrayList<String> _xtrack;
-    private static HashMap<String, String> _splits;
-    private static Commit _split;
-    private static ArrayList<String> _removing;
-    private static ArrayList<String> _removed;
-    private static String function;
-    private static ArrayList<String> _op;
-    private static String _idparent;
-    private static String _curbranch;
-    private static Commit _head;
+    private HashMap<String, Blob> _staged;
+    private HashMap<String, Commit> _commits;
+    private HashMap<String, String> _changes;
+    private LinkedHashMap<String, String> _branchhash;
+    private LinkedHashMap<String, Commit> allcoms;
+    private HashMap<String, Blob> _currblobs;
+    private ArrayList<String> _xtrack;
+    private HashMap<String, String> _splits;
+    private Commit _split;
+    private ArrayList<String> _removing;
+    private ArrayList<String> _removed;
+    private String function;
+    private ArrayList<String> _op;
+    private String _idparent;
+    private String _curbranch;
+    private Commit _head;
 
 
     public Repository() {
@@ -62,7 +62,7 @@ public class Repository implements Serializable {
         _changes = new HashMap<>();
     }
 
-    public static void replicate(Repository copy) {
+    public void replicate(Repository copy) {
         _staged = copy._staged;
         _xtrack = copy._xtrack;
         _removing = copy._removing;
@@ -94,19 +94,21 @@ public class Repository implements Serializable {
 //    public static final File COMMIT_DIR = join(Repository.OBJ_DIR, "commits");
 
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public void main(String... args) throws IOException, ClassNotFoundException {
         Repository gitlet1 = new Repository();
         boolean gitletsave = Repository.getold() != null;
         if (gitletsave) {
             gitlet1 = Repository.getold();
         }
         replicate(gitlet1);
+
         ArrayList<String> ord = new ArrayList<>();
         for (String s : args) {
             ord.add(s);
         }
         function = ord.remove(0);
         _op = ord;
+
         if (function.equals("init")) {
             if (_op.size() != 0) {
                 helperErrorExit("Incorrect operands.");
@@ -140,7 +142,7 @@ public class Repository implements Serializable {
         saveGitlet(gitlet1);
     }
 
-    public static void mainpart2(Repository gitlet) throws IOException, ClassNotFoundException {
+    public void mainpart2(Repository gitlet) throws IOException, ClassNotFoundException {
         boolean opsize0 = (_op.size() != 0);
         boolean opsize1 = (_op.size() != 1);
         if (function.equals("log")) {
@@ -315,8 +317,8 @@ public class Repository implements Serializable {
         Commit method = new Commit(message, time,
                 blobfile, p1, p2, _curbranch);
         allcoms.put(method.getstringhash(), method);
-        System.out.println(method);
         _head = method;
+
         _idparent = _head.inithash();
         LinkedList<Commit> branchc = new LinkedList<>();
         branchc.add(_head);

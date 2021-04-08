@@ -113,6 +113,7 @@ public class Repository implements Serializable {
 //        if (function.equals(null)) {
 //            helperErrorExit("No command with that name exists.");
 //        }
+        boolean runCommand = true;
 
         if (function.equals("init")) {
             if (_op.size() != 0) {
@@ -142,12 +143,16 @@ public class Repository implements Serializable {
             gitlet1.add(a);
         } else if (function.equals("checkout")) {
             gitlet1.checkout(_op);
+        } else {
+            if (!function.equals("init")) {
+                runCommand = false;
+            }
         }
-        mainpart2(gitlet1);
+        mainpart2(gitlet1, runCommand);
         saveGitlet(gitlet1);
     }
 
-    public void mainpart2(Repository gitlet)
+    public void mainpart2(Repository gitlet, boolean runCommand)
             throws IOException, ClassNotFoundException {
         boolean opsize0 = (_op.size() != 0);
         boolean opsize1 = (_op.size() != 1);
@@ -192,7 +197,9 @@ public class Repository implements Serializable {
             }
             gitlet.find(_op.get(0));
         } else {
-            helperErrorExit("No command with that name exists.");
+            if (!runCommand) {
+                helperErrorExit("No command with that name exists.");
+            }
         }
 //        } else if (function.equals("merge")) {
 //            if (_op.size() != 1) {
@@ -365,6 +372,78 @@ public class Repository implements Serializable {
     //    Add Method
 //    Cannot invoke "gitlet.Blob.getblob()" because the
 //    return value of "java.util.HashMap.get(Object)" is null
+
+
+//    public void add(String filename) throws IOException {
+//        File newfilen = new File(filename);
+//        if (!newfilen.exists()) {
+//            helperErrorExit("File does not exist");
+//            return;
+//        }
+//        if (_removing.contains(filename)) {
+//            _removing.remove(filename);
+////            if (blob1.getblobhash().equals(_head.getblob().get(hash).getblobhash())) {
+//            _xtrack.remove(filename);
+//        }
+//        Blob blobadd = new Blob(filename);
+//        Path commit1 = Paths.get(".gitlet/commit/" + _idparent);
+//        for (String h : _head.getblob().keySet()) {
+//            //        Path path1 = Paths.get(".gitlet/commit/"+ _idparent);
+//////        HashMap<String, Blob> headblob = _head.getblob();
+//            if (blobadd.getstringbh().equals(
+//                    _head.getblob().get(h).getstringbh())) {
+//                if (_staged.containsKey(filename)) {
+//                    File old =
+//                            new File("gitlet/stage/"
+//                                    + _staged.get(filename).getstringbh());
+//                    old.delete();
+//                    _staged.remove(filename);
+//                    return;
+//                }
+//                return;
+//            }
+//        }
+//        String blobhasha = blobadd.getstringbh();
+////                    _removed.remove(filename);Utils.readObject(add, Stage.class);
+//        boolean stageempty = _staged.isEmpty();
+//        boolean stagefile = (!_staged.containsKey(filename));
+//        if (!_idparent.equals(blobadd.getstringbh())) {
+//            if (!_staged.isEmpty() && _staged.containsKey(filename)) {
+//                File old = new File(".gitlet/stage/"
+//                        + blobadd.getstringbh());
+//                old.delete();
+//                if (!_removed.contains(filename)) {
+//                    _staged.put(filename, blobadd); _currblobs.put(filename, blobadd);
+//                    File newfile = new File(".gitlet/stage/"
+//                            + blobadd.getstringbh());
+//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
+//                } else {
+//                    File newfile = new File(filename);
+//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
+//                    _removed.remove(filename); _changes.remove(filename);
+//                }
+//                _currblobs.put(filename, blobadd);
+//            } else if (_staged.isEmpty() || !_staged.containsKey(filename)) {
+//                if (!_removed.contains(filename)) {
+//                    _staged.put(filename, blobadd);
+//                    File newfile = new File(".gitlet/stage/"
+//                            + blobadd.getstringbh());
+//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
+//                } else {
+//                    File newfile = new File(filename);
+//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
+//                    _removed.remove(filename);
+//                }
+//                _currblobs.put(filename, blobadd);
+//            }
+//        } else {
+//            File old = new File(".gitlet/stage/"
+//                    + _staged.get(filename).getstringbh());
+//            old.delete(); _staged.remove(filename);
+//        }
+//    }
+
+
     public void add(String filename) throws IOException {
         File newfilen = new File(filename);
         if (!newfilen.exists()) {
@@ -373,16 +452,14 @@ public class Repository implements Serializable {
         }
         if (_removing.contains(filename)) {
             _removing.remove(filename);
-//            if (blob1.getblobhash().equals(_head.getblob().get(hash).getblobhash())) {
+//            if (blob1.getblobhash().equals) {if (_staged.containsKey(filename)) {
             _xtrack.remove(filename);
         }
         Blob blobadd = new Blob(filename);
         Path commit1 = Paths.get(".gitlet/commit/" + _idparent);
         for (String h : _head.getblob().keySet()) {
-////        HashMap<String, Blob> headblob = _head.getblob();
 //        for (String hash : _head.getblob().keySet()) {
-            if (blobadd.getstringbh().
-                    equals(_head.getblob().get(h).getstringbh())) {
+            if (blobadd.getstringbh().equals(_head.getblob().get(h).getstringbh())) {
                 if (_staged.containsKey(filename)) {
                     File old =
                             new File("gitlet/stage/"
@@ -395,18 +472,20 @@ public class Repository implements Serializable {
             }
         }
         String blobhasha = blobadd.getstringbh();
-// currblobs.put(filename, blob1);  _removed.remove(filename);Utils.readObject(add, Stage.class);
+        //Utils.writeContents(newfs.readObject(head, Commit.class);_removed.remove(filename);
+// Utils.readObject(add, Stage.class);//rUtils.readObject(rm, Stage.class);_changes.remove(fi
+        boolean parentid = (_idparent.equals(blobhasha));
         boolean stageempty = _staged.isEmpty();
         boolean stagefile = (!_staged.containsKey(filename));
-        if (!(_idparent.equals(blobhasha))) {
+        if (!parentid) {
             if (stagefile || stageempty) {
                 File before = new File(".gitlet/stage/" + blobadd.getstringbh());
                 before.delete();
                 boolean containrm = _removed.contains(filename);
                 if (!containrm) {
                     _staged.put(filename, blobadd);
-                    String addbh = blobadd.getstringbh();
-//blob1.getblob();_staged.put(filename, blob1) ob1.getblobhash());
+                    String addbh = blobadd.getstringbh(); //_staged.put(filename, blob1);
+//                    File newf = new File(".gitlet/stage/" +blob1.getblobhash());
                     _currblobs.put(filename, blobadd);
                     File updated = new File(".gitlet/stage/" + addbh);
                     byte[] serialb = Utils.serialize(blobadd);
@@ -415,8 +494,7 @@ public class Repository implements Serializable {
                     File updated = new File(filename);
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
-                    _removed.remove(filename);
-//if (!_removed.contains(filename)) {_staged.put(filename, blob1);_
+                    _removed.remove(filename); //_currblobs.put(filename, blob1);
                     _changes.remove(filename);
                 }
                 _currblobs.put(filename, blobadd);
@@ -424,7 +502,7 @@ public class Repository implements Serializable {
                 if (!_removed.contains(filename)) {
                     _staged.put(filename, blobadd);
                     String addstring = blobadd.getstringbh();
-//    File newf = new File(".gitlet/stage/" + blob1.getblobhash());staged.put(filename, blob1);
+                    //System.out.println(_staged);Utils.writeContents(newf, Utils.serialize(blob1));
                     File updated = new File(".gitlet/stage/"
                             + addstring);
                     byte[] serialb = Utils.serialize(blobadd);
@@ -433,7 +511,6 @@ public class Repository implements Serializable {
                     File updated = new File(filename);
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
- //  _staged.put(filename, blob1);!_staged.containsKey(filename));
                     _removed.remove(filename);
                 }
                 _currblobs.put(filename, blobadd);
@@ -441,11 +518,12 @@ public class Repository implements Serializable {
         } else {
             String bhstage = _staged.get(filename).getstringbh();
             File before = new File(".gitlet/stage/" + bhstage);
+            //_staged.put(filename, b); newf = new File(".gitlet/stage/" + blob1.getblobhash());
             before.delete();
             _staged.remove(filename);
         }
     }
-//    Helperserialize
+    //    Helperserialize
     public static Object serialhelp(Path p) {
         File newf = p.toFile();
         Object result =  null;

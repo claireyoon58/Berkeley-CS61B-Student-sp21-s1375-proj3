@@ -36,7 +36,7 @@ public class Blob extends Commit implements Serializable {
     }
 
 
-    public String getblobhash() {
+    public String getstringbh() {
         return _blobhash;
     }
 

@@ -362,7 +362,8 @@ public class Repository implements Serializable {
 
 
 
-    public void add(String filename) throws IOException {
+    public void add(String filename)
+            throws IOException {
         File newfilen = new File(filename);
         if (!newfilen.exists()) {
             helperErrorExit("File does not exist");
@@ -752,17 +753,15 @@ public class Repository implements Serializable {
                             + " delete it or add it first.");
                 }
             }
+            File updated = new File(filename);
+            Blob before = committ.getblob().get(filename);
+            String info = before.getcontentstring();
+            Utils.writeContents(updated, info);
         }
 
-        for (String s : committ.getstringfile()) {
-            File newfile = new File(s);
-            Blob old = committ.getblob().get(s);
-//            File CWD = new File(CWD.getPath() + "/" + set.getKey());
-//            File value = new File(stage.getPath() + "/" + set.getValue());
-            String content = old.getcontentstring();
-            Utils.writeContents(newfile, content);
-            curfiles.put(s, committ.getblob().get(s));
-        }
+//        for (String s : committ.getstringfile()) {
+//            File newfile = new File(s);
+//            Blob old = committ.getblob().get(s);
 
         for (String filename : _currblobs.keySet()) {
 //            Utils.writeObject(add, new Stage());
@@ -791,9 +790,8 @@ public class Repository implements Serializable {
     }
 
     public void checkoutFile(String file) {
-        String commid = _head.getstringbranch();
-        String nfile = ".gitlet/commit/" + commid;
-        if (nfile == null) {
+        String idc = _head.getstringbranch();
+        if ( (".gitlet/commit/" + idc) == null) {
             helperErrorExit("File does not exist in that commit.");
         }
         if (_head.getblob().containsKey(file)) {
@@ -802,14 +800,13 @@ public class Repository implements Serializable {
             String info =  old.getcontentstring();
             Utils.writeContents(fileutd, info);
         }
-
     }
 
     public void checkoutCommitted(String id, String file) {
         String idc;
 //        char id_First = id.charAt(0);
 //        boolean checkout_helper = id_First
-        if (id.contains("commit")) {
+        if (id.charAt(0) != 'c') {
             idc = "commit-" + id;
         } else {
             idc = id;
@@ -836,7 +833,7 @@ public class Repository implements Serializable {
 
 
     //    public static checkout(String[] args) throws IOException, ClassNotFoundException {
-    public void checkout(ArrayList<String> operand) throws IOException, ClassNotFoundException {
+    public void checkout(ArrayList<String> operand) {
 //        if (args.length == 2) {
 //            String branchname = args[0];
         if (operand.size() == 1) {
@@ -857,7 +854,6 @@ public class Repository implements Serializable {
 //            if (file == null) {
 //                System.out.println("File does not exist in that commit.");
 //                System.exit(0);
-//            }
             checkoutBranch(branch);
         } else if (operand.size() == 2) {
             String file = operand.get(1);
@@ -872,6 +868,8 @@ public class Repository implements Serializable {
                 helperErrorExit("Incorrect operands.");
             }
             checkoutCommitted(operand.get(0), operand.get(2));
+        } else {
+            helperErrorExit("Incorrect operands.");
         }
     }
 

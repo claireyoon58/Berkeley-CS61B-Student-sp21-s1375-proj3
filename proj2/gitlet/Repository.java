@@ -396,14 +396,14 @@ public class Repository implements Serializable {
         }
         String blobhasha = blobadd.getstringbh();
         //
-////                    Utils.readObject(head, Commit.class);
-//                    Utils.writeContents(newf, serialb);
+////                    Util      Utils.writeContents(newfs.readObject(head, Commit.class);
+//              , serialb);
 //                    _removed.remove(filename);
 ////                    Utils.readObject(add, Stage.class);
 ////                    rUtils.readObject(rm, Stage.class);
 //                    _changes.remove(fi
         boolean parentid = (_idparent.equals(blobhasha));
-        boolean stageempty = _staged.isEmpty();//
+        boolean stageempty = _staged.isEmpty();
         boolean stagefile = (!_staged.containsKey(filename));
         if (!parentid) {
             if (stagefile || stageempty) {
@@ -447,7 +447,7 @@ public class Repository implements Serializable {
 //                            + blob1.getblobhash());
 //                    Utils.writeContents(newf, Utils.serialize(blob1));
 //
-                    File updated= new File(".gitlet/stage/"
+                    File updated = new File(".gitlet/stage/"
                             + addstring);
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
@@ -548,21 +548,29 @@ public class Repository implements Serializable {
     //    method RM
     private void rm(String name) {
         boolean rm = true;
-        File file = new File(name);
+        File currentfile = new File(name);
         Commit commit = allcoms.get(_idparent);
         HashMap<String, Blob> tracked = commit.getblob();
         boolean emptystage = (!_staged.isEmpty());
-        boolean trackedkey = (!tracked.containsKey(name));
+        boolean trackedkey = tracked.containsKey(name);
         boolean containkey = _staged.containsKey(name);
-        boolean existfile = (!file.exists());
+        boolean existfile = currentfile.exists();
 
-        if (trackedkey && existfile) {
+        if (!trackedkey && !existfile) {
             helperErrorExit("File does not exist.");
         }
-        if (rm) {
-            helperErrorExit("No reason to remove the file.");
+
+
+        if  (containkey && emptystage) {
+            String addold = _staged.get(name).getstringbh();
+            File old = new File(".gitlet/stage/" + addold);
+            old.delete();
+            _staged.remove(name);
+            _currblobs.remove(name);
+            _xtrack.add(name);
+            rm = false;
         }
-        if (tracked != null & tracked.containsKey(file)) {
+        if (tracked != null & trackedkey) {
             _currblobs.remove(name);
             _removing.add(name);
             if (_xtrack.contains(name)) {
@@ -574,14 +582,9 @@ public class Repository implements Serializable {
             _removed.add(name);
             rm = false;
         }
-        if  (containkey && emptystage) {
-            String addold = _staged.get(name).getstringbh();
-            File old = new File(".gitlet/stage/" + addold);
-            old.delete();
-            _staged.remove(name);
-            _currblobs.remove(name);
-            _xtrack.add(name);
-            rm = false;
+
+        if (rm) {
+            helperErrorExit("No reason to remove the file.");
         }
 
 

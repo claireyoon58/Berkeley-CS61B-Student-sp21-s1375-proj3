@@ -108,6 +108,11 @@ public class Repository implements Serializable {
         }
         function = ord.remove(0);
         _op = ord;
+//
+//        String[] possibleFunctions = [""]
+//        if (function.equals(null)) {
+//            helperErrorExit("No command with that name exists.");
+//        }
 
         if (function.equals("init")) {
             if (_op.size() != 0) {
@@ -142,7 +147,8 @@ public class Repository implements Serializable {
         saveGitlet(gitlet1);
     }
 
-    public void mainpart2(Repository gitlet) throws IOException, ClassNotFoundException {
+    public void mainpart2(Repository gitlet)
+            throws IOException, ClassNotFoundException {
         boolean opsize0 = (_op.size() != 0);
         boolean opsize1 = (_op.size() != 1);
         if (function.equals("log")) {
@@ -185,6 +191,8 @@ public class Repository implements Serializable {
                 helperErrorExit("Incorrect operands.");
             }
             gitlet.find(_op.get(0));
+        } else {
+            helperErrorExit("No command with that name exists.");
         }
 //        } else if (function.equals("merge")) {
 //            if (_op.size() != 1) {
@@ -357,13 +365,7 @@ public class Repository implements Serializable {
     //    Add Method
 //    Cannot invoke "gitlet.Blob.getblob()" because the
 //    return value of "java.util.HashMap.get(Object)" is null
-
-
-
-
-
-    public void add(String filename)
-            throws IOException {
+    public void add(String filename) throws IOException {
         File newfilen = new File(filename);
         if (!newfilen.exists()) {
             helperErrorExit("File does not exist");
@@ -372,14 +374,12 @@ public class Repository implements Serializable {
         if (_removing.contains(filename)) {
             _removing.remove(filename);
 //            if (blob1.getblobhash().equals(_head.getblob().get(hash).getblobhash())) {
-//                if (_staged.containsKey(filename)) {
             _xtrack.remove(filename);
         }
         Blob blobadd = new Blob(filename);
         Path commit1 = Paths.get(".gitlet/commit/" + _idparent);
         for (String h : _head.getblob().keySet()) {
-            //        Path path1 = Paths.get(".gitlet/commit/"
-            //        + _idparent);
+            //        Path path1 = Paths.get(".gitlet/commit/"+ _idparent);
 ////        HashMap<String, Blob> headblob = _head.getblob();
 //        for (String hash : _head.getblob().keySet()) {
             if (blobadd.getstringbh().
@@ -396,34 +396,20 @@ public class Repository implements Serializable {
             }
         }
         String blobhasha = blobadd.getstringbh();
-        //
-////                    Util      Utils.writeContents(newfs.readObject(head, Commit.class);
-//              , serialb);
-//                    _removed.remove(filename);
-////                    Utils.readObject(add, Stage.class);
-////                    rUtils.readObject(rm, Stage.class);
-//                    _changes.remove(fi
-        boolean parentid = (_idparent.equals(blobhasha));
+//                    _removed.remove(filename);Utils.readObject(add, Stage.class);
         boolean stageempty = _staged.isEmpty();
         boolean stagefile = (!_staged.containsKey(filename));
-        if (!parentid) {
+        if (!(_idparent.equals(blobhasha))) {
             if (stagefile || stageempty) {
-                File before = new File(".gitlet/stage/"
-                        + blobadd.getstringbh());
+                File before = new File(".gitlet/stage/" + blobadd.getstringbh());
                 before.delete();
                 boolean containrm = _removed.contains(filename);
                 if (!containrm) {
                     _staged.put(filename, blobadd);
                     String addbh = blobadd.getstringbh();
-                    ////                String blobstage =
-                    // ".gitlet/stage/" + blob1.getblob();
-////                _staged.put(filename, blob1);
-//                    File newf = new File(".gitlet/stage/" +
+                    // ".gitlet/stage/" + blob1.getblob();_staged.put(filename, blob1);
 //                    blob1.getblobhash());
-//                    Object serialb = Utils.serialize(blob1);
-//                    Utils.writeContents(newf, serialb);;
                     _currblobs.put(filename, blobadd);
-
                     File updated = new File(".gitlet/stage/" + addbh);
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
@@ -432,8 +418,7 @@ public class Repository implements Serializable {
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
                     _removed.remove(filename);
-                    //                if (!_removed.contains(filename)) {
-//                    _staged.put(filename, blob1);
+//if (!_removed.contains(filename)) {_staged.put(filename, blob1);
 //                    _currblobs.put(filename, blob1);
                     _changes.remove(filename);
                 }
@@ -442,12 +427,7 @@ public class Repository implements Serializable {
                 if (!_removed.contains(filename)) {
                     _staged.put(filename, blobadd);
                     String addstring = blobadd.getstringbh();
-                    //                    _staged.put(filename, blob1);
-//                    System.out.println(_staged);
-//                    File newf = new File(".gitlet/stage/"
-//                            + blob1.getblobhash());
-//                    Utils.writeContents(newf, Utils.serialize(blob1));
-//
+//    File newf = new File(".gitlet/stage/" + blob1.getblobhash());staged.put(filename, blob1);
                     File updated = new File(".gitlet/stage/"
                             + addstring);
                     byte[] serialb = Utils.serialize(blobadd);
@@ -456,28 +436,19 @@ public class Repository implements Serializable {
                     File updated = new File(filename);
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
-                    ////        boolean stagefile =
-                    // (!_staged.containsKey(filename));
-////        if (stagefile || stageempty)
+                    ////     ////                _staged.put(filename, blob1);    boolean stagefile =(!_staged.containsKey(filename));
                     _removed.remove(filename);
                 }
                 _currblobs.put(filename, blobadd);
             }
         } else {
             String bhstage = _staged.get(filename).getstringbh();
-            File before = new File(".gitlet/stage/"
-                    + bhstage);
-            ////                _staged.put(filename, blob1);
-//                    File newf = new File(".gitlet/stage/" + blob1.getblobhash());
-//                    Object serialb = Utils.serialize(blob1);
-//                    Utils.writeContents(newf, serialb);
+            File before = new File(".gitlet/stage/" + bhstage);
             before.delete();
             _staged.remove(filename);
         }
     }
-
-
-
+//    Helperserialize
     public static Object serialhelp(Path p) {
         File newf = p.toFile();
         Object result =  null;
@@ -492,7 +463,7 @@ public class Repository implements Serializable {
         return result;
     }
 
-    public void commit(String message) throws IOException, ClassNotFoundException {
+    public void commit(String message) {
         List<String> util = Utils.plainFilenamesIn(System.getProperty("user.dir"));
         for (String file : util) {
             boolean stagekey = _staged.containsKey(file);
@@ -503,14 +474,15 @@ public class Repository implements Serializable {
         if (message.equals("")) {
             helperErrorExit("Please enter a commit message");
         }
-
-        if (_staged.isEmpty() && _xtrack.isEmpty()) {
+        boolean stageempty = _staged.isEmpty();
+        boolean xtractempty = _xtrack.isEmpty();
+        if (stageempty && xtractempty) {
             helperErrorExit("No changes added to the commit.");
         }
 
         Date currenttime = new Date();
-        String datec = new
-                SimpleDateFormat("EEE MMM d HH:mm:ss yyyy").format(currenttime);
+        String datec = new SimpleDateFormat(
+                "EEE MMM d HH:mm:ss yyyy").format(currenttime);
         String current = datec + " -0800";
         Commit committed = new Commit(message, current, _currblobs,
                 _idparent, null, _curbranch);
@@ -519,15 +491,18 @@ public class Repository implements Serializable {
         if (equalhash && parentcheck) {
             helperErrorExit("No changes added to the commit.");
         }
-        _branchhash.put(_curbranch, committed.getstringhash());
-        allcoms.put(committed.getstringhash(), committed);
-        _commits.put(committed.getstringhash(), committed);
-        _idparent = committed.getstringhash();
+        String committedstringhash = committed.getstringhash();
+
+        _branchhash.put(_curbranch, committedstringhash);
+        allcoms.put(committedstringhash, committed);
+        _commits.put(committedstringhash, committed);
+        _idparent = committedstringhash;
         _branchhash.put(_curbranch, _idparent);
         _head = committed;
         String commithashf = ".gitlet/commit/" + committed.getstringhash();
-        File newf = new File(commithashf);
-        Utils.writeContents(newf, Utils.serialize(committed));
+        File newfile = new File(commithashf);
+        byte[] commitserial = Utils.serialize(committed);
+        Utils.writeContents(newfile, commitserial);
         File stage = new File(".gitlet/stage/");
         for (File f : stage.listFiles()) {
             boolean filedirect = f.isDirectory();
@@ -791,7 +766,7 @@ public class Repository implements Serializable {
 
     public void checkoutFile(String file) {
         String idc = _head.getstringbranch();
-        if ( (".gitlet/commit/" + idc) == null) {
+        if ((".gitlet/commit/" + idc) == null) {
             helperErrorExit("File does not exist in that commit.");
         }
         if (_head.getblob().containsKey(file)) {
@@ -932,8 +907,7 @@ public class Repository implements Serializable {
     }
 
 
-    public void reset(String hashcode)
-            throws IOException, ClassNotFoundException {
+    public void reset(String hashcode) {
         String id;
         if (hashcode.charAt(0) != 'c') {
             id = "commit-" + hashcode;

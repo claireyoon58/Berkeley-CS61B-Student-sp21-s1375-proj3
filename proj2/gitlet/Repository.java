@@ -379,7 +379,6 @@ public class Repository implements Serializable {
         Blob blobadd = new Blob(filename);
         Path commit1 = Paths.get(".gitlet/commit/" + _idparent);
         for (String h : _head.getblob().keySet()) {
-            //        Path path1 = Paths.get(".gitlet/commit/"+ _idparent);
 ////        HashMap<String, Blob> headblob = _head.getblob();
 //        for (String hash : _head.getblob().keySet()) {
             if (blobadd.getstringbh().
@@ -396,7 +395,7 @@ public class Repository implements Serializable {
             }
         }
         String blobhasha = blobadd.getstringbh();
-//                    _removed.remove(filename);Utils.readObject(add, Stage.class);
+// currblobs.put(filename, blob1);  _removed.remove(filename);Utils.readObject(add, Stage.class);
         boolean stageempty = _staged.isEmpty();
         boolean stagefile = (!_staged.containsKey(filename));
         if (!(_idparent.equals(blobhasha))) {
@@ -407,8 +406,7 @@ public class Repository implements Serializable {
                 if (!containrm) {
                     _staged.put(filename, blobadd);
                     String addbh = blobadd.getstringbh();
-                    // ".gitlet/stage/" + blob1.getblob();_staged.put(filename, blob1);
-//                    blob1.getblobhash());
+//blob1.getblob();_staged.put(filename, blob1) ob1.getblobhash());
                     _currblobs.put(filename, blobadd);
                     File updated = new File(".gitlet/stage/" + addbh);
                     byte[] serialb = Utils.serialize(blobadd);
@@ -418,8 +416,7 @@ public class Repository implements Serializable {
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
                     _removed.remove(filename);
-//if (!_removed.contains(filename)) {_staged.put(filename, blob1);
-//                    _currblobs.put(filename, blob1);
+//if (!_removed.contains(filename)) {_staged.put(filename, blob1);_
                     _changes.remove(filename);
                 }
                 _currblobs.put(filename, blobadd);
@@ -436,7 +433,7 @@ public class Repository implements Serializable {
                     File updated = new File(filename);
                     byte[] serialb = Utils.serialize(blobadd);
                     Utils.writeContents(updated, serialb);
-                    ////     ////                _staged.put(filename, blob1);    boolean stagefile =(!_staged.containsKey(filename));
+ //  _staged.put(filename, blob1);!_staged.containsKey(filename));
                     _removed.remove(filename);
                 }
                 _currblobs.put(filename, blobadd);

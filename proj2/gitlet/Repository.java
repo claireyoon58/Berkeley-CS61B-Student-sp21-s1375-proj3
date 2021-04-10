@@ -198,18 +198,17 @@ public class Repository implements Serializable {
                 helperErrorExit("Incorrect operands.");
             }
             gitlet.find(_op.get(0));
+        } else if (function.equals("merge")) {
+            if (_op.size() != 1) {
+                helperErrorExit("Incorrect operands.");
+            }
+            gitlet.merge(_op.get(0));
         } else {
             if (!runCommand) {
                 helperErrorExit("No command with that name exists.");
             }
         }
-//        } else if (function.equals("merge")) {
-//            if (_op.size() != 1) {
-//                System.out.println("Incorrect operands.");
-//                System.exit(0);
-//            }
-//            gitlet1.merge(_op.get(0));
-//        }
+//
     }
 
 //use lab 6
@@ -751,7 +750,8 @@ public class Repository implements Serializable {
     public void checkoutBranch(String branch) {
 
         HashMap<String, Blob> curfiles = new HashMap<>();
-        Path bnco = Paths.get(".getlet/commit/" + _branchhash.get(branch));
+        String branchhash = _branchhash.get(branch);
+        Path bnco = Paths.get(".getlet/commit/" + branchhash);
 
         Commit committ = (Commit) serialhelp(bnco);
         boolean tracker = trackerHelper(branch);
@@ -876,7 +876,7 @@ public class Repository implements Serializable {
             String file = operand.get(1);
             boolean operandequal = operand.get(0).equals("--");
             if (!operandequal) {
-                helperErrorExit("Incorrect operands");
+                helperErrorExit("Incorrect operands.");
             }
             checkoutFile(file);
         } else if (operand.size() == 3) {

@@ -4,7 +4,6 @@ import java.io.File;
 //import static gitlet.Utils.*;
 import java.io.*;
 //import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.*;
 import java.nio.charset.StandardCharsets;

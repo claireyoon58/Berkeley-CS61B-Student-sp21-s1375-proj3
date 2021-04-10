@@ -4,8 +4,10 @@ import java.io.File;
 //import static gitlet.Utils.*;
 import java.io.*;
 //import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.io.ObjectInputStream;
@@ -382,7 +384,7 @@ public class Repository implements Serializable {
 //        }
 //        if (_removing.contains(filename)) {
 //            _removing.remove(filename);
-////            if (blob1.getblobhash().equals(_head.getblob().get(hash).getblobhash())) {
+////            if (blob1.getstrinbh().equals(_head.getblob().get(hash).getstrinbh())) {
 //            _xtrack.remove(filename);
 //        }
 //        Blob blobadd = new Blob(filename);
@@ -401,45 +403,7 @@ public class Repository implements Serializable {
 //                    return;
 //                }
 //                return;
-//            }
-//        }
-//        String blobhasha = blobadd.getstringbh();
-////                    _removed.remove(filename);Utils.readObject(add, Stage.class);
-//        boolean stageempty = _staged.isEmpty();
-//        boolean stagefile = (!_staged.containsKey(filename));
-//        if (!_idparent.equals(blobadd.getstringbh())) {
-//            if (!_staged.isEmpty() && _staged.containsKey(filename)) {
-//                File old = new File(".gitlet/stage/"
-//                        + blobadd.getstringbh());
-//                old.delete();
-//                if (!_removed.contains(filename)) {
-//                    _staged.put(filename, blobadd); _currblobs.put(filename, blobadd);
-//                    File newfile = new File(".gitlet/stage/"
-//                            + blobadd.getstringbh());
-//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
-//                } else {
-//                    File newfile = new File(filename);
-//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
-//                    _removed.remove(filename); _changes.remove(filename);
-//                }
-//                _currblobs.put(filename, blobadd);
-//            } else if (_staged.isEmpty() || !_staged.containsKey(filename)) {
-//                if (!_removed.contains(filename)) {
-//                    _staged.put(filename, blobadd);
-//                    File newfile = new File(".gitlet/stage/"
-//                            + blobadd.getstringbh());
-//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
-//                } else {
-//                    File newfile = new File(filename);
-//                    Utils.writeContents(newfile, Utils.serialize(blobadd));
-//                    _removed.remove(filename);
-//                }
-//                _currblobs.put(filename, blobadd);
-//            }
-//        } else {
-//            File old = new File(".gitlet/stage/"
-//                    + _staged.get(filename).getstringbh());
-//            old.delete(); _staged.remove(filename);
+
 //        }
 //    }
 
@@ -447,12 +411,12 @@ public class Repository implements Serializable {
     public void add(String filename) throws IOException {
         File newfilen = new File(filename);
         if (!newfilen.exists()) {
-            helperErrorExit("File does not exist");
+            helperErrorExit("File does not exist.");
             return;
         }
         if (_removing.contains(filename)) {
             _removing.remove(filename);
-//            if (blob1.getblobhash().equals) {if (_staged.containsKey(filename)) {
+//            if (blob1.getstrinbh().equals) {if (_staged.containsKey(filename)) {
             _xtrack.remove(filename);
         }
         Blob blobadd = new Blob(filename);
@@ -485,7 +449,7 @@ public class Repository implements Serializable {
                 if (!containrm) {
                     _staged.put(filename, blobadd);
                     String addbh = blobadd.getstringbh(); //_staged.put(filename, blob1);
-//                    File newf = new File(".gitlet/stage/" +blob1.getblobhash());
+//                    File newf = new File(".gitlet/stage/" +blob1.getstrinbh());
                     _currblobs.put(filename, blobadd);
                     File updated = new File(".gitlet/stage/" + addbh);
                     byte[] serialb = Utils.serialize(blobadd);
@@ -518,7 +482,7 @@ public class Repository implements Serializable {
         } else {
             String bhstage = _staged.get(filename).getstringbh();
             File before = new File(".gitlet/stage/" + bhstage);
-            //_staged.put(filename, b); newf = new File(".gitlet/stage/" + blob1.getblobhash());
+            //_staged.put(filename, b); newf = new File(".gitlet/stage/" + blob1.getstrinbh());
             before.delete();
             _staged.remove(filename);
         }
@@ -806,11 +770,14 @@ public class Repository implements Serializable {
             File updated = new File(filename);
             Blob before = committ.getblob().get(filename);
             String info = before.getcontentstring();
+            //            File newfile = new File(s);
             Utils.writeContents(updated, info);
+//            filename.put(
+            curfiles.put(filename, committ.getblob().get(filename));
         }
 
 //        for (String s : committ.getstringfile()) {
-//            File newfile = new File(s);
+
 //            Blob old = committ.getblob().get(s);
 
         for (String filename : _currblobs.keySet()) {
@@ -868,7 +835,7 @@ public class Repository implements Serializable {
         }
         Commit curr = (Commit) serialhelp(commitfile);
         if (!curr.getblob().keySet().contains(file)) {
-            helperErrorExit("File does not exist in that commit");
+            helperErrorExit("File does not exist in that commit.");
         }
 //        File fileutd = new File(file);
 //        Blob old = _head.getblob().get(file);
@@ -954,13 +921,6 @@ public class Repository implements Serializable {
 
 
 
-
-
-
-
-
-
-
     public void branch(String name) {
         if (_branchhash.containsKey(name)) {
             helperErrorExit("A branch with that name already exists");
@@ -981,42 +941,102 @@ public class Repository implements Serializable {
         }
     }
 
+//currently: making commit and making a list for allcoms
+//Need todo: need to presist allcoms and read in allcoms and contain all the ids
+//not saving allcoms afteradding it to the list, we cna't make it disspear
+// need persistence with the allcoms variable,
+//Look back at the code 952-954
 
+//
+//    if (!allcoms.containsKey(id)) {
+//        helperErrorExit("No commit with that id exists.");
+//    }
+//    File commitid = new File(".gitlet/commit" + hashcode);
+//
+//        if (!commitid.exists()) {
+//        helperErrorExit("No commit with that id exists.");
+//    }
+//
+//
+//    File d = new File("");
+//    File[] fi = d.listFiles();
+//
+//        if (fi != null) {
+//        for (File f : fi) {
+//            boolean stageK = (!_staged.containsKey(f));
+//            boolean containT = _xtrack.contains(f);
+//            boolean containK = (!_currblobs.containsKey(f));
+//            boolean currblob = trackerHelper(_curbranch);
+//            boolean stageck = (stageK && containK);
+//            if (stageck || containT || currblob) {
+//                helperErrorExit("There is an untracked file in the way; "
+//                        + "delete it or add it first");
+//            }
+//        }
+//    }
     public void reset(String hashcode) {
-        String id;
-        if (hashcode.charAt(0) != 'c') {
-            id = "commit-" + hashcode;
-        } else {
-            id = hashcode;
-        }
-        if (!allcoms.containsKey(id)) {
+        String id = hashcode;
+
+        File commitsf = new File(".gitlet/commits/" + hashcode);
+
+        if (!commitsf.exists()) {
             helperErrorExit("No commit with that id exists.");
         }
-        Commit comitted = allcoms.get(id);
-        File d = new File("");
-        File[] fi = d.listFiles();
-        if (fi != null) {
-            for (File f : fi) {
-                boolean stageK = (!_staged.containsKey(f));
-                boolean containT = _xtrack.contains(f);
-                boolean containK = (!_currblobs.containsKey(f));
-                boolean currblob = trackerHelper(_curbranch);
-                boolean stageck = (stageK && containK);
-                if (stageck || containT || currblob) {
-                    helperErrorExit("There is an untracked file in the way; "
-                            + "delete it or add it first");
-                }
+
+        boolean xtrack = _xtrack.isEmpty();
+
+        Commit comitted = (Commit) serialhelp(Paths.get(
+                ".gitlet/commits/" + hashcode));
+
+        List<String> f = Utils.plainFilenamesIn
+                (System.getProperty("user.dir"));
+
+
+        if (!xtrack) {
+            helperErrorExit("There is an untracked file in the way; "
+                        + "delete it or add it first");
+
+        }
+
+        for (String s: f) {
+            boolean stagekey = _staged.containsKey(f);
+            boolean blobkey = _currblobs.containsKey((f));
+            if (!stagekey && !blobkey) {
+                helperErrorExit("There is an untracked file in the way; "
+                        + "delete it or add it first");
             }
         }
-        if (comitted != null) {
-            for (String name : comitted.getblob().keySet()) {
-                boolean stageK = _staged.containsKey(name);
-                boolean currK = _currblobs.containsKey(name);
-                if (stageK || currK) {
-                    checkoutCommitted(id, name);
-                }
+//
+//        for (String s: f) {
+//            File commitsf = new File(".gitlet/commits/" + hashcode);
+//            commitsf.delete();
+//        }
+
+
+
+        for (String s : comitted.getblob().keySet()) {
+            if (commitsf.equals(s)) {
+                commitsf.delete();
+            }
+            if (_currblobs.containsKey(s)
+                    || _staged.containsKey(s)) {
+                ArrayList<String> op = new ArrayList<>();
+                op.add(hashcode);
+                op.add("--");
+                op.add(s);
+                checkout(op);
             }
         }
+//            for (String name : comitted.getblob().keySet()) {
+//                Commit old =;
+//
+//                boolean stageK = _staged.containsKey(name);
+//                boolean currK = _currblobs.containsKey(name);
+////                comitted = comitted.delete();
+//                if (stageK || currK) {
+//                    checkoutCommitted(id, name);
+//                }
+//            }
         _staged.clear();
         _curbranch = comitted.getstringbranch();
         _branchhash.put(_curbranch, hashcode);
@@ -1028,82 +1048,243 @@ public class Repository implements Serializable {
 //    in the file is different(deleting the file counts),
 //    merge conflict appears
 
-//    private void mergeCurrandmerge1(
-//    )
+    private void mergecase3(Commit curr, Commit chosen) {
+        List<String> split =  _split.getstringfile();
+        for (String s : split) {
+            Boolean chosencontains = chosen.getstringfile().contains(s);
+            Boolean currcontains = curr.getstringfile().contains(s);
+            if (currcontains && chosencontains) {
+                String mergehash = chosen.getblob().get(s).getstringbh();
+                boolean merge = mergehash.equals(_split.getblob().get(s).getstringbh());
+                String currhash = curr.getblob().get(s).getstringbh();
+                boolean currhasheq = currhash.equals(_split.getblob().get(s).getstringbh());
+                if (currhasheq && !merge) {
+                    File file = new File(s);
+                    Utils.writeContents(file, chosen.getblob().get(s).getcontentstring());
+                    _staged.put(s, chosen.getblob().get(s));
+                    _currblobs.put(s, chosen.getblob().get(s));
+                    checkoutCommitted(chosen.getblob().get(s).getstringhash(), s);
+                }
+//                boolean mergehashequalupdate = mergehash.equals(_split.getblob().get(s).getstringbh());
+                String userdir = System.getProperty("user.dir");
+                if (!currhasheq && !merge) {
+                    File path = new
+                            File(userdir + File.separator + s);
+                    String line = System.getProperty("line.separator");
+                    String chosencontent = chosen.getblob().get(s).getcontentstring();
+                    String currcontent = curr.getblob().get(s).getcontentstring();
+                    String result = "<<<<<<< HEAD" + line + currcontent
+                            + "=======" + line + chosencontent
+                            + ">>>>>>>" + line;
+                    Utils.writeContents(path,
+                            result.getBytes(StandardCharsets.UTF_8));
+                    Blob bl = new Blob(s);
+                    _staged.put(s, bl);
+                    _currblobs.put(s, bl);
+                    System.out.println("Encountered a merge conflict.");
+                }
+            }
+            boolean chosenblob = chosen.getblob().keySet().contains(s);
+            boolean file = curr.getstringfile().contains(s);
+            boolean currblob = _currblobs.containsKey(s);
+            if (!file && chosenblob && !currblob) {
+                String spl = _split.getblob().get(s).getstringbh();
+                if (!chosen.getblob().get(s).getstringbh().equals(spl)) {
+                    String user = System.getProperty("user.dir");
+                    File folder = new File(user + File.separator + s);
+                    String chosencontent = chosen.getblob().get(s).getcontentstring();
+                    String result =  "<<<<<<< HEAD" + System.lineSeparator()
+                            + chosencontent + "======="
+                            + System.lineSeparator()
+                            + ">>>>>>>" + System.lineSeparator();
+                    Utils.writeContents(folder, result);
+                    Blob b = new Blob(s);
+                    _staged.put(s, b);
+                    _currblobs.put(s, b);
+                    System.out.println("Encountered a merge conflict.");
+                }
+            }
+        }
+    }
+
 ////    3. Modified in one commmit but not the other,
+
+    private void mergecase1(Commit curr, Commit chosen) {
+
+        List<String> chosenstring = chosen.getstringfile();
+        for (String s : chosenstring) {
+            boolean splitstring = _split.getstringfile().contains(s);
+            boolean currstring = curr.getstringfile().contains(s);
+            if (!currstring && !splitstring) {
+                String chosensh = chosen.getstringhash();
+                checkoutCommitted(chosensh, s);
+                _currblobs.put(s, chosen.getblob().get(s));
+                _staged.put(s, chosen.getblob().get(s));
+            }
+
+            if (currstring && !splitstring) {
+                boolean merge = chosen.getblob().get(s).getstringbh().
+                        equals(curr.getblob().get(s).getstringbh());
+//                for (Map.Entry<String, String> set : givenCommit.contents.entrySet())
+//                    if (data.contains(set.getKey()) && !head.contents.containsKey(set.getKey()))
+                if (!merge) {
+                    File path = new File(System.getProperty("user.dir")
+                            + File.separator + s);
+                    String line = System.getProperty("line.separator");
+                    String chosencontent = chosen.getblob().get(s).getcontentstring();
+                    String currcontent = curr.getblob().get(s).getcontentstring();
+                    String result = "<<<<<<< HEAD" + line + currcontent
+                            + "=======" + line + chosencontent
+                            + ">>>>>>>" + line;
+                    Utils.writeContents(path, result);
+                    Blob b = new Blob(s);
+                    _staged.put(s, b);
+                    _currblobs.put(s, b);
+                    System.out.println("Encountered a merge conflict.");
+                }
+            }
+        }
+    }
 ////    this file is modified in EITHER given or current
 ////    ex) present in the commit and not changed within
 ////    the split point, given branch is changed--> keep the changed one
 ////    to-do: are these two files exist in given or current helper
 ////    function that checks whether the files are in the given and current
 //
+    private void mergecase2(Commit curr, Commit chosen) {
+        for (String c : curr.getstringfile()) {
+            if (_split.getstringfile().contains(c)
+                    && !chosen.getstringfile().contains(c)) {
+                if (curr.getblob().get(c).getstringbh().
+                        equals(_split.getblob().get(c).getstringbh())) {
+                    rm(c);
+                } else {
+                    File path = new
+                            File(System.getProperty("user.dir")
+                            + File.separator + c);
+
+                    String line = System.getProperty("line.separator");
+                    String chosencontent = chosen.getblob().get(c).getcontentstring();
+                    String result =  "<<<<<<< HEAD" + line
+                        + chosencontent + "=======" + line
+                        + ">>>>>>>" + line;
+
+                    Utils.writeContents(path, result);
+                    Blob blob = new Blob(c);
+                    _staged.put(c, blob);
+                    _currblobs.put(c, blob);
+                    System.out.println("Encountered a merge conflict.");
+                }
+                if (!_split.getstringfile().contains(c)
+                        && !chosen.getstringfile().contains(c)) {
+                    checkoutCommitted(curr.getstringhash(), c);
+                    _currblobs.put(c, curr.getblob().get(c));
+                    _staged.put(c, curr.getblob().get(c));
+                }
+            }
+            if (!_split.getstringfile().contains(c)
+                    && chosen.getstringfile().contains(c)) {
+                if (!chosen.getblob().get(c).getstringbh().
+                        equals(curr.getblob().get(c).getstringbh())) {
+                    File path = new File(System.getProperty("user.dir")
+                            + File.separator + c);
+                    String line = System.getProperty("line.separator");
+                    String chosencontent = chosen.getblob().get(c).getcontentstring();
+                    String currcontent = curr.getblob().get(c).getcontentstring();
+                    String result = "<<<<<<< HEAD" + line + currcontent
+                            + "=======" + line + chosencontent
+                            + ">>>>>>>" + line;
+                    Utils.writeContents(path, result);
+                    Blob bl = new Blob(c);
+                    _currblobs.put(c, bl);
+                    _staged.put(c, bl);
+                    System.out.println("Encountered a merge conflict.");
+                }
+            }
+        }
+    }
 //
 //
-//
-//    private void merge(String branch) throws IOException, ClassNotFoundException {
-//        Commit currentbranch = allcoms.get(_branchhash.get(_curbranch));
-//        Commit merged = allcoms.get(_branchhash.get(branch));
-//        String user = System.getProperty("user.dir");
-//        List<String> file = Utils.plainFilenamesIn(user);
-//        boolean fastforward = _split.getstringhash().equals(currentbranch.getstringhash());
-//        boolean ancestor = _split.getstringhash().equals(merged.getstringhash());
-//        if (fastforward) {
-//            helperErrorExit("Current branch fast-forwarded.");
-//        }
-//        if (ancestor) {
-//            helperErrorExit("Given branch is an ancestor"
-//                    + " of the current branch.");
-//        }
-//        boolean blobkey = _currblobs.containsKey(file);
-//        boolean stagekey = _staged.containsKey(file);
-//        boolean mergekey = merged.getblob().containsKey(file);
-//
-//        for (String s : file) {
-//            if (!blobkey && !stagekey && mergekey) {
-//                helperErrorExit("There is an untracked file in the way; "
-//                        + "delete it or add it first.");
-//            }
-//        }
+    private void merge(String branch) {
+//        Failurecases
+        if (!_staged.isEmpty()) {
+            helperErrorExit("You have uncommitted changes.");
+        }
+        if (!_branchhash.containsKey(branch)) {
+            helperErrorExit("A branch with that name does not exist.");
+        }
+        if (branch.equals(_curbranch)) {
+            helperErrorExit("Cannot merge a branch with itself.");
+        }
+
+        if (branch.equals("master")) {
+            _split = (Commit) serialhelp(Paths.get(".gitlet/commit/"
+                            + _splits.get(_curbranch)));
+        } else {
+            _split = (Commit) serialhelp(Paths.get(".gitlet/commit/"
+                            + _splits.get(branch)));
+        }
+        Commit currbranch = allcoms.get(_branchhash.get(_curbranch));
+        Commit chosen = (Commit) serialhelp(Paths.get(".gitlet/commits/"
+                + _branchhash.get(branch)));
+        String user = System.getProperty("user.dir");
+        List<String> userfile = Utils.plainFilenamesIn(user);
+        boolean fastforward = _split.getstringhash().equals(currbranch.getstringhash());
+        boolean ancestor = _split.getstringhash().equals(chosen.getstringhash());
+        if (fastforward) {
+            helperErrorExit("Current branch fast-forwarded.");
+        }
+        if (ancestor) {
+            helperErrorExit("Given branch is an ancestor"
+                    + " of the current branch.");
+        }
+        boolean blobkey = _currblobs.containsKey(userfile);
+        boolean stagekey = _staged.containsKey(userfile);
+        boolean mergekey = chosen.getblob().containsKey(userfile);
+        for (String s : userfile) {
+            if (!blobkey && !stagekey && mergekey) {
+                helperErrorExit("There is an untracked file in the way; "
+                        + "delete it or add it first.");
+            }
+        }
 ////1.find the split point
 ////    -track back ancestors within the tree
 ////    split pint, current brand(head), given branch
-////    three scenarios: base) a file in the split point, in the
+////    three    scenarios: base) a file in the split point, in the
 ////    current and given, same content--> don't do anything because we want to combine
-//        mergeCurrandmerge1(merged, currentbranch);
-//        mergeCurrandmerge2(merged, currentbranch);
-//        mergeCurrandmerge3(merged, currentbranch);
-//        Date newdate = new Date();
-//        String date = new
-//                SimpleDateFormat("EEE MMM d HH:mm:ss yyyy").format(newdate);
-//        String time = date + " -0800";
-//        String message =  "merged " + branch + " into " + _curbranch + ".";
-//
-//
-//        Commit commit = new Commit(message, time, _currblobs, _idparent,
-//                _branchhash.get(branch), _curbranch);
-//        String commithash = commit.getstringhash();
-//        _idparent = commit.getstringhash();
-//        allcoms.put(commithash, commit);
-//
-//        File newf= new File(".gitlet/commit/"
-//                + commit.getstringhash());
-//        Utils.writeContents(newf, Utils.serialize(commit));
-//        File dir = new File(".gitlet/stage/");
-//        for (File ff : dir.listFiles()) {
-//            boolean ffdirect = ff.isDirectory();
-//            if (!ffdirect) {
-//                ff.delete();
-//            }
-//        }
-//        _branchhash.put(_curbranch, commit.getstringhash());
-//        if (!_staged.isEmpty()) {
-//            _staged.clear();
-//        }
-//        _removing.clear();
-//
-//    }
-//
-//
+        mergecase1(currbranch, chosen);
+        mergecase2(currbranch, chosen);
+        mergecase3(currbranch, chosen);
+        String d = new
+                SimpleDateFormat("EEE MMM d HH:mm:ss yyyy").format(new Date());
+        String merge = "Merged " + branch
+                + " into " + _curbranch + ".";
+        Commit commit =
+                new Commit(merge, d + " -0800", _currblobs, _idparent,
+                        _branchhash.get(branch), _curbranch);
+        String commithash = commit.getstringhash();
+        _idparent = commit.getstringhash();
+        allcoms.put(commithash, commit);
+        String csh = commit.getstringhash();
+        Object serialcommit = Utils.serialize(commit);
+        File newf = new File(".gitlet/commit/" + csh);
+        Utils.writeContents(newf, serialcommit);
+        File dir = new File(".gitlet/stage/");
+        for (File ff : dir.listFiles()) {
+            boolean ffdirect = ff.isDirectory();
+            if (!ffdirect) {
+                ff.delete();
+            }
+        }
+        _branchhash.put(_curbranch, commit.getstringhash());
+        boolean stage = _staged.isEmpty();
+        if (!stage) {
+            _staged.clear();
+        }
+        _removing.clear();
+    }
+
+
 
 
 

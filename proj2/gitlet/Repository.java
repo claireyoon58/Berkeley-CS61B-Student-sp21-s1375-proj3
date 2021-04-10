@@ -1116,12 +1116,14 @@ public class Repository implements Serializable {
             boolean splitstring = _split.getstringfile().contains(s);
             boolean currstring = curr.getstringfile().contains(s);
             if (!currstring && !splitstring) {
+//                if (splitCommit.contents.containsKey(file))
+//                    splitID = splitCommit.contents.get(file)
                 String chosensh = chosen.getstringhash();
                 checkoutCommitted(chosensh, s);
                 _currblobs.put(s, chosen.getblob().get(s));
                 _staged.put(s, chosen.getblob().get(s));
             }
-
+            //the file was absent at split point and has different contents in the given and current
             if (currstring && !splitstring) {
                 boolean merge = chosen.getblob().get(s).getstringbh().
                         equals(curr.getblob().get(s).getstringbh());
@@ -1152,6 +1154,7 @@ public class Repository implements Serializable {
 ////    function that checks whether the files are in the given and current
 //
     private void mergecase2(Commit curr, Commit chosen) {
+        //Any files present at the split point, unmodified in the current branch, and absent in the given branch should be removed (and untracked).
         for (String c : curr.getstringfile()) {
             if (_split.getstringfile().contains(c)
                     && !chosen.getstringfile().contains(c)) {

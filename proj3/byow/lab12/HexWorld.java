@@ -75,8 +75,8 @@ public class HexWorld {
             Position next = p.shift(0, -1);
             addHexhelper(tiles, next, tile, n, b - 1, t + 2);
 
-        Position startofreflection = startr, shift(0, -(2 * b - 1);
-        drawRow(tiles, startofreflection, tile, t);
+//        Position startofreflection = startr,  shift(0, -(2 * b - 1));
+//        drawRow(tiles, startofreflection, tile, t);
     }
     }
 

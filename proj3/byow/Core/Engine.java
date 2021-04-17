@@ -4,11 +4,9 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import byow.lab12.HexWorld;
-//import edu.princeton.cs.introcs.StdDraw;
 
 import java.util.*;
-import java.awt.Color;
-import java.awt.Font;
+
 
 public class Engine {
     TERenderer ter = new TERenderer();
@@ -365,7 +363,7 @@ public class Engine {
 
         byow.Core.Engine.interactWithInputString(userinput);
 
-        t.renderFrame(world);
+//        t.renderFrame(world);
     }
 }
 

@@ -5,16 +5,19 @@ import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import byow.lab12.HexWorld;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
 
 public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 100;
-    public static final int HEIGHT = 100;
+    public static final int WIDTH = 70;
+    public static final int HEIGHT = 50;
     private static final long SEED = 123;
     private static final Random RANDOM = new Random(SEED);
+    private static HashMap roomList;
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -41,7 +44,7 @@ public class Engine {
      * should yield the exact same world state as:
      *   - interactWithInputString("n123sssww")
      *
-//     * @param ithe input string to feed to your program
+     //     * @param ithe input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
 
@@ -89,14 +92,9 @@ public class Engine {
 
 
     // Create a random room: vertical hallway, horizontal hallway, or a standard square room
-    private static TETile randomRoom(TETile[][] world, Position p) {
+    private static void randomRoom(TETile[][] world, Position p) {
         int roomType = RANDOM.nextInt(3);
-        switch (roomType) {
-            case 0: horizontalHallway(world, p);
-            case 1: verticalHallway(world, p);
-            case 2: room(world, p);
-            default: return Tileset.NOTHING;
-        }
+        room(world, p);
     }
 
     // Create a standard square room with randomly generated length and width
@@ -105,9 +103,8 @@ public class Engine {
         int currentRoom = 0;
         int roomWidth;
         int roomHeight;
-
-
-
+        // Could use Room instead once implemented
+        roomList = new HashMap();
         Room r;
         ArrayList<Position> oldpositions = new ArrayList<Position>(); //bottomleft
 
@@ -121,13 +118,16 @@ public class Engine {
             int placementy = RANDOM.nextInt(HEIGHT);
             Position p =  new Position(placementx, placementy); //BottomLeft
 
+
+
 //            Checking room validity if case if room overlaps with new room made
 
 
             if (!oldpositions.contains(p) &&
-                    ((placementx + roomWidth) < WIDTH)
-                    && ((placementy + roomHeight) < HEIGHT) ) {
-
+                    ((placementx + roomWidth) < WIDTH-1)
+                    && ((placementy + roomHeight) < HEIGHT-1)
+                    && ((placementy) > 1)
+                    && ((placementx) > 1)){
 
 //updates rooms on board
                 currentRoom += 1;
@@ -136,6 +136,10 @@ public class Engine {
                     for (int j = 0; j < roomHeight; j++) {
                         Position newPos = new Position(i + p.x, j + p.y);
                         oldpositions.add(newPos);
+                        if (i == roomWidth-1 && j == roomHeight-1) {
+                            roomList.put(p, newPos);
+                            // Add top right of room
+                        }
                     }
                 }
 //placing the room on board
@@ -147,6 +151,50 @@ public class Engine {
             }
             System.out.println(currentRoom);
             System.out.println(numRoom);
+        }
+
+        // Go through all room postions
+        for (Object key : roomList.keySet()) {
+
+            Position botLeft = (Position) key;
+            System.out.println(botLeft.x);
+            Position topRight = (Position) roomList.get(key);
+
+            //Vertically Connect UPWARDS
+            outer: for (int x = botLeft.x; x < topRight.x + 1; x++) {
+                for (int y = topRight.y+1; y < HEIGHT; y++) {
+                    if (board[x][y] == Tileset.FLOOR) {
+                        // Fill in gap between current object and next object (vertical)
+                        System.out.println("Distance" + (y - topRight.y));
+                        System.out.println("topRight.y " + (topRight.y));
+                        System.out.println("y " + (y));
+
+                        for (int yFill = 0; yFill < (y - topRight.y); yFill++) {
+                            board[x][topRight.y + yFill] = Tileset.FLOOR;
+                        }
+                        System.out.println("FOUND");
+                        break outer;
+                    }
+                }
+            }
+
+            //Horizontally Connect RIGHT
+            yeet: for (int y = botLeft.y; y < topRight.y + 1; y++) {
+                for (int x = topRight.x+1; x < WIDTH; x++) {
+                    if (board[x][y] == Tileset.FLOOR) {
+                        for (int xFill = 0; xFill < (x - topRight.x); xFill++) {
+                            board[topRight.x + xFill][y] = Tileset.FLOOR;
+                        }
+                        System.out.println("FOUND");
+                        break yeet;
+                    }
+                }
+            }
+
+
+
+
+
         }
     }
 
@@ -197,6 +245,8 @@ public class Engine {
 //    }
 
     // Fill in the world with shapes
+
+
     public static void drawWorld(TETile[][] tiles, Position p) {
         /**
          *  TODO: Find position to add randomized shape
@@ -206,10 +256,7 @@ public class Engine {
          *  TODO: Update position correctly
          */
 
-        for (int x = 0; x < 5; x+=2) {
-            randomRoom(tiles, p);
-            p.y = x + p.y;
-        }
+        randomRoom(tiles, p);
     }
 
     // Scan through the world and fill in walls

@@ -64,6 +64,7 @@ public class Engine {
         HEIGHT = h;
         SEED = s;
         RANDOM = new Random(SEED);
+        roomList = new HashMap();
     }
     public void interactWithKeyboard() {
 //        String start = startscreen();

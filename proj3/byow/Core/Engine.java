@@ -4,10 +4,12 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import byow.lab12.HexWorld;
-
+import edu.princeton.cs.introcs.StdDraw;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 public class Engine {
@@ -19,11 +21,53 @@ public class Engine {
     private static final Random RANDOM = new Random(SEED);
     private static HashMap roomList;
 
+
+    public String startscreen() {
+
+
+        StdDraw.setXscale(0, WIDTH);
+        StdDraw.setYscale(0, HEIGHT);
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
+        Font f = new Font("Monotype", Font.BOLD, 30);
+        StdDraw.setFont(f);
+        StdDraw.clear(Color.BLACK); //clear frame
+        StdDraw.setPenColor(Color.WHITE); //set font color
+
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "CS61B: The Game");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit Game (Q)");
+
+        StdDraw.show();
+
+        System.out.println("Waiting for user game choice");
+        while (true) {
+            if (StdDraw.hasNextKeyTyped()) {
+                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+                System.out.println("User pressed: " + curr);
+                if (curr == 'n') {
+                    return "new game";
+                } else if (curr == 'l') {
+                    return "load game";
+                } else if (curr == 'q') {
+                    return "quit game";
+                }
+            }
+        }
+    }
+
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
+//        String start = startscreen();
+//        if (start.equals("quit game")) {
+//            System.exit(0);
+//        } else if (start.equals("load game")) {
+//            randomRoom();
+//        }
     }
 
     /**

@@ -122,7 +122,7 @@ public class Engine {
         HEIGHT = RANDOM.nextInt(80) + 20;
 
         init_(WIDTH, HEIGHT, user);
-        t.initialize(WIDTH, HEIGHT);
+
         world = new TETile[WIDTH][HEIGHT];
         fillBoardWithNothing(world);
         Position anchor = new Position(10, 15);
@@ -183,7 +183,7 @@ public class Engine {
 
 
             if (!oldpositions.contains(p) &&
-                    ((placementx + roomWidth) < WIDTH-1)
+                    ((placementx + roomWidth) < WIDTH - 1)
                     && ((placementy + roomHeight) < HEIGHT-1)
                     && ((placementy) > 1)
                     && ((placementx) > 1)){
@@ -362,8 +362,8 @@ public class Engine {
         String userinput = i.nextLine();
 
         byow.Core.Engine.interactWithInputString(userinput);
-
-//        t.renderFrame(world);
+        t.initialize(WIDTH, HEIGHT);
+        t.renderFrame(world);
     }
 }
 

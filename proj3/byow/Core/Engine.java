@@ -13,11 +13,11 @@ public class Engine {
     /* Feel free to change the width and height. */
     public static int WIDTH;
     public static int HEIGHT;
-    private static long SEED;
-    private static Random RANDOM = new Random(SEED);
-    private static HashMap roomList;
+    private long SEED;
+    private Random RANDOM = new Random(SEED);
+    private HashMap roomList;
     public static TETile[][] world;
-    public static TERenderer t = new TERenderer();
+    TERenderer t = new TERenderer();
 
 
 //    public String startscreen() {
@@ -59,7 +59,7 @@ public class Engine {
      * including inputs from the main menu.
      */
 
-    public static void init_(int w, int h, long s) {
+    public void init_(int w, int h, long s) {
         WIDTH = w;
         HEIGHT = h;
         SEED = s;
@@ -97,7 +97,7 @@ public class Engine {
      * @return the 2D TETile[][] representing the state of the world
      */
 
-    public static class Position {
+    public class Position {
         int x;
         int y;
 
@@ -110,7 +110,7 @@ public class Engine {
         }
     }
 
-    public static TETile[][] interactWithInputString(String input) {
+    public TETile[][] interactWithInputString(String input) {
         // TODO: Fill out this method so that it run the engine using the input
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
@@ -135,7 +135,7 @@ public class Engine {
     }
 
     // Fill in the board with nothing tiles
-    public static void fillBoardWithNothing(TETile[][] tiles) {
+    public void fillBoardWithNothing(TETile[][] tiles) {
         int height = tiles[0].length;
         int width = tiles.length;
         for (int x = 0; x < width; x+= 1) {
@@ -152,20 +152,20 @@ public class Engine {
 
 
     // Create a random room: vertical hallway, horizontal hallway, or a standard square room
-    private static void randomRoom(TETile[][] world, Position p) {
+    private void randomRoom(TETile[][] world, Position p) {
         int roomType = RANDOM.nextInt(3);
         room(world, p);
     }
 
     // Create a standard square room with randomly generated length and width
-    private static void room(TETile[][] board, Position position) {
+    private void room(TETile[][] board, Position position) {
         int numRoom = 10;
         int currentRoom = 0;
         int roomWidth;
         int roomHeight;
         // Could use Room instead once implemented
         roomList = new HashMap();
-        Room r;
+//        Room r;
         ArrayList<Position> oldpositions = new ArrayList<Position>(); //bottomleft
 
 
@@ -259,7 +259,7 @@ public class Engine {
     }
 
     // Create a horizontal hallway with randomly generated length and width
-    private static void horizontalHallway(TETile[][] board, Position position) {
+    private void horizontalHallway(TETile[][] board, Position position) {
         int roomWidth = RANDOM.nextInt(20) + 2;
         int roomHeight = RANDOM.nextInt(2) + 1;
         for (int x = 0; x < roomWidth; x++) {
@@ -270,7 +270,7 @@ public class Engine {
     }
 
     // Create a vertical hallway with randomly generated length and width
-    private static void verticalHallway(TETile[][] board, Position position) {
+    private void verticalHallway(TETile[][] board, Position position) {
         int roomWidth = RANDOM.nextInt(2) + 1;
         int roomHeight = RANDOM.nextInt(20) + 2;
         for (int x = 0; x < roomWidth; x++) {
@@ -307,7 +307,7 @@ public class Engine {
     // Fill in the world with shapes
 
 
-    public static void drawWorld(TETile[][] tiles, Position p) {
+    public void drawWorld(TETile[][] tiles, Position p) {
         /**
          *  TODO: Find position to add randomized shape
          *      Maybe we can choose a side of the shape and choose random position
@@ -320,7 +320,7 @@ public class Engine {
     }
 
     // Scan through the world and fill in walls
-    public static void fillWalls(TETile[][] tiles) {
+    public void fillWalls(TETile[][] tiles) {
         int height = tiles[0].length;
         int width = tiles.length;
         for (int x = 1; x < width; x+= 1) {
@@ -361,10 +361,10 @@ public class Engine {
     public static void main(String[] args) {
         Scanner i = new Scanner(System.in);
         String userinput = i.nextLine();
-
-        byow.Core.Engine.interactWithInputString(userinput);
-        t.initialize(WIDTH, HEIGHT);
-        t.renderFrame(world);
+        Engine engine = new Engine();
+        engine.interactWithInputString(userinput);
+        engine.t.initialize(WIDTH, HEIGHT);
+        engine.t.renderFrame(world);
     }
 }
 

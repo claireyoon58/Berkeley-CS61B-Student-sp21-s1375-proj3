@@ -13,12 +13,13 @@ import java.awt.Font;
 public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static int WIDTH = 70;
-    public static int HEIGHT = 50;
-    private static long SEED = 123;
+    public static int WIDTH;
+    public static int HEIGHT;
+    private static long SEED;
     private static Random RANDOM = new Random(SEED);
     private static HashMap roomList;
     public static TETile[][] world;
+    public static TERenderer t = new TERenderer();
 
 
 //    public String startscreen() {
@@ -123,9 +124,15 @@ public class Engine {
         HEIGHT = RANDOM.nextInt(80) + 20;
 
         init_(WIDTH, HEIGHT, user);
+        t.initialize(WIDTH, HEIGHT);
+        world = new TETile[WIDTH][HEIGHT];
+        fillBoardWithNothing(world);
+        Position anchor = new Position(10, 15);
+        drawWorld(world, anchor);
+        fillWalls(world);
 
-        TETile[][] finalWorldFrame = world;
-        return finalWorldFrame;
+//        TETile[][] finalWorldFrame = world;
+        return world;
     }
 
     // Fill in the board with nothing tiles
@@ -355,15 +362,10 @@ public class Engine {
     public static void main(String[] args) {
         Scanner i = new Scanner(System.in);
         String userinput = i.nextLine();
+
         byow.Core.Engine.interactWithInputString(userinput);
-        TERenderer ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
-        world = new TETile[WIDTH][HEIGHT];
-        fillBoardWithNothing(world);
-        Position anchor = new Position(10, 15);
-        drawWorld(world, anchor);
-        fillWalls(world);
-        ter.renderFrame(world);
+
+        t.renderFrame(world);
     }
 }
 

@@ -14,7 +14,7 @@ public class Engine {
     public static int WIDTH;
     public static int HEIGHT;
     private static long SEED;
-    private static Random RANDOM;
+    private static Random RANDOM = new Random(SEED);
     private static HashMap roomList;
     public static TETile[][] world;
     public static TERenderer t = new TERenderer();

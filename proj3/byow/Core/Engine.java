@@ -13,8 +13,8 @@ public class Engine {
     /* Feel free to change the width and height. */
     public static int WIDTH;
     public static int HEIGHT;
-    private long SEED;
-    private Random RANDOM;
+    private long s;
+    private Random SEED = new Random(s);
     private HashMap roomList;
     public static TETile[][] world;
     TERenderer t = new TERenderer();
@@ -59,11 +59,10 @@ public class Engine {
      * including inputs from the main menu.
      */
 
-    public void init_(int w, int h, long s) {
+    public void Engine(int w, int h, long s) {
         WIDTH = w;
         HEIGHT = h;
-        SEED = s;
-        RANDOM = new Random(SEED);
+        SEED = new Random(s);
         roomList = new HashMap();
     }
     public void interactWithKeyboard() {
@@ -119,10 +118,10 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
         long user = Long.parseLong((input.substring(1, input.length() - 1)));
-        WIDTH = RANDOM.nextInt(60) + 20;
-        HEIGHT = RANDOM.nextInt(80) + 20;
+        WIDTH = SEED.nextInt(60) + 20;
+        HEIGHT = SEED.nextInt(80) + 20;
 
-        init_(WIDTH, HEIGHT, user);
+        Engine(WIDTH, HEIGHT, user);
 
         world = new TETile[WIDTH][HEIGHT];
         fillBoardWithNothing(world);
@@ -153,7 +152,7 @@ public class Engine {
 
     // Create a random room: vertical hallway, horizontal hallway, or a standard square room
     private void randomRoom(TETile[][] world, Position p) {
-        int roomType = RANDOM.nextInt(3);
+        int roomType = SEED.nextInt(3);
         room(world, p);
     }
 
@@ -171,11 +170,11 @@ public class Engine {
 
         while (currentRoom < numRoom) {
 //            Decide width and height
-            roomWidth = RandomUtils.uniform(RANDOM,3, 8);
-            roomHeight = RandomUtils.uniform(RANDOM, 3, 8);
+            roomWidth = RandomUtils.uniform(SEED,3, 8);
+            roomHeight = RandomUtils.uniform(SEED, 3, 8);
 //            decide where to place it
-            int placementx = RANDOM.nextInt(WIDTH);
-            int placementy = RANDOM.nextInt(HEIGHT);
+            int placementx = SEED.nextInt(WIDTH);
+            int placementy = SEED.nextInt(HEIGHT);
             Position p =  new Position(placementx, placementy); //BottomLeft
 
 
@@ -260,8 +259,8 @@ public class Engine {
 
     // Create a horizontal hallway with randomly generated length and width
     private void horizontalHallway(TETile[][] board, Position position) {
-        int roomWidth = RANDOM.nextInt(20) + 2;
-        int roomHeight = RANDOM.nextInt(2) + 1;
+        int roomWidth = SEED.nextInt(20) + 2;
+        int roomHeight = SEED.nextInt(2) + 1;
         for (int x = 0; x < roomWidth; x++) {
             for (int y = 0; y < roomHeight; y++) {
                 board[x + position.x][y + position.y] = Tileset.FLOOR;
@@ -271,8 +270,8 @@ public class Engine {
 
     // Create a vertical hallway with randomly generated length and width
     private void verticalHallway(TETile[][] board, Position position) {
-        int roomWidth = RANDOM.nextInt(2) + 1;
-        int roomHeight = RANDOM.nextInt(20) + 2;
+        int roomWidth = SEED.nextInt(2) + 1;
+        int roomHeight = SEED.nextInt(20) + 2;
         for (int x = 0; x < roomWidth; x++) {
             for (int y = 0; y < roomHeight; y++) {
                 board[x + position.x][y + position.y] = Tileset.FLOOR;

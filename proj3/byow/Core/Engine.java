@@ -5,62 +5,67 @@ import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import byow.lab12.HexWorld;
 import edu.princeton.cs.introcs.StdDraw;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+
+import java.util.*;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.ArrayList;
 
 public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 70;
-    public static final int HEIGHT = 50;
-    private static final long SEED = 123;
-    private static final Random RANDOM = new Random(SEED);
+    public static int WIDTH = 70;
+    public static int HEIGHT = 50;
+    private static long SEED = 123;
+    private static Random RANDOM = new Random(SEED);
     private static HashMap roomList;
+    public static TETile[][] world;
 
 
-    public String startscreen() {
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
-        Font f = new Font("Monotype", Font.BOLD, 30);
-        StdDraw.setFont(f);
-        StdDraw.clear(Color.BLACK); //clear frame
-        StdDraw.setPenColor(Color.WHITE); //set font color
-
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "CS61B: The Game");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit Game (Q)");
-
-        StdDraw.show();
-
-        System.out.println("Waiting for user game choice");
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                System.out.println("User pressed: " + curr);
-                if (curr == 'n') {
-                    return "new game";
-                } else if (curr == 'l') {
-                    return "load game";
-                } else if (curr == 'q') {
-                    return "quit game";
-                }
-            }
-        }
-    }
+//    public String startscreen() {
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
+//        Font f = new Font("Monotype", Font.BOLD, 30);
+//        StdDraw.setFont(f);
+//        StdDraw.clear(Color.BLACK); //clear frame
+//        StdDraw.setPenColor(Color.WHITE); //set font color
+//
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "CS61B: The Game");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit Game (Q)");
+//
+//        StdDraw.show();
+//
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                System.out.println("User pressed: " + curr);
+//                if (curr == 'n') {
+//                    return "new game";
+//                } else if (curr == 'l') {
+//                    return "load game";
+//                } else if (curr == 'q') {
+//                    return "quit game";
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
+
+    public static void init_(int w, int h, long s) {
+        WIDTH = w;
+        HEIGHT = h;
+        SEED = s;
+        RANDOM = new Random(SEED);
+    }
     public void interactWithKeyboard() {
 //        String start = startscreen();
 //        if (start.equals("quit game")) {
@@ -105,7 +110,7 @@ public class Engine {
         }
     }
 
-    public TETile[][] interactWithInputString(String input) {
+    public static TETile[][] interactWithInputString(String input) {
         // TODO: Fill out this method so that it run the engine using the input
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
@@ -113,8 +118,13 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
+        long user = Long.parseLong((input.substring(1, input.length() - 1)));
+        WIDTH = RANDOM.nextInt(60) + 20;
+        HEIGHT = RANDOM.nextInt(80) + 20;
 
-        TETile[][] finalWorldFrame = null;
+        init_(WIDTH, HEIGHT, user);
+
+        TETile[][] finalWorldFrame = world;
         return finalWorldFrame;
     }
 
@@ -343,9 +353,12 @@ public class Engine {
 
 
     public static void main(String[] args) {
+        Scanner i = new Scanner(System.in);
+        String userinput = i.nextLine();
+        byow.Core.Engine.interactWithInputString(userinput);
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        world = new TETile[WIDTH][HEIGHT];
         fillBoardWithNothing(world);
         Position anchor = new Position(10, 15);
         drawWorld(world, anchor);

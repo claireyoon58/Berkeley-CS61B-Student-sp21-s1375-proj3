@@ -14,9 +14,9 @@ import java.awt.Font;
 import java.util.*;
 import javax.sound.sampled.*;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.net.URL;
+//import java.applet.Applet;
+//import java.applet.AudioClip;
+//import java.net.URL;
 
 
 
@@ -305,7 +305,7 @@ public class Engine {
         }
     }
     private void mouse(TETile[][] world, int demonsoul, Stopwatch sw) {
-        ter.renderFrame(world);
+//        ter.renderFrame(world);
         StdDraw.setPenColor(Color.white);
         int mx = (int) StdDraw.mouseX();
         int my = (int) StdDraw.mouseY();
@@ -606,11 +606,11 @@ public class Engine {
             saveseedd();
             saveAvatar();
         }
-        gamescreen.ter.renderFrame(gameworld);
+//        gamescreen.ter.renderFrame(gameworld);
         return gameworld;
     }
 
-  
+
     public static void fillBoardWithNothing(TETile[][] tiles) {
         int height = tiles[0].length;
         int width = tiles.length;

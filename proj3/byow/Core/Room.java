@@ -452,7 +452,7 @@ public class Room {
         int movey = directions[1];
 
         if (movewall || movewall2) {
-            ter.renderFrame(worldTiles);
+//            ter.renderFrame(worldTiles);
             return avatar1;
         } else if (soulcheck) {
             demonsoul += 1;
@@ -464,7 +464,7 @@ public class Room {
 
         avatar1.avatarPosition = new Room.Position(movex, movey , 0, 0);
         worldTiles[movex][movey] = atype;
-        ter.renderFrame(worldTiles);
+//        ter.renderFrame(worldTiles);
         return avatar1;
     }
 
@@ -486,7 +486,7 @@ public class Room {
         randWorld[wid][he] = avatar;
         demon(avatar);
         fillWalls(randWorld);
-        ter.renderFrame(randWorld);
+//        ter.renderFrame(randWorld);
 
         int newx = roomMap.get(0).x + roomMap.get(0).width / 2;
         int newy = roomMap.get(0).y - roomMap.get(0).height / 2;

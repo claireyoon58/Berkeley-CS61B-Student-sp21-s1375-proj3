@@ -291,7 +291,7 @@ public class Engine {
             }
             try {
                 File savedFileActions = new File("history.txt");
-                File seedFile = new File("seed.txt");
+                File seedFile = new File("SEED.txt");
                 savedFileActions.createNewFile();
                 seedFile.createNewFile();
                 FileWriter myWriter = new FileWriter(savedFileActions);

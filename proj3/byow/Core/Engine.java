@@ -341,7 +341,7 @@ public class Engine {
         return souls > 0;
     }
     private void mousetilename(TETile[][] world, int demonsoul, Stopwatch sw) {
-        ter.renderFrame(world);
+//        ter.renderFrame(world);
         StdDraw.setPenColor(Color.white);
         int mx = (int) StdDraw.mouseX();
         int my = (int) StdDraw.mouseY();
@@ -679,7 +679,7 @@ public class Engine {
             saveseedd();
             saveAvatar();
         }
-        gamescreen.ter.renderFrame(gameworld);
+//        gamescreen.ter.renderFrame(gameworld);
         return gameworld;
     }
 

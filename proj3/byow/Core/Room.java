@@ -463,7 +463,7 @@ public class Room {
         demon(avatar);
 //        fillWalls(randWorld);
 //        ter.renderFrame(randWorld);
-        ter.renderFrame(randWorld);
+//        ter.renderFrame(randWorld);
         int newx = gameRoom.get(0).x + gameRoom.get(0).width / 2;
         int newy = gameRoom.get(0).y - gameRoom.get(0).height / 2;
 
@@ -644,7 +644,7 @@ public class Room {
 
         if (checkfreewall
                 || checkfreespace) {
-            ter.renderFrame(worldTiles);
+//            ter.renderFrame(worldTiles);
             return gameavatar;
         } else if (checksoul) {
             if (avatarType == Tileset.AVATAR) {
@@ -713,7 +713,7 @@ public class Room {
         worldTiles[gameavatar.avatarxy.x][gameavatar.avatarxy.y] = Tileset.FLOOR;
         gameavatar.avatarxy = new Position(directions[0], directions[1], 0, 0);
         worldTiles[directions[0]][directions[1]] = avatarType;
-        ter.renderFrame(worldTiles);
+//        ter.renderFrame(worldTiles);
         return gameavatar;
     }
 

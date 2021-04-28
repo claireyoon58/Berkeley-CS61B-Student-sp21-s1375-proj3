@@ -1,6 +1,9 @@
 package byow.Core;
 
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.Scanner;
 
 /** This is the main entry point for the program. This class simply parses
@@ -8,7 +11,7 @@ import java.util.Scanner;
  *  in either keyboard or input string mode.
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (args.length > 2) {
             System.out.println("Can only have two arguments - the flag and input string");
             System.exit(0);

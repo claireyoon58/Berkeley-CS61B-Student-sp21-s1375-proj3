@@ -233,7 +233,7 @@ public class Engine {
 
 
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Choose Avatar");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Tanjiro(B)");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Tanjiro(T)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Nezuko(N)");
 //        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Demon(D)");
 
@@ -242,7 +242,7 @@ public class Engine {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (curr == 'a') {
+                if (curr == 't') {
                     avatar = Tileset.AVATAR;
 
                     return;
@@ -341,7 +341,7 @@ public class Engine {
         return souls > 0;
     }
     private void mousetilename(TETile[][] world, int demonsoul, Stopwatch sw) {
-//        ter.renderFrame(world);
+        ter.renderFrame(world);
         StdDraw.setPenColor(Color.white);
         int mx = (int) StdDraw.mouseX();
         int my = (int) StdDraw.mouseY();
@@ -679,7 +679,7 @@ public class Engine {
             saveseedd();
             saveAvatar();
         }
-//        gamescreen.ter.renderFrame(gameworld);
+        gamescreen.ter.renderFrame(gameworld);
         return gameworld;
     }
 

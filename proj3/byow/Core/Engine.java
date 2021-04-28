@@ -161,7 +161,7 @@ public class Engine {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                System.out.println("User pressed: " + curr);
+
                 if (curr == 'n') {
                     return "new game";
                 } else if (curr == 'l') {
@@ -191,8 +191,7 @@ public class Engine {
         } catch (IOException e) {
             helperErrorExit("IOException happened! Could not save :/");
         }
-        System.out.println("Loading avatar...");
-        System.out.println("Loaded avatar: " + savedAvatar);
+
         if (savedAvatar.equals("basic")) {
 
             avatar = Tileset.AVATAR;
@@ -204,7 +203,7 @@ public class Engine {
     }
 
     private void changeAvatar() {
-        System.out.println("Changing avatar...");
+
 
         String selection = "../proj3/avatarselection.png";
 
@@ -283,8 +282,7 @@ public class Engine {
                     history = actionsSoFar;
                     saveseedd();
                     saveAvatar();
-                    System.out.println("The saved seed is: " + SEED);
-                    System.out.println("The saved actions are: " + history);
+
                     System.exit(0);
                 } else if (curr == ':') {
 
@@ -358,8 +356,7 @@ public class Engine {
             FileWriter actionWriter = new FileWriter("history.txt");
             actionWriter.write(history);
             actionWriter.close();
-            System.out.println("Saved seed: " + SEED);
-            System.out.println("Saved actions: " + history);
+
         } catch (IOException e) {
             helperErrorExit("IOException happened! Could not save :/");
         }
@@ -470,11 +467,16 @@ public class Engine {
         Font font = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(font);
 
+
+        StdDraw.clear(Color.BLACK);
+
+        String game = "../proj3/gamebackground.png";
+
         StdDraw.setXscale(0, WIDTH);
         StdDraw.setYscale(0, HEIGHT);
         StdDraw.enableDoubleBuffering();
+        StdDraw.picture(WIDTH / 2, HEIGHT / 2, game);
 
-        StdDraw.clear(Color.BLACK);
 
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Replay Ended");
@@ -619,7 +621,7 @@ public class Engine {
                 continue;
             }
             gameworld[positionavatar.getx()][positionavatar.gety()] = Tileset.FLOOR;
-            System.out.println("change avatar position");
+
             gameworld[directions[0]][directions[1]] = avatar;
             positionavatar.x = directions[0];
             positionavatar.y = directions[1];
@@ -795,7 +797,7 @@ public class Engine {
                 FileWriter avatarWriter = new FileWriter("SavedAvatar.txt");
                 avatarWriter.write("basic");
                 avatarWriter.close();
-                System.out.println("Saved avatar: Avatar");
+
             } catch (IOException e) {
                 helperErrorExit("IOException happened! Could not save :/");
             }
@@ -804,7 +806,7 @@ public class Engine {
                 FileWriter avatarWriter = new FileWriter("SavedAvatar.txt");
                 avatarWriter.write("Nezuko");
                 avatarWriter.close();
-                System.out.println("Saved avatar: NEZUKO");
+
             } catch (IOException e) {
                 helperErrorExit("IOException happened! Could not save :/");
             }

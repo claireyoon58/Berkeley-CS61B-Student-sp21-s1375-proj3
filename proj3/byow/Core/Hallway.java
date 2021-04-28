@@ -31,9 +31,9 @@ public class Hallway {
             }
         }
         for (int i = room1.x; i < room1.x + room1.width - 15; i++) {
-            System.out.println("room1.x:" + room1.x);
-            System.out.println("room1.width:" + room1.width);
-            System.out.println(test);
+//            System.out.println("room1.x:" + room1.x);
+//            System.out.println("room1.width:" + room1.width);
+//            System.out.println(test);
             if (Room.randWorld[i][room1.y] == Tileset.FLOOR
                     || Room.randWorld[i][room1.y - room1.height] == Tileset.FLOOR) {
                 horitonzalhallway(room1, room2);

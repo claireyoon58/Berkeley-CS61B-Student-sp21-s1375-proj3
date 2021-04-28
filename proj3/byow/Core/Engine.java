@@ -22,8 +22,8 @@ import javax.sound.sampled.*;
 public class Engine {
 
     /* Feel free to change the width and height. */
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 60;
+    private static final int WIDTH = 85;
+    private static final int HEIGHT = 55;
     //    private static long SEED;
     private static long SEED;
 
@@ -40,17 +40,8 @@ public class Engine {
     public void interactWithKeyboard() throws javax.sound.sampled.LineUnavailableException,
             java.io.IOException, javax.sound.sampled.UnsupportedAudioFileException {
 
-        System.out.println("Current Avatar: " + avatar);
 
-        File theme = new File("../proj3/gametheme.wav");
-        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
 
-        AudioFormat play = playtheme.getFormat();
-        DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-        Clip audioClip = (Clip) AudioSystem.getLine(info);
-        audioClip.open(playtheme);
-        audioClip.start();
 
         String pick = drawStartScreen();
         TETile[][] gameworld = null;
@@ -66,7 +57,7 @@ public class Engine {
             actionplay();
             loadAvatar();
             Room map = new Room(WIDTH, HEIGHT, SEED);
-            Room.Position positionavatar = map.drawWorldRooms(avatar);
+            Room.Position positionavatar = map.drawGameRooms(avatar);
             gameworld = map.randWorld;
             for (int i = 0; i < history.length(); i++) {
                 int[] directions = directionMover(positionavatar, history.charAt(i));
@@ -76,7 +67,7 @@ public class Engine {
                         || wall2) {
                     continue;
                 }
-                gameworld[positionavatar.getx()][positionavatar.gety()] = Tileset.FLOOR;
+                gameworld[positionavatar.x][positionavatar.y] = Tileset.FLOOR;
                 gameworld[directions[0]][directions[1]] = avatar;
                 positionavatar.x = directions[0];
                 positionavatar.y = directions[1];
@@ -87,7 +78,7 @@ public class Engine {
 
             Room map = new Room(WIDTH, HEIGHT, SEED);
 
-            Room.Position positionavatar = map.drawWorldRooms(avatar);
+            Room.Position positionavatar = map.drawGameRooms(avatar);
             gameworld = map.randWorld;
 
             playGame(SEED, "", positionavatar, gameworld, map);
@@ -130,7 +121,9 @@ public class Engine {
         }
     }
 
-    public String drawStartScreen() {
+    public String drawStartScreen() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+
+
         StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
 //        StdDraw.setPenColor(Color.WHITE);
         Font font = new Font("Herculanum", Font.BOLD, 30);
@@ -243,17 +236,17 @@ public class Engine {
     private int[] directionMover(Room.Position avPlace, char direction) {
         int[] answer = new int[2];
         if (direction == 'w') {
-            answer[0] = avPlace.getx();
-            answer[1] = avPlace.gety() + 1;
+            answer[0] = avPlace.x;
+            answer[1] = avPlace.y + 1;
         } else if (direction == 'a') {
-            answer[0] = avPlace.getx() - 1;
-            answer[1] = avPlace.gety();
+            answer[0] = avPlace.x - 1;
+            answer[1] = avPlace.y;
         } else if (direction == 's') {
-            answer[0] = avPlace.getx();
-            answer[1] = avPlace.gety() - 1;
+            answer[0] = avPlace.x;
+            answer[1] = avPlace.y - 1;
         } else if (direction == 'd') {
-            answer[0] = avPlace.getx() + 1;
-            answer[1] = avPlace.gety();
+            answer[0] = avPlace.x + 1;
+            answer[1] = avPlace.y;
         }
         return answer;
     }
@@ -267,7 +260,7 @@ public class Engine {
         Stopwatch sw = new Stopwatch();
 
         while (true) {
-            mouse(worldTiles, map.demonsoul, sw);
+            mousetilename(worldTiles, map.demonsoul, sw);
             if (sw.elapsedTime() > 30 && map.demonsoul < 5) {
                 result("lose");
             } else if (map.demonsoul >= 5) {
@@ -289,17 +282,31 @@ public class Engine {
                 } else if (curr == 'a' || curr == 'w' || curr == 's' || curr == 'd') {
                     actionsSoFar = actionsSoFar + curr;
                     Room.Ingame newAvatarWorld = map.move(curr, worldTiles, positionavatar, avatar);
-                    positionavatar = newAvatarWorld.avatarPosition;
+                    positionavatar = newAvatarWorld.avatarxy;
                     worldTiles = newAvatarWorld.worldTiles;
                 }
+            }
+            try {
+                File savedFileActions = new File("history.txt");
+                File seedFile = new File("seed.txt");
+                savedFileActions.createNewFile();
+                seedFile.createNewFile();
+                FileWriter myWriter = new FileWriter(savedFileActions);
+                FileWriter seedWriter = new FileWriter(seedFile);
+                myWriter.write(actionsSoFar);
+                seedWriter.write(String.valueOf(seed));
+                myWriter.close();
+                seedWriter.close();
+            } catch (IOException e) {
+                helperErrorExit("IOException happened! Could not save :/");
             }
         }
     }
     private boolean helpersoul(int souls) {
         return souls > 0;
     }
-    private void mouse(TETile[][] world, int demonsoul, Stopwatch sw) {
-//        ter.renderFrame(world);
+    private void mousetilename(TETile[][] world, int demonsoul, Stopwatch sw) {
+        ter.renderFrame(world);
         StdDraw.setPenColor(Color.white);
         int mx = (int) StdDraw.mouseX();
         int my = (int) StdDraw.mouseY();
@@ -308,9 +315,10 @@ public class Engine {
             StdDraw.clear(Color.black);
             StdDraw.text(4, 48, world[mx][my].description());
         }
-        StdDraw.textLeft(4, 48, world[mx][my].description());
-        StdDraw.textLeft(4, 47, "Has DemonSouls:" + helpersoul(demonsoul));
-        StdDraw.textLeft(4, 46, "# of Demon Souls: " + demonsoul);
+        StdDraw.textLeft(4, 47, "# of Demon Souls Collected: " + demonsoul);
+        StdDraw.textLeft(4, 46, "type of tile: " + world[mx][my].description());
+        StdDraw.textLeft(4, 48, "# of Demon Souls Left: " + (5 - demonsoul));
+
         String timeleft = String.valueOf(30 - Math.round(sw.elapsedTime()));
         StdDraw.textLeft(4, 45, "Time Left:" + timeleft);
         StdDraw.show();
@@ -330,6 +338,7 @@ public class Engine {
         }
     }
     private void actionplay() {
+        System.out.println(history);
         try {
             Reader savedFileActions = new FileReader("history.txt");
             history = "";
@@ -381,7 +390,7 @@ public class Engine {
 
 
 
-        Font font = new Font("Monaco", Font.ITALIC, 12);
+        Font font = new Font("PT Mono", Font.ITALIC, 12);
         StdDraw.setFont(font);
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6,
                 "Press 'b' to navigate back to main menu.");
@@ -396,10 +405,10 @@ public class Engine {
                         + "against demons for centuries as demons are former humans");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 8,
                 "who sold their humanity in exchange for"
-                       + " power and feed on humans. Demons can only be killed with ");
+                        + " power and feed on humans. Demons can only be killed with ");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 10,
                 "Sunsteel, injected with poison extracted"
-                       + " from wisteria flowers, which you will be given beginning of the game.");
+                        + " from wisteria flowers, which you will be given beginning of the game.");
         StdDraw.text(WIDTH / 2,
                 HEIGHT * 5 / 6 - 12,
                 "You will have three characters to choose from.");
@@ -407,7 +416,7 @@ public class Engine {
                 "Tanjiro: The standard character who will be given a Sunsteel Sword ");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 16,
                 "to kill demons when seen and collect demon souls "
-                      + "but you will have to look harder to find the demons");
+                        + "but you will have to look harder to find the demons");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 18,
                 "Nezuko: You are a half demon who will not be given a sword,");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 20,
@@ -438,20 +447,20 @@ public class Engine {
         actionplay();
         loadAvatar();
         Room map = new Room(WIDTH, HEIGHT, SEED);
-        Room.Position positionavatar = map.drawWorldRooms(avatar);
+        Room.Position positionavatar = map.drawGameRooms(avatar);
         TETile[][] gameworld = map.randWorld;
         Stopwatch sw = new Stopwatch();
         for (int i = 0; i < history.length(); i++) {
-            mouse(gameworld, map.demonsoul, sw);
+            mousetilename(gameworld, map.demonsoul, sw);
             char currAction = Character.toLowerCase(history.charAt(i));
-            Room.Ingame currAvatarWorld = map.move(currAction, gameworld, positionavatar, avatar);
-            positionavatar = currAvatarWorld.avatarPosition;
-            gameworld = currAvatarWorld.worldTiles;
-            mouse(gameworld, map.demonsoul, sw);
+            Room.Ingame currentgame = map.move(currAction, gameworld, positionavatar, avatar);
+            positionavatar = currentgame.avatarxy;
+            gameworld = currentgame.worldTiles;
+            mousetilename(gameworld, map.demonsoul, sw);
             StdDraw.show();
-            mouse(gameworld, map.demonsoul, sw);
+            mousetilename(gameworld, map.demonsoul, sw);
             StdDraw.pause(400);
-            mouse(gameworld, map.demonsoul, sw);
+            mousetilename(gameworld, map.demonsoul, sw);
         }
         String userChoice = drawReplayEndScreen();
         if (userChoice.equals("Replay")) {
@@ -466,7 +475,7 @@ public class Engine {
 
     private String drawReplayEndScreen() {
         StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
-        Font font = new Font("Monaco", Font.BOLD, 30);
+        Font font = new Font("PT Mono", Font.BOLD, 30);
         StdDraw.setFont(font);
 
 
@@ -611,7 +620,7 @@ public class Engine {
 
     private TETile[][] inputStringHelper(long S, String historylog) {
         Room gamescreen = new Room(WIDTH, HEIGHT, S);
-        Room.Position positionavatar = gamescreen.drawWorldRooms(avatar);
+        Room.Position positionavatar = gamescreen.drawGameRooms(avatar);
         TETile[][] gameworld = gamescreen.randWorld;
         for (int i = 0; i < historylog.length(); i++) {
             int[] directions = directionMover(positionavatar, historylog.charAt(i));
@@ -622,7 +631,7 @@ public class Engine {
                     || inputhelper2) {
                 continue;
             }
-            gameworld[positionavatar.getx()][positionavatar.gety()] = Tileset.FLOOR;
+            gameworld[positionavatar.x][positionavatar.y] = Tileset.FLOOR;
 
             gameworld[directions[0]][directions[1]] = avatar;
             positionavatar.x = directions[0];
@@ -632,7 +641,7 @@ public class Engine {
             saveseedd();
             saveAvatar();
         }
-//        gamescreen.ter.renderFrame(gameworld);
+        gamescreen.ter.renderFrame(gameworld);
         return gameworld;
     }
 
@@ -817,6 +826,17 @@ public class Engine {
             UnsupportedAudioFileException,
             IOException,
             LineUnavailableException {
+
+        File theme = new File("../proj3/gametheme.wav");
+        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
+
+        AudioFormat play = playtheme.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+        Clip audioClip = (Clip) AudioSystem.getLine(info);
+        audioClip.open(playtheme);
+        audioClip.start();
+
         Engine engine = new Engine();
         engine.interactWithKeyboard();
         engine.interactWithKeyboard();

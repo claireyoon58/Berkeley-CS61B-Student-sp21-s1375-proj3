@@ -591,8 +591,6 @@ public class Room {
 //                randWorld[i][j] = Tileset.NOTHING;
 //            }
 
-//        return new Room.Position(roomMap.get(0).x + roomMap.get(0).width / 2, roomMap.get(0).y - roomMap.get(0).y / 2, 0, 0);
-//    }
 
 
 

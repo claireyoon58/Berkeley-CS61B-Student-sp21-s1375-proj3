@@ -277,13 +277,7 @@ public class Room {
 
 //
 //    public static void drawWorld(TETile[][] tiles, Position p, Random RANDOM) {
-//        /**
-//         *  TODO: Find position to add randomized shape
-//         *      Maybe we can choose a side of the shape and choose random position
-//         *      within the side?
-//         *  TODO: Figure out a way to connect random shapes together
-//         *  TODO: Update position correctly
-//         */
+
 //
 //        randomRoom(tiles, p, RANDOM);
 //    }

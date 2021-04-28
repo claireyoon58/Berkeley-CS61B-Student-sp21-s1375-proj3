@@ -297,11 +297,7 @@ public class Engine {
         }
     }
     private boolean helpersoul(int souls) {
-        if (souls > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return souls > 0;
     }
     private void mouse(TETile[][] world, int demonsoul, Stopwatch sw) {
 //        ter.renderFrame(world);
@@ -395,21 +391,27 @@ public class Engine {
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 4,
                 "Nezuko Kamado, as you seek a cure to Nezuko's demon curse. You  have joined the Demon Slayer Corps,");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 6,
-                "that have been waging a secret war against demons for centuries as demons are former humans");
+                "that have been waging a secret war " +
+                        "against demons for centuries as demons are former humans");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 8,
-                "who sold their humanity in exchange for power and feed on humans. Demons can only be killed with ");
+                "who sold their humanity in exchange for" +
+                        " power and feed on humans. Demons can only be killed with ");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 10,
-                "Sunsteel, injected with poison extracted from wisteria flowers, which you will be given beginning of the game.");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 12,
+                "Sunsteel, injected with poison extracted" +
+                        " from wisteria flowers, which you will be given beginning of the game.");
+        StdDraw.text(WIDTH / 2,
+                HEIGHT * 5 / 6 - 12,
                 "You will have three characters to choose from.");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 14,
                 "Tanjiro: The standard character who will be given a Sunsteel Sword ");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 16,
-                "to kill demons when seen and collect demon souls but you will have to look harder to find the demons");
+                "to kill demons when seen and collect demon souls " +
+                        "but you will have to look harder to find the demons");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 18,
                 "Nezuko: You are a half demon who will not be given a sword,");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 20,
-                "but will already be given demon souls and collect less");;
+                "but will already be given demon souls and collect less.");
+
 //        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 22, "Demon: As a demon, your job is to collect as much demon souls without dying from the Demon Slayer Corps. You" );
 //        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 24, "will have a shorter time. However, you can eat the humans to increase your time span. Best of luck to you!");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 26,
@@ -611,9 +613,9 @@ public class Engine {
         Room gamescreen = new Room(WIDTH, HEIGHT, S);
         Room.Position positionavatar = gamescreen.drawWorldRooms(avatar);
         TETile[][] gameworld = gamescreen.randWorld;
-        for (int i = 0; i < historylog.length(); i++) {
+        for (int i = 0 ; i < historylog.length(); i++) {
             int[] directions = directionMover(positionavatar, historylog.charAt(i));
-            boolean inputhelper1= gameworld[directions[0]][directions[1]] == Tileset.NOTHING;
+            boolean inputhelper1 = gameworld[directions[0]][directions[1]] == Tileset.NOTHING;
             boolean inputhelper2 = gameworld[directions[0]][directions[1]] == Tileset.WALL;
 
             if (inputhelper1

@@ -469,7 +469,7 @@ public class Room {
     }
 
     public Room.Position drawWorldRooms(TETile avatar) {
-        ter.initialize(WIDTH, HEIGHT);
+//        ter.initialize(WIDTH, HEIGHT);
         randWorld = new TETile[WIDTH][HEIGHT];
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {

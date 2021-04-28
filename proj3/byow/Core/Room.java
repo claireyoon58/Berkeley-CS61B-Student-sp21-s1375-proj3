@@ -4,6 +4,9 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Random;
 
@@ -97,7 +100,12 @@ public class Room {
         String loc = straightHallway(room1, room2);
         Room.Position starthallway = null;
         if (loc.equals("horizontal")) {
-            connecthelperX(room1, room2);
+//            connecthelperX(room1, room2);
+            if (room1.x > room2.x) {
+                Position store = room2;
+                room2 = room1;
+                room1 = store;
+            }
 
             int maxroom = Math.max(room2.y - room2.height, room1.y - room1.height);
             int minroom = Math.min(room2.y, room1.y);
@@ -142,7 +150,12 @@ public class Room {
 //                        }
 //                        continue yeet;
         } else if (loc.equals("vertical")) {
-            connecthelperY(room1, room2);
+//            connecthelperY(room1, room2);
+            if (room1.y > room2.y) {
+                Position store = room2;
+                room2 = room1;
+                room1 = store;
+            }
             int comparemax = Math.max(room1.x, room2.x);
             int comparemin = Math.min(room1.x + room1.width, room2.x + room2.width);
             int randX = RandomUtils.uniform(SEED, comparemax + 1, comparemin);
@@ -258,7 +271,20 @@ public class Room {
         }
     }
 
-    public void horizontalhelper(Position room1, Position room2) {
+//    public void horizontalhelper(Position r1, Position room2) {
+//        boolean swCheck = direction(room1, room2).equals("SW");
+//        boolean seCheck = direction(room1, room2).equals("SE");
+//        if (swCheck
+//                || seCheck) {
+//            Position store = room1;
+//            room1 = room2;
+//            room2 = store;
+//        }
+//
+//    }
+
+    private void horitonzalhallway(Position room1, Position room2) {
+//        horizontalhelper(room1, room2);
         boolean swCheck = direction(room1, room2).equals("SW");
         boolean seCheck = direction(room1, room2).equals("SE");
         if (swCheck
@@ -267,11 +293,6 @@ public class Room {
             room1 = room2;
             room2 = store;
         }
-
-    }
-
-    private void horitonzalhallway(Position room1, Position room2) {
-        horizontalhelper(room1, room2);
         String roomdirect = direction(room1, room2);
         if (roomdirect.equals("NE")) {
             int areaWithinRoomx = room2.x - (room1.x + room1.width);
@@ -313,7 +334,20 @@ public class Room {
         }
     }
 
-    public void verticalhelper(Position room1, Position room2) {
+//    public void verticalhelper(Position room1, Position room2) {
+//        boolean sedirect = direction(room1, room2).equals("SE");
+//        boolean swdirect = direction(room1, room2).equals("SW");
+//
+//        if (swdirect
+//                || sedirect) {
+//            Position store = room1;
+//            room1 = room2;
+//            room2 = store;
+//        }
+//    }
+
+    private void verticalhallways(Position room1, Position room2) {
+//        verticalhelper(room1, room2);
         boolean sedirect = direction(room1, room2).equals("SE");
         boolean swdirect = direction(room1, room2).equals("SW");
 
@@ -323,10 +357,6 @@ public class Room {
             room1 = room2;
             room2 = store;
         }
-    }
-
-    private void verticalhallways(Position room1, Position room2) {
-        verticalhelper(room1, room2);
 
         boolean nedirect = direction(room1, room2).equals("NE");
         boolean nwdirect = direction(room1, room2).equals("NW");
@@ -601,7 +631,9 @@ public class Room {
 
 
     public Ingame move(char direction, TETile[][] worldTiles,
-                       Position avatarxy, TETile avatarType) {
+                       Position avatarxy, TETile avatarType)
+            throws LineUnavailableException,
+            IOException, UnsupportedAudioFileException {
 
         Ingame gameavatar = new Ingame(worldTiles, avatarxy);
         int[] directions = directionMover(direction, avatarxy);
@@ -615,8 +647,69 @@ public class Room {
             ter.renderFrame(worldTiles);
             return gameavatar;
         } else if (checksoul) {
+            if (avatarType == Tileset.AVATAR) {
+                int soundver = RandomUtils.uniform(SEED, 0, 3);
+                if (soundver == 0) {
+                    File kill = new File("../proj3/killing.wav");
+                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+
+                    AudioFormat play = playtheme.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+                    Clip audio = (Clip) AudioSystem.getLine(info);
+                    audio.open(playtheme);
+                    audio.start();
+                } else if (soundver == 1) {
+                    File kill = new File("../proj3/killing2.wav");
+                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+
+                    AudioFormat play = playtheme.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+                    Clip audio = (Clip) AudioSystem.getLine(info);
+                    audio.open(playtheme);
+                    audio.start();
+
+//                    horitonzalhallway(room1, room2);
+                } else if (soundver == 2) {
+                    File kill = new File("../proj3/killing3.wav");
+                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+
+                    AudioFormat play = playtheme.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+                    Clip audio = (Clip) AudioSystem.getLine(info);
+                    audio.open(playtheme);
+                    audio.start();
+                }
+            }
+            if (avatarType == Tileset.NEZUKO) {
+                int nezukover = RandomUtils.uniform(SEED, 0, 3);
+                if (nezukover == 0) {
+                    File kill = new File("../proj3/nezukill2.wav");
+                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+
+                    AudioFormat play = playtheme.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+                    Clip audio = (Clip) AudioSystem.getLine(info);
+                    audio.open(playtheme);
+                    audio.start();
+                } else if (nezukover == 1) {
+                    File kill = new File("../proj3/nezukill.wav");
+                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+
+                    AudioFormat play = playtheme.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+                    Clip audio = (Clip) AudioSystem.getLine(info);
+                    audio.open(playtheme);
+                    audio.start();
+                }
+            }
             demonsoul += 1;
         }
+
         worldTiles[gameavatar.avatarxy.x][gameavatar.avatarxy.y] = Tileset.FLOOR;
         gameavatar.avatarxy = new Position(directions[0], directions[1], 0, 0);
         worldTiles[directions[0]][directions[1]] = avatarType;
@@ -646,14 +739,14 @@ public class Room {
         if (atype == Tileset.AVATAR) {
             randWorld[gameRoom.get(2).x + gameRoom.get(2).width / 2]
                     [gameRoom.get(2).y - gameRoom.get(2).height / 2] = Tileset.SOUL;
-            randWorld[gameRoom.get(6).x + gameRoom.get(6).width / 2]
-                    [gameRoom.get(6).y - gameRoom.get(6).height / 2] = Tileset.SOUL;
+            randWorld[gameRoom.get(3).x + gameRoom.get(3).width / 2]
+                    [gameRoom.get(3).y - gameRoom.get(3).height / 2] = Tileset.SOUL;
             randWorld[gameRoom.get(4).x + gameRoom.get(4).width / 2]
                     [gameRoom.get(4).y - gameRoom.get(4).height / 2] = Tileset.SOUL;
             randWorld[gameRoom.get(5).x + gameRoom.get(5).width / 2]
                     [gameRoom.get(5).y - gameRoom.get(5).height / 2] = Tileset.SOUL;
-            randWorld[gameRoom.get(7).x + gameRoom.get(7).width / 2]
-                    [gameRoom.get(7).y - gameRoom.get(7).height / 2] = Tileset.SOUL;
+            randWorld[gameRoom.get(6).x + gameRoom.get(6).width / 2]
+                    [gameRoom.get(6).y - gameRoom.get(6).height / 2] = Tileset.SOUL;
         } else {
             randWorld[gameRoom.get(5).x + gameRoom.get(5).width / 2]
                     [gameRoom.get(5).y - gameRoom.get(5).height / 2] = Tileset.SOUL;

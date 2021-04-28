@@ -41,6 +41,16 @@ public class Engine {
             java.io.IOException, javax.sound.sampled.UnsupportedAudioFileException {
 
 
+        File theme = new File("../proj3/gametheme.wav");
+        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
+
+        AudioFormat play = playtheme.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+        Clip audioClip = (Clip) AudioSystem.getLine(info);
+        audioClip.stop();
+        audioClip.open(playtheme);
+        audioClip.start();
 
 
         String pick = drawStartScreen();
@@ -48,11 +58,14 @@ public class Engine {
         if (pick.equals("Quit")) {
             System.exit(0);
         } else if (pick.equals("avatar selection")) {
+
             changeAvatar();
+            audioClip.stop();
             interactWithKeyboard();
-        } else if (pick.equals("replay game")) {
+        } else if (pick.equals("replay previous game")) {
             replaySavedGame();
         } else if (pick.equals("load game")) {
+            audioClip.stop();
             playseed();
             actionplay();
             loadAvatar();
@@ -74,15 +87,18 @@ public class Engine {
             }
             playGame(SEED, history, positionavatar, gameworld, map);
         } else if (pick.equals("new game")) {
+
             SEED = inputseed();
 
             Room map = new Room(WIDTH, HEIGHT, SEED);
 
             Room.Position positionavatar = map.drawGameRooms(avatar);
+            audioClip.stop();
             gameworld = map.randWorld;
 
             playGame(SEED, "", positionavatar, gameworld, map);
         } else if (pick.equals("backstory")) {
+            audioClip.stop();
             backstory();
         }
 //        String start = startscreen();d
@@ -111,6 +127,7 @@ public class Engine {
             if (StdDraw.hasNextKeyTyped()) {
                 char type = Character.toLowerCase(StdDraw.nextKeyTyped());
                 if (type == 's') {
+
                     return seed;
                 } else {
                     int currInt = Integer.parseInt(String.valueOf(type));
@@ -125,6 +142,7 @@ public class Engine {
             throws IOException,
             UnsupportedAudioFileException,
             LineUnavailableException {
+
 
 
         StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
@@ -147,7 +165,7 @@ public class Engine {
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit (Q)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Replay Game (R)");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Replay Previous Game (R)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 24, "Avatar Selection (A)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 28, "Backstory (B)");
 
@@ -162,10 +180,11 @@ public class Engine {
                 } else if (curr == 'l') {
                     return "load game";
                 } else if (curr == 'r') {
-                    return "replay game";
+                    return "replay previous game";
                 } else if (curr == 'q') {
                     return "Quit";
                 } else if (curr == 'a') {
+//                    audioClip.stop();
                     return "avatar selection";
                 } else if (curr == 'b') {
                     return "backstory";
@@ -258,15 +277,28 @@ public class Engine {
                           TETile[][] worldTiles, Room map)
             throws UnsupportedAudioFileException,
             IOException, LineUnavailableException {
+
         String actionsSoFar = actions;
         boolean typed = false;
         Stopwatch sw = new Stopwatch();
 
+        File theme = new File("../proj3/game.wav");
+        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
+
+        AudioFormat play = playtheme.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+        Clip game = (Clip) AudioSystem.getLine(info);
+        game.open(playtheme);
+        game.start();
+
         while (true) {
             mousetilename(worldTiles, map.demonsoul, sw);
-            if (sw.elapsedTime() > 30 && map.demonsoul < 5) {
+            if (sw.elapsedTime() > 45 && map.demonsoul < 5) {
+                game.stop();
                 result("lose");
             } else if (map.demonsoul >= 5) {
+                game.stop();
                 result("win");
             }
             if (StdDraw.hasNextKeyTyped()) {
@@ -322,7 +354,7 @@ public class Engine {
         StdDraw.textLeft(4, 46, "type of tile: " + world[mx][my].description());
         StdDraw.textLeft(4, 48, "# of Demon Souls Left: " + (5 - demonsoul));
 
-        String timeleft = String.valueOf(30 - Math.round(sw.elapsedTime()));
+        String timeleft = String.valueOf(45 - Math.round(sw.elapsedTime()));
         StdDraw.textLeft(4, 45, "Time Left:" + timeleft);
         StdDraw.show();
     }
@@ -435,7 +467,8 @@ public class Engine {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char typeletter = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (typeletter == 't') {
+                if (typeletter == 'b') {
+//                    .audioClip.stop()
                     interactWithKeyboard();
                     return;
                 }
@@ -448,6 +481,8 @@ public class Engine {
             IOException, LineUnavailableException {
         playseed();
         actionplay();
+
+
         loadAvatar();
         Room map = new Room(WIDTH, HEIGHT, SEED);
         Room.Position positionavatar = map.drawGameRooms(avatar);
@@ -462,10 +497,10 @@ public class Engine {
             mousetilename(gameworld, map.demonsoul, sw);
             StdDraw.show();
             mousetilename(gameworld, map.demonsoul, sw);
-            StdDraw.pause(400);
+            StdDraw.pause(300);
             mousetilename(gameworld, map.demonsoul, sw);
         }
-        String userChoice = drawReplayEndScreen();
+        String userChoice = drawReplayEnd();
         if (userChoice.equals("Replay")) {
             replaySavedGame();
         } else if (userChoice.equals("Start Screen")) {
@@ -476,7 +511,7 @@ public class Engine {
 
     }
 
-    private String drawReplayEndScreen() {
+    private String drawReplayEnd() {
         StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
         Font font = new Font("PT Mono", Font.BOLD, 30);
         StdDraw.setFont(font);
@@ -500,7 +535,7 @@ public class Engine {
 
         StdDraw.show();
 
-        System.out.println("Waiting for user game choice");
+
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
@@ -732,6 +767,32 @@ public class Engine {
 
         String winscreen = "../proj3/win.png";
 
+        File win = new File("../proj3/winning.wav");
+        AudioInputStream playtheme = AudioSystem.getAudioInputStream(win);
+
+        AudioFormat play = playtheme.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+        Clip winmusic = (Clip) AudioSystem.getLine(info);
+
+
+
+        File laugh = new File("../proj3/laugh.wav");
+        AudioInputStream playtheme1 = AudioSystem.getAudioInputStream(win);
+
+        AudioFormat play2 = playtheme.getFormat();
+        DataLine.Info info2 = new DataLine.Info(Clip.class, play2);
+
+        Clip laughfile = (Clip) AudioSystem.getLine(info2);
+
+        laughfile.open(playtheme1);
+        laughfile.start();
+
+        winmusic.open(playtheme);
+        winmusic.start();
+
+        String losescreen = "../proj3/lose.png";
+
 
 
         StdDraw.setXscale(0, WIDTH);
@@ -742,9 +803,10 @@ public class Engine {
         StdDraw.setPenColor(Color.WHITE);
 
         StdDraw.picture(WIDTH / 2, HEIGHT / 2, winscreen);
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Congratulations! You won!");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "You have collected the demon souls");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "without dying");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Congratulations! You won! The Sun is up.");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "You have collected the demon souls without dying.");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "The Demon Slayer Crops are giving you an honor badge! ");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 8, );
         StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
         StdDraw.show();
 
@@ -752,6 +814,8 @@ public class Engine {
             if (StdDraw.hasNextKeyTyped()) {
                 char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
                 if (curr == 'm') {
+                    winmusic.stop();
+                    laughfile.stop();
                     interactWithKeyboard();
                     return;
                 }
@@ -763,15 +827,15 @@ public class Engine {
             UnsupportedAudioFileException,
             IOException,
             LineUnavailableException {
-//        File lost = new File("/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/lost.mp3");
-//        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
-//
-//        AudioFormat play = playtheme.getFormat();
-//        DataLine.Info info = new DataLine.Info(Clip.class, play);
-//
-//        Clip audioClip = (Clip) AudioSystem.getLine(info);
-//        audioClip.open(playtheme);
-//        audioClip.start();
+        File lost = new File("../proj3/ending.wav");
+        AudioInputStream playtheme = AudioSystem.getAudioInputStream(lost);
+
+        AudioFormat play = playtheme.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+        Clip losemusic = (Clip) AudioSystem.getLine(info);
+        losemusic.open(playtheme);
+        losemusic.start();
 
         String losescreen = "../proj3/lose.png";
 
@@ -786,8 +850,8 @@ public class Engine {
 
         StdDraw.picture(WIDTH / 2, HEIGHT / 2, losescreen);
         StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Sorry, the sun is up and have lost..");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "Demons are running wild in the village");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "ahhhh...");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "Demons are running wild in the village and your sister Nezuko");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "has died from the demons.....");
 //insert people screaming and blood rushing sounds
         StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
         StdDraw.show();
@@ -796,6 +860,7 @@ public class Engine {
             if (StdDraw.hasNextKeyTyped()) {
                 char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
                 if (curr == 'm') {
+                    losemusic.stop();
                     interactWithKeyboard();
                     return;
                 }
@@ -830,15 +895,15 @@ public class Engine {
             IOException,
             LineUnavailableException {
 
-        File theme = new File("../proj3/gametheme.wav");
-        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
-
-        AudioFormat play = playtheme.getFormat();
-        DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-        Clip audioClip = (Clip) AudioSystem.getLine(info);
-        audioClip.open(playtheme);
-        audioClip.start();
+//        File theme = new File("../proj3/gametheme.wav");
+//        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
+//
+//        AudioFormat play = playtheme.getFormat();
+//        DataLine.Info info = new DataLine.Info(Clip.class, play);
+//
+//        Clip audioClip = (Clip) AudioSystem.getLine(info);
+//        audioClip.open(playtheme);
+//        audioClip.start();
 
         Engine engine = new Engine();
         engine.interactWithKeyboard();

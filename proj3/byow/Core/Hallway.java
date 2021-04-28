@@ -186,8 +186,10 @@
 //        String directionAB = Room.direction(room1, room2);
 //        if (directionAB.equals("NE")) {
 //            int room = room2.x - (room1.x + room1.width);
-//            int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room + room2.width);
-//            int randY = RandomUtils.uniform(Room.RANDOMSEED, room1.y - room1.height + 1, room1.y);
+//            int hallwayheight = RandomUtils.uniform
+//            Room.RANDOMSEED, room + 1, room + room2.width);
+//            int randY = RandomUtils.uniform(Room.RANDOMSEED
+//            , room1.y - room1.height + 1, room1.y);
 //            Room.Position horizonp = new Room.Position(room1.x + room1.width, randY, 0, 0);
 //
 //            Room.Position vertp = new Room.Position(room1.x + room1.width
@@ -202,8 +204,10 @@
 //            roomcorner(cornerPoint, "toprightandbot");
 //        } else if (directionAB.equals("NW")) {
 //            int room = room1.x - (room2.x + room2.width);
-//            int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room + room1.width);
-//            int randY = RandomUtils.uniform(Room.RANDOMSEED, room2.y - room2.height + 1, room2.y);
+//            int hallwayheight = RandomUtils.uniform
+//            (Room.RANDOMSEED, room + 1, room + room1.width);
+//            int randY = RandomUtils.uniform
+//            (Room.RANDOMSEED, room2.y - room2.height + 1, room2.y);
 //            Room.Position horizonp = new Room.Position(room2.x + room2.width, randY, 0, 0);
 //            Room.Position vertp = new Room.Position(room2.x + room2.width
 //                    + hallwayheight, room1.y, 0, 0);

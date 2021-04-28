@@ -121,7 +121,10 @@ public class Engine {
         }
     }
 
-    public String drawStartScreen() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public String drawStartScreen()
+            throws IOException,
+            UnsupportedAudioFileException,
+            LineUnavailableException {
 
 
         StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);

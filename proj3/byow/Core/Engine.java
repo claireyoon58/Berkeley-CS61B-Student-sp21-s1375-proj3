@@ -125,7 +125,9 @@ public class Engine {
         long seed = 0;
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
+                StdDraw.setPenColor(Color.WHITE);
                 char type = Character.toLowerCase(StdDraw.nextKeyTyped());
+                StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: " + seed);
                 if (type == 's') {
 
                     return seed;
@@ -133,6 +135,7 @@ public class Engine {
                     int currInt = Integer.parseInt(String.valueOf(type));
                     seed = seed * 10 + currInt;
                     StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: " + seed);
+                    System.out.println("seed: " + seed);
                 }
             }
         }
@@ -369,7 +372,7 @@ public class Engine {
             }
             savedFileSeed.close();
         } catch (IOException e) {
-            helperErrorExit("IOException happened! Could not save :/");
+            helperErrorExit("IOException happened! Could not save seed");
         }
     }
     private void actionplay() {

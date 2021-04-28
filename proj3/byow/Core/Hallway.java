@@ -178,7 +178,7 @@ public class Hallway {
         boolean direction1 = Room.direction(room1, room2).equals("SW");
         boolean direction2 = Room.direction(room1, room2).equals("SE");
         if (direction1
-                || direction2 ) {
+                || direction2) {
             Room.Position placeholder = room1;
             room1 = room2;
             room2 = placeholder;
@@ -245,8 +245,11 @@ public class Hallway {
             int rooma = room1.x + 1;
             int roomb = room1.x + room1.width;
             int ran = RandomUtils.uniform(Room.RANDOMSEED, rooma, roomb);
-            Room.Position verticalicalpoint = new Room.Position(ran, room1.y, 0, 0);
-            Room.Position horizontalpoint = new Room.Position(room2.x + room2.width, room1.y + hallwayheight, 0, 0);
+            Room.Position verticalicalpoint = new Room.Position
+                    (ran, room1.y, 0, 0);
+            Room.Position horizontalpoint = new Room.Position
+                    (room2.x + room2.width,
+                            room1.y + hallwayheight, 0, 0);
 
 
 

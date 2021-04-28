@@ -26,7 +26,6 @@ public class Engine {
     private static final int HEIGHT = 60;
     //    private static long SEED;
     private static long SEED;
-    String r;
 
     private String history = "";
     TERenderer ter = new TERenderer();
@@ -706,11 +705,11 @@ public class Engine {
 
 
 
-    private void result(String r)
+    private void result(String reee)
             throws UnsupportedAudioFileException,
             IOException, LineUnavailableException {
 
-        if (r.equals("win")) {
+        if (reee.equals("win")) {
             win();
         } else {
             lose();

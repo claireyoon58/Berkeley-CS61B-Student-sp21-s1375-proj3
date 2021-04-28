@@ -341,15 +341,23 @@ public class Room {
     //
     private void demon(TETile atype) {
         if (atype == Tileset.AVATAR) {
-            randWorld[roomMap.get(3).x + roomMap.get(3).width / 2][roomMap.get(3).y - roomMap.get(3).height / 2] = Tileset.SOUL;
-            randWorld[roomMap.get(6).x + roomMap.get(6).width / 2][roomMap.get(6).y - roomMap.get(6).height / 2] = Tileset.SOUL;
-            randWorld[roomMap.get(4).x + roomMap.get(4).width / 2][roomMap.get(4).y - roomMap.get(4).height / 2] = Tileset.SOUL;
-            randWorld[roomMap.get(5).x + roomMap.get(5).width / 2][roomMap.get(5).y - roomMap.get(5).height / 2] = Tileset.SOUL;
-            randWorld[roomMap.get(7).x + roomMap.get(7).width / 2][roomMap.get(7).y - roomMap.get(7).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(3).x + roomMap.get(3).width / 2]
+                    [roomMap.get(3).y - roomMap.get(3).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(6).x + roomMap.get(6).width / 2]
+                    [roomMap.get(6).y - roomMap.get(6).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(4).x + roomMap.get(4).width / 2]
+                    [roomMap.get(4).y - roomMap.get(4).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(5).x + roomMap.get(5).width / 2]
+                    [roomMap.get(5).y - roomMap.get(5).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(7).x + roomMap.get(7).width / 2]
+                    [roomMap.get(7).y - roomMap.get(7).height / 2] = Tileset.SOUL;
         } else {
-            randWorld[roomMap.get(3).x + roomMap.get(3).width / 2][roomMap.get(3).y - roomMap.get(3).height / 2] = Tileset.SOUL;
-            randWorld[roomMap.get(6).x + roomMap.get(6).width / 2][roomMap.get(6).y - roomMap.get(6).height / 2] = Tileset.SOUL;
-            randWorld[roomMap.get(4).x + roomMap.get(4).width / 2][roomMap.get(4).y - roomMap.get(4).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(3).x + roomMap.get(3).width / 2]
+                    [roomMap.get(3).y - roomMap.get(3).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(6).x + roomMap.get(6).width / 2]
+                    [roomMap.get(6).y - roomMap.get(6).height / 2] = Tileset.SOUL;
+            randWorld[roomMap.get(4).x + roomMap.get(4).width / 2]
+                    [roomMap.get(4).y - roomMap.get(4).height / 2] = Tileset.SOUL;
         }
         if (atype == Tileset.AVATAR) {
             demonsoul = 0;
@@ -446,7 +454,6 @@ public class Room {
         int movey = directions[1];
 
         if (movewall || movewall2) {
-//            ter.renderFrame(worldTiles);
             return avatar1;
         } else if (soulcheck) {
             demonsoul += 1;
@@ -528,9 +535,9 @@ public class Room {
         int width = tiles.length;
         for (int x = 1; x < width; x += 1) {
             for (int y = 1; y < height; y += 1) {
-                boolean fillwallhelper = tiles[x][y] == Tileset.FLOOR;
-                boolean fillwallsoulhelper = tiles[x][y] == Tileset.SOUL;
-                if (fillwallhelper || fillwallsoulhelper) {
+                boolean fillHelper = tiles[x][y] == Tileset.FLOOR;
+                boolean fillSoul = tiles[x][y] == Tileset.SOUL;
+                if (fillHelper || fillSoul) {
                     if (tiles[x - 1][y] == Tileset.NOTHING) {
                         tiles[x - 1][y] = Tileset.WALL;
                     }

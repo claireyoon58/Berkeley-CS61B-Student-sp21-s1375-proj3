@@ -1,6 +1,6 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
+//import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import byow.lab12.HexWorld;
@@ -30,7 +30,7 @@ public class Engine {
     String r;
 
     private String history = "";
-    TERenderer ter = new TERenderer();
+//    TERenderer ter = new TERenderer();
 
     private TETile avatar = Tileset.AVATAR;
     boolean save = false;
@@ -44,7 +44,7 @@ public class Engine {
 
         System.out.println("Current Avatar: " + avatar);
 
-        File theme = new File("/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/gametheme.wav");
+        File theme = new File(".../proj3/gametheme.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
 
         AudioFormat play = playtheme.getFormat();
@@ -106,7 +106,7 @@ public class Engine {
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
 
-        String game = "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/gamebackground.png";
+        String game = ".../proj3/gamebackground.png";
 
 
 
@@ -208,7 +208,7 @@ public class Engine {
     private void changeAvatar() {
         System.out.println("Changing avatar...");
 
-        String selection = "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/avatarselection.png";
+        String selection = ".../proj3/avatarselection.png";
 
 
 
@@ -372,7 +372,7 @@ public class Engine {
     }
     public void backstory() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        String back = "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/backstory.png";
+        String back = ".../sp21-s1375/proj3/backstory.png";
 
 
 
@@ -448,6 +448,7 @@ public class Engine {
     }
 
     private String drawReplayEndScreen() {
+
         StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
         Font font = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(font);
@@ -456,7 +457,12 @@ public class Engine {
         StdDraw.setYscale(0, HEIGHT);
         StdDraw.enableDoubleBuffering();
 
+        String game = ".../proj3/gamebackground.png";
+
+
+
         StdDraw.clear(Color.BLACK);
+        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , game);
 
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Replay Ended");
@@ -692,7 +698,7 @@ public class Engine {
 
     private void win() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        String winscreen = "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/win.png";
+        String winscreen = ".../proj3/win.png";
 
 
 
@@ -732,7 +738,7 @@ public class Engine {
 //        audioClip.open(playtheme);
 //        audioClip.start();
 
-        String losescreen = "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/lose.png";
+        String losescreen = ".../proj3/lose.png";
 
 
 

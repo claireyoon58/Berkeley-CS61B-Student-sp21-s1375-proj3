@@ -8,15 +8,15 @@ import java.util.*;
 import java.util.Random;
 
 public class Room {
-    public static TETile[][] randWorld;
-    public static Random RANDOMSEED;
-    public final int WIDTH;
-    public final int HEIGHT;
+    static TETile[][] randWorld;
+    static Random RANDOMSEED;
+    final int WIDTH;
+    final int HEIGHT;
     int demonsoul;
     TERenderer ter = new TERenderer();
-    public HashMap<Integer, Position> roomMap;
-    public HashMap roomMap2;
-    public HashMap hallWays;
+    HashMap<Integer, Position> roomMap;
+    HashMap roomMap2;
+
     int numRooms;
 
     public Room(int w, int h, long s) {
@@ -27,11 +27,11 @@ public class Room {
 
 
     public static class Position {
-        public int x;
-        public int y;
+        int x;
+        int y;
         int width;
         int height;
-        public boolean visited = false;
+        boolean visited = false;
 
         public Position(int x, int y, int w, int h) {
             this.x = x;
@@ -101,7 +101,7 @@ public class Room {
 
         roomMap = new HashMap<>();
         roomMap2 = new HashMap();
-        numRooms = RandomUtils.uniform(RANDOMSEED, 10,13);
+        numRooms = RandomUtils.uniform(RANDOMSEED, 10, 13);
         for (int k = 0; k < numRooms; k++) {
             int randoma = RandomUtils.uniform(RANDOMSEED, 13, 60);
             int randomb = RandomUtils.uniform(RANDOMSEED, 9, 30);
@@ -134,7 +134,7 @@ public class Room {
 
             //Vertically Connect UPWARDS
             outer: for (int x = botLeft.x; x < topRight.x + 1; x++) {
-                for (int y = topRight.y+1; y < HEIGHT; y++) {
+                for (int y = topRight.y + 1; y < HEIGHT; y++) {
                     if (randWorld[x][y] == Tileset.FLOOR) {
                         // Fill in gap between current object and next object (vertical)
                         System.out.println("Distance" + (y - topRight.y));
@@ -152,7 +152,7 @@ public class Room {
 
             //Horizontally Connect RIGHT
             yeet: for (int y = botLeft.y; y < topRight.y + 1; y++) {
-                for (int x = topRight.x+1; x < WIDTH; x++) {
+                for (int x = topRight.x + 1; x < WIDTH; x++) {
                     if (randWorld[x][y] == Tileset.FLOOR) {
                         for (int xFill = 0; xFill < (x - topRight.x); xFill++) {
                             randWorld[topRight.x + xFill][y] = Tileset.FLOOR;
@@ -423,10 +423,10 @@ public class Room {
         } else if (d == 'a') {
             directioner[0] = avatar1.x - 1;
             directioner[1] = avatar1.y;
-        } else if (d== 's') {
+        } else if (d == 's') {
             directioner[0] = avatar1.x;
             directioner[1] = avatar1.y - 1;
-        } else if (d== 'd') {
+        } else if (d == 'd') {
             directioner[0] = avatar1.x + 1;
             directioner[1] = avatar1.y;
         }
@@ -435,9 +435,9 @@ public class Room {
 
 
 
-    public ingame move(char d, TETile[][] worldTiles, Room.Position avatarPosition, TETile atype) {
+    public Ingame move(char d, TETile[][] worldTiles, Room.Position avatarPosition, TETile atype) {
 
-        ingame avatar1 = new ingame(worldTiles, avatarPosition);
+        Ingame avatar1 = new Ingame(worldTiles, avatarPosition);
         int[] directions = moving(d, avatarPosition);
         boolean movewall = worldTiles[directions[0]][directions[1]] == Tileset.NOTHING;
         boolean movewall2 = worldTiles[directions[0]][directions[1]] == Tileset.WALL;
@@ -562,11 +562,11 @@ public class Room {
         }
     }
 
-    class ingame {
+    class Ingame {
         TETile[][] worldTiles;
         Position avatarPosition;
 
-        ingame(TETile[][] Tiles, Position avatarPos) {
+        Ingame(TETile[][] Tiles, Position avatarPos) {
             this.worldTiles = Tiles;
             this.avatarPosition = avatarPos;
         }

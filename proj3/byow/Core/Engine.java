@@ -289,7 +289,7 @@ public class Engine {
                     typed = true;
                 } else if (curr == 'a' || curr == 'w' || curr == 's' || curr == 'd') {
                     actionsSoFar = actionsSoFar + curr;
-                    Room.ingame newAvatarWorld = map.move(curr, worldTiles, positionavatar, avatar);
+                    Room.Ingame newAvatarWorld = map.move(curr, worldTiles, positionavatar, avatar);
                     positionavatar = newAvatarWorld.avatarPosition;
                     worldTiles = newAvatarWorld.worldTiles;
                 }
@@ -387,9 +387,11 @@ public class Engine {
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6,
                 "Press 'b' to navigate back to main menu.");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 2,
-                "The story takes place in Taisho-era Japan. You are Tanjiro Kamado, wanting to save your sister");
+                "The story takes place in Taisho-era Japan."
+                        + " You are Tanjiro Kamado, wanting to save your sister");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 4,
-                "Nezuko Kamado, as you seek a cure to Nezuko's demon curse. You  have joined the Demon Slayer Corps,");
+                "Nezuko Kamado, as you seek a cure to Nezuko's demon curse."
+                        + " You  have joined the Demon Slayer Corps,");
         StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 6,
                 "that have been waging a secret war "
                         + "against demons for centuries as demons are former humans");
@@ -443,7 +445,7 @@ public class Engine {
         for (int i = 0; i < history.length(); i++) {
             mouse(gameworld, map.demonsoul, sw);
             char currAction = Character.toLowerCase(history.charAt(i));
-            Room.ingame currAvatarWorld = map.move(currAction, gameworld, positionavatar, avatar);
+            Room.Ingame currAvatarWorld = map.move(currAction, gameworld, positionavatar, avatar);
             positionavatar = currAvatarWorld.avatarPosition;
             gameworld = currAvatarWorld.worldTiles;
             mouse(gameworld, map.demonsoul, sw);
@@ -612,7 +614,7 @@ public class Engine {
         Room gamescreen = new Room(WIDTH, HEIGHT, S);
         Room.Position positionavatar = gamescreen.drawWorldRooms(avatar);
         TETile[][] gameworld = gamescreen.randWorld;
-        for (int i = 0 ; i < historylog.length(); i++) {
+        for (int i = 0; i < historylog.length(); i++) {
             int[] directions = directionMover(positionavatar, historylog.charAt(i));
             boolean inputhelper1 = (gameworld[directions[0]][directions[1]] == Tileset.NOTHING);
             boolean inputhelper2 = (gameworld[directions[0]][directions[1]] == Tileset.WALL);
@@ -704,13 +706,10 @@ public class Engine {
 
 
 
-
-
-
-    public void result(String r)
+    private void result(String r)
             throws UnsupportedAudioFileException,
             IOException, LineUnavailableException {
-        this.r = r;
+
         if (r.equals("win")) {
             win();
         } else {

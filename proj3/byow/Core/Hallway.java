@@ -175,8 +175,10 @@ public class Hallway {
 
 
     public static void horitonzalhallway(Room.Position room1, Room.Position room2) {
-
-        if (Room.direction(room1, room2).equals("SE") || Room.direction(room1, room2).equals("SW")) {
+        boolean direction1 = Room.direction(room1, room2).equals("SW");
+        boolean direction2 = Room.direction(room1, room2).equals("SE");
+        if (direction1
+                || direction2 ) {
             Room.Position placeholder = room1;
             room1 = room2;
             room2 = placeholder;
@@ -219,7 +221,7 @@ public class Hallway {
         boolean checkverticalhallway = Room.direction(room1, room2).equals("SW");
         boolean checkverticalhallway2 = Room.direction(room1, room2).equals("SE");
 
-        if (checkverticalhallway || checkverticalhallway2 ) {
+        if (checkverticalhallway || checkverticalhallway2) {
             Room.Position placeholder = room1;
             room1 = room2;
             room2 = placeholder;
@@ -275,8 +277,10 @@ public class Hallway {
 
         if (rotate.equals("horizontal")) {
             for (int i = 0; i < dif; i++) {
-                boolean checkwall = Room.randWorld[startPoint.x + i][startPoint.y] == Tileset.WALL;
-                boolean checkwall2 = Room.randWorld[startPoint.x + i + 1][startPoint.y] == Tileset.WALL;
+                boolean checkwall = Room.randWorld[startPoint.x + i]
+                        [startPoint.y] == Tileset.WALL;
+                boolean checkwall2 = Room.randWorld[startPoint.x + i + 1]
+                        [startPoint.y] == Tileset.WALL;
                 if (checkwall && checkwall2) {
                     return false;
                 }

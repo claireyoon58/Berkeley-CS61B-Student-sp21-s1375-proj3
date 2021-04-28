@@ -188,31 +188,31 @@ public class Hallway {
             int room = room2.x - (room1.x + room1.width);
             int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room + room2.width);
             int randY = RandomUtils.uniform(Room.RANDOMSEED, room1.y - room1.height + 1, room1.y);
-            Room.Position horizontalpoint = new Room.Position(room1.x + room1.width, randY, 0, 0);
+            Room.Position horizonp = new Room.Position(room1.x + room1.width, randY, 0, 0);
 
-            Room.Position verticalicalpoint = new Room.Position(room1.x + room1.width
+            Room.Position vertp = new Room.Position(room1.x + room1.width
                     + hallwayheight, randY, 0, 0);
 
 
 
-            hallwaydraw("horizontal", horizontalpoint, hallwayheight);
-            hallwaydraw("vertical", verticalicalpoint, room2.y - room2.height - randY + 2);
-            Room.Position cornerPoint = new Room.Position(verticalicalpoint.x, verticalicalpoint.y
+            hallwaydraw("horizontal", horizonp, hallwayheight);
+            hallwaydraw("vertical", vertp, room2.y - room2.height - randY + 2);
+            Room.Position cornerPoint = new Room.Position(vertp.x, vertp.y
                     + (room2.y - room2.height - randY) - 2, 0, 0);
             roomcorner(cornerPoint, "toprightandbot");
         } else if (directionAB.equals("NW")) {
             int room = room1.x - (room2.x + room2.width);
             int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room + room1.width);
             int randY = RandomUtils.uniform(Room.RANDOMSEED, room2.y - room2.height + 1, room2.y);
-            Room.Position horizontalpoint = new Room.Position(room2.x + room2.width, randY, 0, 0);
-            Room.Position verticalicalpoint = new Room.Position(room2.x + room2.width
+            Room.Position horizonp = new Room.Position(room2.x + room2.width, randY, 0, 0);
+            Room.Position vertp = new Room.Position(room2.x + room2.width
                     + hallwayheight, room1.y, 0, 0);
 
 
 
-            hallwaydraw("horizontal", horizontalpoint, hallwayheight);
-            hallwaydraw("vertical", verticalicalpoint, randY - room1.y);
-            roomcorner(verticalicalpoint, "toprightandbot");
+            hallwaydraw("horizontal", horizonp, hallwayheight);
+            hallwaydraw("vertical", vertp, randY - room1.y);
+            roomcorner(vertp, "toprightandbot");
         }
     }
 
@@ -231,14 +231,14 @@ public class Hallway {
             int room = room2.y - room2.height - room1.y;
             int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room2.y - room1.y);
             int r = RandomUtils.uniform(Room.RANDOMSEED, room1.x + 1, room1.x + room1.width);
-            Room.Position verticalicalpoint = new Room.Position(r, room1.y, 0, 0);
-            Room.Position horizontalpoint = new Room.Position(r, room1.y + hallwayheight, 0, 0);
+            Room.Position vertp = new Room.Position(r, room1.y, 0, 0);
+            Room.Position horizonp = new Room.Position(r, room1.y + hallwayheight, 0, 0);
 
 
 
-            hallwaydraw("vertical", verticalicalpoint, hallwayheight);
-            hallwaydraw("horizontal", horizontalpoint, room2.x - r);
-            roomcorner(horizontalpoint, "top left");
+            hallwaydraw("vertical", vertp, hallwayheight);
+            hallwaydraw("horizontal", horizonp, room2.x - r);
+            roomcorner(horizonp, "top left");
         } else if (directionAB.equals("NW")) {
             int room = room2.y - room2.height - room1.y;
             int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room2.y - room1.y);
@@ -247,15 +247,14 @@ public class Hallway {
             int ran = RandomUtils.uniform(Room.RANDOMSEED, rooma, roomb);
             int horoom2 = room2.x + room2.width;
             int vertroom2 = room1.y + hallwayheight;
-            Room.Position verticalicalpoint = new Room.Position(ran, room1.y, 0, 0);
-            Room.Position horizontalpoint = new Room.Position
-                    (horoom2, vertroom2, 0, 0);
+            Room.Position vertp = new Room.Position(ran, room1.y, 0, 0);
+            Room.Position horizonp = new Room.Position(horoom2, vertroom2, 0, 0);
 
 
 
-            hallwaydraw("vertical", verticalicalpoint, hallwayheight);
-            hallwaydraw("horizontal", horizontalpoint, ran - room2.x - room2.width);
-            roomcorner(horizontalpoint, "leftbottom");
+            hallwaydraw("vertical", vertp, hallwayheight);
+            hallwaydraw("horizontal", horizonp, ran - room2.x - room2.width);
+            roomcorner(horizonp, "leftbottom");
         }
     }
 
@@ -292,8 +291,10 @@ public class Hallway {
         } else if (rotate.equals("vertical")) {
 
             for (int i = 0; i < dif; i++) {
-                boolean checkver = Room.randWorld[startPoint.x][startPoint.y + i + 1] == Tileset.WALL;
-                boolean checkver2 = Room.randWorld[startPoint.x][startPoint.y + i] == Tileset.WALL;
+                int startx = startPoint.x;
+                int starty = startPoint.y + i;
+                boolean checkver = Room.randWorld[startx][starty + 1] == Tileset.WALL;
+                boolean checkver2 = Room.randWorld[startx][starty] == Tileset.WALL;
                 if (checkver && checkver2) {
                     return false;
                 }

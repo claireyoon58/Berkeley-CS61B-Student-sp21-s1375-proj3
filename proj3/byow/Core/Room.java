@@ -513,7 +513,8 @@ public class Room {
         }
         for (int j = topcorner.y; j < topcorner.height; j++) {
             boolean checktopcorner2 = randWorld[topcorner.y][j] != Tileset.NOTHING;
-            boolean checktopheight2 = randWorld[topcorner.x + topcorner.width][j] != Tileset.NOTHING;
+            int xx = topcorner.x + topcorner.width;
+            boolean checktopheight2 = randWorld[xx][j] != Tileset.NOTHING;
             boolean checktop2 = randWorld[topcorner.x - 1][j] != Tileset.NOTHING;
             boolean checkdiff2 = randWorld[topcorner.x + topcorner.width + 1][j] != Tileset.NOTHING;
 

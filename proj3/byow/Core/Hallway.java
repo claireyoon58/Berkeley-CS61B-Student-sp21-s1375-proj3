@@ -245,11 +245,11 @@ public class Hallway {
             int rooma = room1.x + 1;
             int roomb = room1.x + room1.width;
             int ran = RandomUtils.uniform(Room.RANDOMSEED, rooma, roomb);
-            Room.Position verticalicalpoint = new Room.Position
-                    (ran, room1.y, 0, 0);
+            int horoom2 = room2.x + room2.width;
+            int vertroom2 = room1.y + hallwayheight;
+            Room.Position verticalicalpoint = new Room.Position(ran, room1.y, 0, 0);
             Room.Position horizontalpoint = new Room.Position
-                    (room2.x + room2.width,
-                            room1.y + hallwayheight, 0, 0);
+                    (horoom2, vertroom2, 0, 0);
 
 
 

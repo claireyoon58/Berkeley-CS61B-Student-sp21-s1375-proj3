@@ -463,7 +463,7 @@ public class Room {
         int newposy = avatar1.avatarPosition.y;
         worldTiles[newposx][newposy] = Tileset.FLOOR;
 
-        avatar1.avatarPosition = new Room.Position(movex, movey , 0, 0);
+        avatar1.avatarPosition = new Room.Position(movex, movey, 0, 0);
         worldTiles[movex][movey] = atype;
 //        ter.renderFrame(worldTiles);
         return avatar1;
@@ -501,9 +501,12 @@ public class Room {
     public boolean roomhelper(Room.Position topcorner) {
         for (int i = topcorner.x; i < topcorner.width; i++) {
             boolean checktopcorner = randWorld[i][topcorner.y] != Tileset.NOTHING;
-            boolean checktopheight = randWorld[i][topcorner.y - topcorner.height] != Tileset.NOTHING;
-            boolean checktop = randWorld[i][topcorner.y + 1] != Tileset.NOTHING;
-            boolean checkdiff = randWorld[i][topcorner.y - topcorner.height - 1] != Tileset.NOTHING;
+            int heightt = topcorner.y - topcorner.height;
+            boolean checktopheight = randWorld[i][heightt] != Tileset.NOTHING;
+            int heighttt = topcorner.y + 1;
+            boolean checktop = randWorld[i][heighttt] != Tileset.NOTHING;
+            int cc = topcorner.y - topcorner.height - 1;
+            boolean checkdiff = randWorld[i][cc] != Tileset.NOTHING;
             if (checkdiff || checktop || checktopcorner || checktopheight) {
                 return true;
             }
@@ -573,8 +576,8 @@ public class Room {
         TETile[][] worldTiles;
         Position avatarPosition;
 
-        Ingame(TETile[][] Tiles, Position avatarPos) {
-            this.worldTiles = Tiles;
+        Ingame(TETile[][] t, Position avatarPos) {
+            this.worldTiles = t;
             this.avatarPosition = avatarPos;
         }
     }

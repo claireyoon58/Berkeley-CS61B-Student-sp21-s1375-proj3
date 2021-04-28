@@ -53,17 +53,17 @@ public class Engine {
         Clip audioClip = (Clip) AudioSystem.getLine(info);
         audioClip.open(playtheme);
         audioClip.start();
-
-        String pick = drawStartScreen();
+//
+//        String pick = drawStartScreen();
         TETile[][] gameworld = null;
-        if (pick.equals("Quit")) {
-            System.exit(0);
-        } else if (pick.equals("avatar selection")) {
-            changeAvatar();
+//        if (pick.equals("Quit")) {
+//            System.exit(0);
+//        } else if (pick.equals("avatar selection")) {
+//            changeAvatar();
             interactWithKeyboard();
-        } else if (pick.equals("replay game")) {
-            replaySavedGame();
-        } else if (pick.equals("load game")) {
+//        } else if (pick.equals("replay game")) {
+//            replaySavedGame();
+//        } else if (pick.equals("load game")) {
             playseed();
             actionplay();
             loadAvatar();
@@ -81,19 +81,19 @@ public class Engine {
                 positionavatar.x = directions[0];
                 positionavatar.y = directions[1];
             }
-            playGame(SEED, history, positionavatar, gameworld, map);
-        } else if (pick.equals("new game")) {
+//            playGame(SEED, history, positionavatar, gameworld, map);
+//        } else if (pick.equals("new game")) {
             SEED = inputseed();
 
-            Room map = new Room( WIDTH, HEIGHT, SEED);
+            Room mapp = new Room( WIDTH, HEIGHT, SEED);
 
-            Room.Position positionavatar = map.drawWorldRooms(avatar);
-            gameworld = map.randWorld;
-
-            playGame(SEED, "", positionavatar, gameworld, map);
-        } else if (pick.equals("backstory")) {
-            backstory();
-        }
+//            Room.Position positionavatar = map.drawWorldRooms(avatar);
+            gameworld = mapp.randWorld;
+//
+//            playGame(SEED, "", positionavatar, gameworld, map);
+//        } else if (pick.equals("backstory")) {
+//            backstory();
+//        }
 //        String start = startscreen();d
 //        if (start.equals("Quit")) {
 //            System.exit(0);
@@ -103,21 +103,21 @@ public class Engine {
     }
 
     private long inputseed() {
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-
-        String game = ".../proj3/gamebackground.png";
-
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , game);
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Please input a seed");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 4, "Press (s) after inputing seed");
-        StdDraw.show();
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.setPenColor(Color.WHITE);
+//
+//        String game = ".../proj3/gamebackground.png";
+//
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , game);
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Please input a seed");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 4, "Press (s) after inputing seed");
+//        StdDraw.show();
         long seed = 0;
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
@@ -133,53 +133,53 @@ public class Engine {
         }
     }
 
-    public String drawStartScreen() {
-        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
+//    public String drawStartScreen() {
+//        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
+////        StdDraw.setPenColor(Color.WHITE);
+//        Font font = new Font("Herculanum", Font.BOLD, 30);
+//        StdDraw.setFont(font);
+//
+//        String background = "../proj3/background.png";
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        StdDraw.clear(Color.BLACK);
 //        StdDraw.setPenColor(Color.WHITE);
-        Font font = new Font("Herculanum", Font.BOLD, 30);
-        StdDraw.setFont(font);
-
-        String background = "../proj3/background.png";
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , background);
-
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Demon Slayer");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit (Q)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Replay Game (R)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 24, "Avatar Selection (A)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 28, "Backstory (B)");
-
-        StdDraw.show();
-
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                System.out.println("User pressed: " + curr);
-                if (curr == 'n') {
-                    return "new game";
-                } else if (curr == 'l') {
-                    return "load game";
-                } else if (curr == 'r') {
-                    return "replay game";
-                } else if (curr == 'q') {
-                    return "Quit";
-                } else if (curr == 'a') {
-                    return "avatar selection";
-                } else if (curr == 'b') {
-                    return "backstory";
-                }
-            }
-        }
-    }
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , background);
+//
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Demon Slayer");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit (Q)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Replay Game (R)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 24, "Avatar Selection (A)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 28, "Backstory (B)");
+//
+//        StdDraw.show();
+//
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                System.out.println("User pressed: " + curr);
+//                if (curr == 'n') {
+//                    return "new game";
+//                } else if (curr == 'l') {
+//                    return "load game";
+//                } else if (curr == 'r') {
+//                    return "replay game";
+//                } else if (curr == 'q') {
+//                    return "Quit";
+//                } else if (curr == 'a') {
+//                    return "avatar selection";
+//                } else if (curr == 'b') {
+//                    return "backstory";
+//                }
+//            }
+//        }
+//    }
 
     private void loadAvatar() {
         String savedAvatar = "";
@@ -205,44 +205,44 @@ public class Engine {
 
     }
 
-    private void changeAvatar() {
-        System.out.println("Changing avatar...");
-
-        String selection = ".../proj3/avatarselection.png";
-
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , selection);
-
-
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Choose Avatar");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Tanjiro(B)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Nezuko(N)");
-//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Demon(D)");
-
-        StdDraw.show();
-
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (curr == 'a') {
-                    avatar = Tileset.AVATAR;
-
-                    return;
-                } else if (curr == 'n') {
-                    avatar = Tileset.NEZUKO;
-
-                    return;
-                }
-            }
-        }
-    }
+//    private void changeAvatar() {
+//        System.out.println("Changing avatar...");
+//
+//        String selection = ".../proj3/avatarselection.png";
+//
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.setPenColor(Color.WHITE);
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , selection);
+//
+//
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Choose Avatar");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Tanjiro(B)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Nezuko(N)");
+////        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Demon(D)");
+//
+//        StdDraw.show();
+//
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                if (curr == 'a') {
+//                    avatar = Tileset.AVATAR;
+//
+//                    return;
+//                } else if (curr == 'n') {
+//                    avatar = Tileset.NEZUKO;
+//
+//                    return;
+//                }
+//            }
+//        }
+//    }
 
     private int[] directionMover(Room.Position avPlace, char direction) {
         int[] answer = new int[2];
@@ -262,41 +262,41 @@ public class Engine {
         return answer;
     }
 
-    private void playGame(long seed, String actions, Room.Position positionavatar,
-                          TETile[][] worldTiles, Room map) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        String actionsSoFar = actions;
-        boolean typed = false;
-        Stopwatch sw = new Stopwatch();
-
-        while (true) {
-            mouse(worldTiles, map.demonsoul, sw);
-            if (sw.elapsedTime() > 30 && map.demonsoul < 5) {
-                result("lose");
-            } else if (map.demonsoul >= 5) {
-                result("win");
-            } if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (typed && (curr == 'q')) {
-
-                    SEED = seed;
-                    history = actionsSoFar;
-                    saveseedd();
-                    saveAvatar();
-                    System.out.println("The saved seed is: " + SEED);
-                    System.out.println("The saved actions are: " + history);
-                    System.exit(0);
-                } else if (curr == ':') {
-
-                    typed = true;
-                } else if (curr == 'a' || curr == 'w' || curr == 's' || curr == 'd') {
-                    actionsSoFar = actionsSoFar + curr;
-                    Room.ingame newAvatarWorld = map.move(curr, worldTiles, positionavatar, avatar);
-                    positionavatar = newAvatarWorld.avatarPosition;
-                    worldTiles = newAvatarWorld.worldTiles;
-                }
-            }
-        }
-    }
+//    private void playGame(long seed, String actions, Room.Position positionavatar,
+//                          TETile[][] worldTiles, Room map) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+//        String actionsSoFar = actions;
+//        boolean typed = false;
+//        Stopwatch sw = new Stopwatch();
+//
+//        while (true) {
+//            mouse(worldTiles, map.demonsoul, sw);
+//            if (sw.elapsedTime() > 30 && map.demonsoul < 5) {
+//                result("lose");
+//            } else if (map.demonsoul >= 5) {
+//                result("win");
+//            } if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                if (typed && (curr == 'q')) {
+//
+//                    SEED = seed;
+//                    history = actionsSoFar;
+//                    saveseedd();
+//                    saveAvatar();
+//                    System.out.println("The saved seed is: " + SEED);
+//                    System.out.println("The saved actions are: " + history);
+//                    System.exit(0);
+//                } else if (curr == ':') {
+//
+//                    typed = true;
+//                } else if (curr == 'a' || curr == 'w' || curr == 's' || curr == 'd') {
+//                    actionsSoFar = actionsSoFar + curr;
+//                    Room.ingame newAvatarWorld = map.move(curr, worldTiles, positionavatar, avatar);
+//                    positionavatar = newAvatarWorld.avatarPosition;
+//                    worldTiles = newAvatarWorld.worldTiles;
+//                }
+//            }
+//        }
+//    }
     private boolean helpersoul(int souls) {
         if (souls > 0) {
             return true;
@@ -370,51 +370,51 @@ public class Engine {
             System.exit(0);
         }
     }
-    public void backstory() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
-        String back = ".../sp21-s1375/proj3/backstory.png";
-
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , back);
-
-
-
-        Font font = new Font("Monaco", Font.ITALIC, 12);
-        StdDraw.setFont(font);
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6, "Press 'b' to navigate back to main menu.");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 2, "The story takes place in Taisho-era Japan. You are Tanjiro Kamado, wanting to save your sister");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 4, "Nezuko Kamado, as you seek a cure to Nezuko's demon curse. You  have joined the Demon Slayer Corps,");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 6, "that have been waging a secret war against demons for centuries as demons are former humans");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 8, "who sold their humanity in exchange for power and feed on humans. Demons can only be killed with ");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 10, "Sunsteel, injected with poison extracted from wisteria flowers, which you will be given beginning of the game.");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 12, "You will have three characters to choose from.");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 14, "Tanjiro: The standard character who will be given a Sunsteel Sword ");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 16, "to kill demons when seen and collect demon souls but you will have to look harder to find the demons");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 18, "Nezuko: You are a half demon who will not be given a sword,");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 20, "but will already be given demon souls and collect less");;
-//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 22, "Demon: As a demon, your job is to collect as much demon souls without dying from the Demon Slayer Corps. You" );
-//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 24, "will have a shorter time. However, you can eat the humans to increase your time span. Best of luck to you!");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 26, "Before the villagers start waking up and cannot move around freely, ");
-        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 28, "you must collect as many demon souls as possible, or face consequences! ");
-        StdDraw.show();
-
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char typeletter = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (typeletter == 't') {
-                    interactWithKeyboard();
-                    return;
-                }
-            }
-        }
-    }
+//    public void backstory() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+//
+//        String back = ".../sp21-s1375/proj3/backstory.png";
+//
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.setPenColor(Color.WHITE);
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , back);
+//
+//
+//
+//        Font font = new Font("Monaco", Font.ITALIC, 12);
+//        StdDraw.setFont(font);
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6, "Press 'b' to navigate back to main menu.");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 2, "The story takes place in Taisho-era Japan. You are Tanjiro Kamado, wanting to save your sister");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 4, "Nezuko Kamado, as you seek a cure to Nezuko's demon curse. You  have joined the Demon Slayer Corps,");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 6, "that have been waging a secret war against demons for centuries as demons are former humans");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 8, "who sold their humanity in exchange for power and feed on humans. Demons can only be killed with ");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 10, "Sunsteel, injected with poison extracted from wisteria flowers, which you will be given beginning of the game.");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 12, "You will have three characters to choose from.");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 14, "Tanjiro: The standard character who will be given a Sunsteel Sword ");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 16, "to kill demons when seen and collect demon souls but you will have to look harder to find the demons");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 18, "Nezuko: You are a half demon who will not be given a sword,");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 20, "but will already be given demon souls and collect less");;
+////        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 22, "Demon: As a demon, your job is to collect as much demon souls without dying from the Demon Slayer Corps. You" );
+////        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 24, "will have a shorter time. However, you can eat the humans to increase your time span. Best of luck to you!");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 26, "Before the villagers start waking up and cannot move around freely, ");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 5 / 6 - 28, "you must collect as many demon souls as possible, or face consequences! ");
+//        StdDraw.show();
+//
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char typeletter = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                if (typeletter == 't') {
+//                    interactWithKeyboard();
+//                    return;
+//                }
+//            }
+//        }
+//    }
 
     private void replaySavedGame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         playseed();
@@ -436,57 +436,57 @@ public class Engine {
             StdDraw.pause(400);
             mouse(gameworld, map.demonsoul, sw);
         }
-        String userChoice = drawReplayEndScreen();
-        if (userChoice.equals("Replay")) {
-            replaySavedGame();
-        } else if (userChoice.equals("Start Screen")) {
+//        String userChoice = drawReplayEndScreen();
+//        if (userChoice.equals("Replay")) {
+//            replaySavedGame();
+//        } else if (userChoice.equals("Start Screen")) {
             interactWithKeyboard();
-        } else if (userChoice.equals("Quit")) {
+//        } else if (userChoice.equals("Quit")) {
             System.exit(0);
-        }
+//        }
 
     }
 
-    private String drawReplayEndScreen() {
-
-        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
-        Font font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        String game = ".../proj3/gamebackground.png";
-
-
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , game);
-
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Replay Ended");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Replay (R)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Return to Start Screen (S)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Quit (Q)");
-
-        StdDraw.show();
-
-        System.out.println("Waiting for user game choice");
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-
-                if (curr == 'r') {
-                    return "Replay";
-                } else if (curr == 's') {
-                    return "Start Screen";
-                } else if (curr == 'q') {
-                    return "Quit";
-                }
-            }
-        }
-    }
+//    private String drawReplayEndScreen() {
+//
+//        StdDraw.setCanvasSize(WIDTH * 10, HEIGHT * 10);
+//        Font font = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(font);
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        String game = ".../proj3/gamebackground.png";
+//
+//
+//
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , game);
+//
+//        StdDraw.setPenColor(Color.WHITE);
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Replay Ended");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Replay (R)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Return to Start Screen (S)");
+//        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Quit (Q)");
+//
+//        StdDraw.show();
+//
+//        System.out.println("Waiting for user game choice");
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//
+//                if (curr == 'r') {
+//                    return "Replay";
+//                } else if (curr == 's') {
+//                    return "Start Screen";
+//                } else if (curr == 'q') {
+//                    return "Quit";
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -688,85 +688,85 @@ public class Engine {
 
 
 
-    public void result(String r) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        if (r == "win") {
-            win();
-        } else {
-            lose();
-        }
-    }
+//    public void result(String r) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+//        if (r == "win") {
+//            win();
+//        } else {
+//            lose();
+//        }
+//    }
 
-    private void win() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
-        String winscreen = ".../proj3/win.png";
-
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , winscreen);
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Congratulations! You won!");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "You have collected the demon souls");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "without dying");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
-        StdDraw.show();
-
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (curr == 'm') {
-                    interactWithKeyboard();
-                    return;
-                }
-            }
-        }
-    }
-
-    private void lose() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-//        File lost = new File("/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/lost.mp3");
-//        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
+//    private void win() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 //
-//        AudioFormat play = playtheme.getFormat();
-//        DataLine.Info info = new DataLine.Info(Clip.class, play);
+//        String winscreen = ".../proj3/win.png";
 //
-//        Clip audioClip = (Clip) AudioSystem.getLine(info);
-//        audioClip.open(playtheme);
-//        audioClip.start();
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.setPenColor(Color.WHITE);
+//
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , winscreen);
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Congratulations! You won!");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "You have collected the demon souls");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "without dying");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
+//        StdDraw.show();
+//
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                if (curr == 'm') {
+//                    interactWithKeyboard();
+//                    return;
+//                }
+//            }
+//        }
+//    }
 
-        String losescreen = ".../proj3/lose.png";
-
-
-
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.enableDoubleBuffering();
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-
-        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , losescreen);
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Sorry, the sun is up and have lost..");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "Demons are running wild in the village");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "ahhhh...");
-//insert people screaming and blood rushing sounds
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
-        StdDraw.show();
-
-        while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (curr == 'm') {
-                    interactWithKeyboard();
-                    return;
-                }
-            }
-        }
-    }
+//    private void lose() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+////        File lost = new File("/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/lost.mp3");
+////        AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
+////
+////        AudioFormat play = playtheme.getFormat();
+////        DataLine.Info info = new DataLine.Info(Clip.class, play);
+////
+////        Clip audioClip = (Clip) AudioSystem.getLine(info);
+////        audioClip.open(playtheme);
+////        audioClip.start();
+//
+//        String losescreen = ".../proj3/lose.png";
+//
+//
+//
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.enableDoubleBuffering();
+//
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.setPenColor(Color.WHITE);
+//
+//        StdDraw.picture(WIDTH / 2, HEIGHT / 2 , losescreen);
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Sorry, the sun is up and have lost..");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "Demons are running wild in the village");
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "ahhhh...");
+////insert people screaming and blood rushing sounds
+//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
+//        StdDraw.show();
+//
+//        while (true) {
+//            if (StdDraw.hasNextKeyTyped()) {
+//                char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
+//                if (curr == 'm') {
+//                    interactWithKeyboard();
+//                    return;
+//                }
+//            }
+//        }
+//    }
     private void saveAvatar() {
         if (avatar == Tileset.AVATAR) {
             try {

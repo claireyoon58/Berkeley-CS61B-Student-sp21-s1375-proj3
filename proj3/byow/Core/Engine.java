@@ -132,7 +132,7 @@ public class Engine {
                 } else {
                     int currInt = Integer.parseInt(String.valueOf(type));
                     seed = seed * 10 + currInt;
-                    System.out.println("seed: " + seed);
+                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: " + seed);
                 }
             }
         }
@@ -206,7 +206,7 @@ public class Engine {
             helperErrorExit("IOException happened! Could not save :/");
         }
 
-        if (savedAvatar.equals("basic")) {
+        if (savedAvatar.equals("avatar")) {
 
             avatar = Tileset.AVATAR;
         } else if (savedAvatar.equals("Nezuko")) {
@@ -803,11 +803,15 @@ public class Engine {
         StdDraw.setPenColor(Color.WHITE);
 
         StdDraw.picture(WIDTH / 2, HEIGHT / 2, winscreen);
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Congratulations! You won! The Sun is up.");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "You have collected the demon souls without dying.");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "The Demon Slayer Crops are giving you an honor badge! ");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4,
+                "Congratulations! You won! The Sun is up.");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4,
+                "You have collected the demon souls without dying.");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6,
+                "The Demon Slayer Crops are giving you an honor badge! ");
 //        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 8, );
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10,
+                "Press 'm' to return to main menu.");
         StdDraw.show();
 
         while (true) {
@@ -849,11 +853,15 @@ public class Engine {
         StdDraw.setPenColor(Color.WHITE);
 
         StdDraw.picture(WIDTH / 2, HEIGHT / 2, losescreen);
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "Sorry, the sun is up and have lost..");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4, "Demons are running wild in the village and your sister Nezuko");
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6, "has died from the demons.....");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4,
+                "Sorry, the sun is up and have lost..");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 4,
+                "Demons are running wild in the village and your sister Nezuko");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 6,
+                "has died from the demons.....");
 //insert people screaming and blood rushing sounds
-        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10, "Press 'm' to return to main menu.");
+        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4 - 10,
+                "Press 'm' to return to main menu.");
         StdDraw.show();
 
         while (true) {
@@ -871,7 +879,7 @@ public class Engine {
         if (avatar == Tileset.AVATAR) {
             try {
                 FileWriter avatarWriter = new FileWriter("SavedAvatar.txt");
-                avatarWriter.write("basic");
+                avatarWriter.write("avatar");
                 avatarWriter.close();
 
             } catch (IOException e) {

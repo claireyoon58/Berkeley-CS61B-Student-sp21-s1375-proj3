@@ -1,8 +1,6 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.TileEngine.*;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -96,17 +94,12 @@ public class Room {
 
 
 
-    public void connect(Position room1, Position room2) {
+    public void connect(Position room1,
+                        Position room2) {
         String loc = straightHallway(room1, room2);
         Room.Position starthallway = null;
         if (loc.equals("horizontal")) {
-//            connecthelperX(room1, room2);
-            if (room1.x > room2.x) {
-                Position store = room2;
-                room2 = room1;
-                room1 = store;
-            }
-
+            connecthelperX(room1, room2);
             int maxroom = Math.max(room2.y - room2.height, room1.y - room1.height);
             int minroom = Math.min(room2.y, room1.y);
             int randY = RandomUtils.uniform(SEED, maxroom, minroom);
@@ -122,7 +115,7 @@ public class Room {
             }
             int dif = room2.x - (room1.x + room1.width);
             drawHall(loc, starthallway, dif);
-        //        test1: for (Object key : gameRoom2.keySet()) {
+            //        test1: for (Object key : gameRoom2.keySet()) {
 //            Position2 botLeft = (Position2) key;
 //            Position2 topRight = (Position2) gameRoom2.get(key);
 //
@@ -150,12 +143,7 @@ public class Room {
 //                        }
 //                        continue yeet;
         } else if (loc.equals("vertical")) {
-//            connecthelperY(room1, room2);
-            if (room1.y > room2.y) {
-                Position store = room2;
-                room2 = room1;
-                room1 = store;
-            }
+            connecthelperY(room1, room2);
             int comparemax = Math.max(room1.x, room2.x);
             int comparemin = Math.min(room1.x + room1.width, room2.x + room2.width);
             int randX = RandomUtils.uniform(SEED, comparemax + 1, comparemin);
@@ -461,9 +449,8 @@ public class Room {
 
         randWorld[wid][he] = avatar;
         demon(avatar);
-//        fillWalls(randWorld);
         ter.renderFrame(randWorld);
-//        ter.renderFrame(randWorld);
+        ter.renderFrame(randWorld);
         int newx = gameRoom.get(0).x + gameRoom.get(0).width / 2;
         int newy = gameRoom.get(0).y - gameRoom.get(0).height / 2;
 
@@ -630,8 +617,10 @@ public class Room {
 
 
 
-    public Ingame move(char direction, TETile[][] worldTiles,
-                       Position avatarxy, TETile avatarType)
+    public Ingame move(char direction,
+                       TETile[][] worldTiles,
+                       Position avatarxy,
+                       TETile avatarType)
             throws LineUnavailableException,
             IOException, UnsupportedAudioFileException {
 
@@ -650,61 +639,22 @@ public class Room {
             if (avatarType == Tileset.AVATAR) {
                 int soundver = RandomUtils.uniform(SEED, 0, 3);
                 if (soundver == 0) {
-                    File kill = new File("../proj3/killing.wav");
-                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+                    playSound("../proj3/killing.wav");
 
-                    AudioFormat play = playtheme.getFormat();
-                    DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-                    Clip audio = (Clip) AudioSystem.getLine(info);
-                    audio.open(playtheme);
-                    audio.start();
                 } else if (soundver == 1) {
-                    File kill = new File("../proj3/killing2.wav");
-                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
-
-                    AudioFormat play = playtheme.getFormat();
-                    DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-                    Clip audio = (Clip) AudioSystem.getLine(info);
-                    audio.open(playtheme);
-                    audio.start();
+                    playSound("../proj3/killing2.wav");
 
 //                    horitonzalhallway(room1, room2);
                 } else if (soundver == 2) {
-                    File kill = new File("../proj3/killing3.wav");
-                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
-
-                    AudioFormat play = playtheme.getFormat();
-                    DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-                    Clip audio = (Clip) AudioSystem.getLine(info);
-                    audio.open(playtheme);
-                    audio.start();
+                    playSound("../proj3/killing3.wav");
                 }
             }
             if (avatarType == Tileset.NEZUKO) {
                 int nezukover = RandomUtils.uniform(SEED, 0, 3);
                 if (nezukover == 0) {
-                    File kill = new File("../proj3/nezukill2.wav");
-                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
-
-                    AudioFormat play = playtheme.getFormat();
-                    DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-                    Clip audio = (Clip) AudioSystem.getLine(info);
-                    audio.open(playtheme);
-                    audio.start();
+                    playSound("../proj3/nezukill2.wav");
                 } else if (nezukover == 1) {
-                    File kill = new File("../proj3/nezukill.wav");
-                    AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
-
-                    AudioFormat play = playtheme.getFormat();
-                    DataLine.Info info = new DataLine.Info(Clip.class, play);
-
-                    Clip audio = (Clip) AudioSystem.getLine(info);
-                    audio.open(playtheme);
-                    audio.start();
+                    playSound("../proj3/nezukill.wav");
                 }
             }
             demonsoul += 1;
@@ -715,6 +665,20 @@ public class Room {
         worldTiles[directions[0]][directions[1]] = avatarType;
         ter.renderFrame(worldTiles);
         return gameavatar;
+    }
+
+    private void playSound(String fileName)
+            throws LineUnavailableException,
+            IOException, UnsupportedAudioFileException {
+        File kill = new File(fileName);
+        AudioInputStream playtheme = AudioSystem.getAudioInputStream(kill);
+
+        AudioFormat play = playtheme.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, play);
+
+        Clip audio = (Clip) AudioSystem.getLine(info);
+        audio.open(playtheme);
+        audio.start();
     }
 
     private int[] directionMover(char direction, Position gameavatar) {

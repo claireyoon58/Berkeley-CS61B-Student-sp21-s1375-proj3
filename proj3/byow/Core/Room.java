@@ -144,7 +144,7 @@ public class Room {
                         for (int yFill = 0; yFill < (y - topRight.y); yFill++) {
                             randWorld[x][topRight.y + yFill] = Tileset.FLOOR;
                         }
-                        System.out.println("FOUND");
+
                         continue test1;
                     }
                 }

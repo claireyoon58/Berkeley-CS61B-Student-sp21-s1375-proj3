@@ -2,13 +2,13 @@ package byow.Core;
 
 
 
-
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
+//
+//import byow.TileEngine.TERenderer;
+//import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-
-import java.util.HashMap;
-import java.util.Random;
+//
+//import java.util.HashMap;
+//import java.util.Random;
 
 public class Hallway {
 //    public static TETile[][] Room.randWorld;
@@ -21,7 +21,7 @@ public class Hallway {
     //    public Hallway(Random Room.RANDOMSEED) {
 //        Room.RANDOMSEED = Room.RANDOMSEED;
 //    }
-    public static int test = 0;
+    private static int test = 0;
     private static boolean hallwayhelper(Room.Position room1, Room.Position room2) {
         for (int i = room1.y; i > room1.y - room1.height + 4; i--) {
             if (Room.randWorld[room1.x][i] == Tileset.FLOOR
@@ -72,8 +72,10 @@ public class Hallway {
             int dif1 = room2.x - (room1.x + room1.width);
             for (int i = 0; i < 6; i++) {
                 if (!hallwayhelper2(rotate, startPoint, dif1)) {
+                    int maxmath = Math.max(room2.y - room2.height, room1.y - room1.height);
+                    int minmath = Math.min(room2.y, room1.y);
                     int differentRandY = RandomUtils.uniform(Room.RANDOMSEED,
-                            Math.max(room2.y - room2.height, room1.y - room1.height), Math.min(room2.y, room1.y));
+                            maxmath, minmath);
                     startPoint = new Room.Position(room1.x + room1.width, differentRandY, 0, 0);
                 }
             }
@@ -92,8 +94,10 @@ public class Hallway {
             for (int i = 0; i < 6; i++) {
                 boolean checkhelper = hallwayhelper2(rotate, startPoint, dif1);
                 if (!checkhelper) {
+                    int maxroom = Math.max(room1.x, room2.x) + 1;
+                    int minroom = Math.min(room1.x + room1.width, room2.x + room2.width);
                     int differentran = RandomUtils.uniform(Room.RANDOMSEED,
-                            Math.max(room1.x, room2.x) + 1, Math.min(room1.x + room1.width, room2.x + room2.width));
+                            maxroom, minroom);
                     startPoint = new Room.Position(differentran, room1.y, 0, 0);
                 }
             }
@@ -236,7 +240,9 @@ public class Hallway {
         } else if (directionAB.equals("NW")) {
             int room = room2.y - room2.height - room1.y;
             int hallwayheight = RandomUtils.uniform(Room.RANDOMSEED, room + 1, room2.y - room1.y);
-            int ran = RandomUtils.uniform(Room.RANDOMSEED, room1.x + 1, room1.x + room1.width);
+            int rooma = room1.x + 1;
+            int roomb = room1.x + room1.width;
+            int ran = RandomUtils.uniform(Room.RANDOMSEED, rooma, roomb);
             Room.Position verticalicalpoint = new Room.Position(ran, room1.y, 0, 0);
             Room.Position horizontalpoint = new Room.Position(room2.x + room2.width, room1.y + hallwayheight, 0, 0);
 

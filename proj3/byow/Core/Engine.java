@@ -147,8 +147,10 @@ public class Engine {
                     StdDraw.setYscale(0, HEIGHT);
                     StdDraw.enableDoubleBuffering();
                     StdDraw.picture(WIDTH / 2, HEIGHT / 2, game);
-                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Please input a seed to kill demons!");
-                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 4, "Press (s) after inputing seed");
+                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4,
+                            "Please input a seed to kill demons!");
+                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 4,
+                            "Press (s) after entering seed");
                     StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: ");
 
                     System.out.println("seed: " + seed);
@@ -162,7 +164,8 @@ public class Engine {
             }
 //            StdDraw.clear();
 //            StdDraw.setPenColor(Color.BLUE);
-//            StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 10, String.valueOf("█████████████████████████████████████"));
+//            StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT/ 4 - 10,
+//            String.valueOf("█████████████████████████████████████"));
 //            StdDraw.setPenColor(Color.WHITE);
 //            StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 10, String.valueOf(printseed));
 //            StdDraw.show();

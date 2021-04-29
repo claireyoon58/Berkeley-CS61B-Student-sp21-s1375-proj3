@@ -1,5 +1,4 @@
 package byow.Core;
-
 import byow.TileEngine.*;
 
 import javax.sound.sampled.*;
@@ -616,32 +615,32 @@ public class Room {
     public static void drawWalls(TETile[][] tiles) {
         int height = tiles[0].length;
         int width = tiles.length;
-        for (int x = 1; x < width; x+= 1) {
+        for (int x = 1; x < width; x += 1) {
             for (int y = 1; y < height; y += 1) {
                 if (tiles[x][y] == Tileset.FLOOR) {
-                    if (tiles[x-1][y] == Tileset.NOTHING) {
-                        tiles[x-1][y] = Tileset.WALL;
+                    if (tiles[x - 1][y] == Tileset.NOTHING) {
+                        tiles[x - 1][y] = Tileset.WALL;
                     }
-                    if (tiles[x-1][y-1] == Tileset.NOTHING) {
-                        tiles[x-1][y-1] = Tileset.WALL;
+                    if (tiles[x - 1][y - 1] == Tileset.NOTHING) {
+                        tiles[x - 1][y - 1] = Tileset.WALL;
                     }
-                    if (tiles[x-1][y+1] == Tileset.NOTHING) {
-                        tiles[x-1][y+1] = Tileset.WALL;
+                    if (tiles[x - 1][y + 1] == Tileset.NOTHING) {
+                        tiles[x - 1][y + 1] = Tileset.WALL;
                     }
-                    if (tiles[x+1][y] == Tileset.NOTHING) {
-                        tiles[x+1][y] = Tileset.WALL;
+                    if (tiles[x + 1][y] == Tileset.NOTHING) {
+                        tiles[x + 1][y] = Tileset.WALL;
                     }
-                    if (tiles[x+1][y-1] == Tileset.NOTHING) {
-                        tiles[x+1][y-1] = Tileset.WALL;
+                    if (tiles[x + 1][y - 1] == Tileset.NOTHING) {
+                        tiles[x + 1][y - 1] = Tileset.WALL;
                     }
-                    if (tiles[x+1][y+1] == Tileset.NOTHING) {
-                        tiles[x+1][y+1] = Tileset.WALL;
+                    if (tiles[x + 1][y + 1] == Tileset.NOTHING) {
+                        tiles[x + 1][y + 1] = Tileset.WALL;
                     }
-                    if (tiles[x][y-1] == Tileset.NOTHING) {
-                        tiles[x][y-1] = Tileset.WALL;
+                    if (tiles[x][y - 1] == Tileset.NOTHING) {
+                        tiles[x][y - 1] = Tileset.WALL;
                     }
-                    if (tiles[x][y+1] == Tileset.NOTHING) {
-                        tiles[x][y+1] = Tileset.WALL;
+                    if (tiles[x][y + 1] == Tileset.NOTHING) {
+                        tiles[x][y + 1] = Tileset.WALL;
                     }
                 }
             }

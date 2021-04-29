@@ -722,7 +722,7 @@ public class Engine {
             saveseedd();
             saveAvatar();
         }
-        gamescreen.ter.renderFrame(gameworld);
+//        gamescreen.ter.renderFrame(gameworld);
         return gameworld;
     }
 

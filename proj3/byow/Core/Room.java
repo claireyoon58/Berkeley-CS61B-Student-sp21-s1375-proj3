@@ -15,7 +15,7 @@ public class Room {
     private final int HEIGHT;
     int demonsoul;
     TETile[][] randWorld;
-    TERenderer ter = new TERenderer();
+//    TERenderer ter = new TERenderer();
     HashMap<Integer, Position> gameRoom;
     int roomNum;
 
@@ -431,7 +431,7 @@ public class Room {
 
 
     public Position drawGameRooms(TETile avatar) {
-        ter.initialize(WIDTH, HEIGHT);
+//        ter.initialize(WIDTH, HEIGHT);
         randWorld = new TETile[WIDTH][HEIGHT];
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
@@ -448,8 +448,8 @@ public class Room {
 
         randWorld[wid][he] = avatar;
         demon(avatar);
-        ter.renderFrame(randWorld);
-        ter.renderFrame(randWorld);
+//        ter.renderFrame(randWorld);
+//        ter.renderFrame(randWorld);
         int newx = gameRoom.get(0).x + gameRoom.get(0).width / 2;
         int newy = gameRoom.get(0).y - gameRoom.get(0).height / 2;
 
@@ -667,7 +667,7 @@ public class Room {
 
         if (checkfreewall
                 || checkfreespace) {
-            ter.renderFrame(worldTiles);
+//            ter.renderFrame(worldTiles);
             return gameavatar;
         } else if (checksoul) {
             if (avatarType == Tileset.AVATAR) {
@@ -697,7 +697,7 @@ public class Room {
         worldTiles[gameavatar.avatarxy.x][gameavatar.avatarxy.y] = Tileset.FLOOR;
         gameavatar.avatarxy = new Position(directions[0], directions[1], 0, 0);
         worldTiles[directions[0]][directions[1]] = avatarType;
-        ter.renderFrame(worldTiles);
+//        ter.renderFrame(worldTiles);
         return gameavatar;
     }
 

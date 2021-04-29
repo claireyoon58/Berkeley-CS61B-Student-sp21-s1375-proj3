@@ -70,7 +70,7 @@ public class Engine {
             actionplay();
             loadAvatar();
             Room map = new Room(WIDTH, HEIGHT, SEED);
-            Room.Position positionavatar = map.drawGameRooms(avatar);
+            Position positionavatar = map.drawGameRooms(avatar);
             gameworld = map.randWorld;
             for (int i = 0; i < history.length(); i++) {
                 int[] directions = directionMover(positionavatar, history.charAt(i));
@@ -92,7 +92,7 @@ public class Engine {
 
             Room map = new Room(WIDTH, HEIGHT, SEED);
 
-            Room.Position positionavatar = map.drawGameRooms(avatar);
+            Position positionavatar = map.drawGameRooms(avatar);
             audioClip.stop();
             gameworld = map.randWorld;
 
@@ -298,7 +298,7 @@ public class Engine {
         }
     }
 
-    private int[] directionMover(Room.Position avPlace, char direction) {
+    private int[] directionMover(Position avPlace, char direction) {
         int[] answer = new int[2];
         if (direction == 'w') {
             answer[0] = avPlace.x;
@@ -316,7 +316,7 @@ public class Engine {
         return answer;
     }
 
-    private void playGame(long seed, String actions, Room.Position positionavatar,
+    private void playGame(long seed, String actions, Position positionavatar,
                           TETile[][] worldTiles, Room map)
             throws UnsupportedAudioFileException,
             IOException, LineUnavailableException {
@@ -528,7 +528,7 @@ public class Engine {
 
         loadAvatar();
         Room map = new Room(WIDTH, HEIGHT, SEED);
-        Room.Position positionavatar = map.drawGameRooms(avatar);
+        Position positionavatar = map.drawGameRooms(avatar);
         TETile[][] gameworld = map.randWorld;
         Stopwatch sw = new Stopwatch();
         for (int i = 0; i < history.length(); i++) {
@@ -652,7 +652,7 @@ public class Engine {
 //
 //        TETile[][] world = new TETile[WIDTH][HEIGHT];
 //        fillBoardWithNothing(world);
-//        byow.Core.Room.Position anchor = new Position(10, 15);
+//        byow.Core.Position anchor = new Position(10, 15);
 //        byow.Core.Room.drawWorld(world, anchor, RANDOM);
 //        byow.Core.Room.fillWalls(world);
 //
@@ -701,7 +701,7 @@ public class Engine {
 
     private TETile[][] inputStringHelper(long S, String historylog) {
         Room gamescreen = new Room(WIDTH, HEIGHT, S);
-        Room.Position positionavatar = gamescreen.drawGameRooms(avatar);
+        Position positionavatar = gamescreen.drawGameRooms(avatar);
         TETile[][] gameworld = gamescreen.randWorld;
         for (int i = 0; i < historylog.length(); i++) {
             int[] directions = directionMover(positionavatar, historylog.charAt(i));

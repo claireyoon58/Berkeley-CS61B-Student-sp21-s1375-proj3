@@ -26,25 +26,25 @@ public class Room {
     }
 
 
-    class Position {
-        int x;
-        int y;
-        int width;
-        int height;
-
-        Position(int xx, int yy, int width, int height) {
-            x = xx;
-            y = yy;
-            this.width = width;
-            this.height = height;
-        }
+//    class Position {
+//        int x;
+//        int y;
+//        int width;
+//        int height;
+//
+//        Position(int xx, int yy, int width, int height) {
+//            x = xx;
+//            y = yy;
+//            this.width = width;
+//            this.height = height;
+//        }
 
 //        public boolean equalPos(Position p) {
 //            return this.getx() == p.getx() && this.gety() == p.gety();
 //        }
-    }
 
-    private String straightHallway(Room.Position room1, Room.Position room2) {
+
+    private String straightHallway(Position room1, Position room2) {
         boolean comparehor11 = (room2.y < room1.y);
         boolean comparehor12 =  (room2.y - 3 > room1.y - room1.height);
         boolean horhall1 = (comparehor11 && comparehor12);
@@ -97,20 +97,20 @@ public class Room {
     public void connect(Position room1,
                         Position room2) {
         String loc = straightHallway(room1, room2);
-        Room.Position starthallway = null;
+        Position starthallway = null;
         if (loc.equals("horizontal")) {
             connecthelperX(room1, room2);
             int maxroom = Math.max(room2.y - room2.height, room1.y - room1.height);
             int minroom = Math.min(room2.y, room1.y);
             int randY = RandomUtils.uniform(SEED, maxroom, minroom);
-            starthallway = new Room.Position(room1.x + room1.width, randY, 0, 0);
+            starthallway = new Position(room1.x + room1.width, randY, 0, 0);
             int diff = room2.x - (room1.x + room1.width);
             for (int i = 0; i < 6; i++) {
                 if (!hallwayhelper2(loc, starthallway, diff)) {
                     int maxroom1 = Math.max(room2.y - room2.height, room1.y - room1.height);
                     int minroom2 = Math.min(room2.y, room1.y);
                     int randY2 = RandomUtils.uniform(SEED, maxroom1, minroom2);
-                    starthallway = new Room.Position(room1.x + room1.width, randY2, 0, 0);
+                    starthallway = new Position(room1.x + room1.width, randY2, 0, 0);
                 }
             }
             int dif = room2.x - (room1.x + room1.width);
@@ -147,7 +147,7 @@ public class Room {
             int comparemax = Math.max(room1.x, room2.x);
             int comparemin = Math.min(room1.x + room1.width, room2.x + room2.width);
             int randX = RandomUtils.uniform(SEED, comparemax + 1, comparemin);
-            starthallway = new Room.Position(randX, room1.y, 0, 0);
+            starthallway = new Position(randX, room1.y, 0, 0);
             int diff = room2.y - room2.height - room1.y;
             for (int i = 0; i < 6; i++) {
                 if (!hallwayhelper2(loc, starthallway, diff)) {
@@ -155,7 +155,7 @@ public class Room {
                     int minroom1 = Math.min(room1.x + room1.width, room2.x + room2.width);
                     int differentRandX = RandomUtils.uniform(SEED,
                             maxroom1 + 1, minroom1);
-                    starthallway = new Room.Position(differentRandX, room1.y, 0, 0);
+                    starthallway = new Position(differentRandX, room1.y, 0, 0);
                 }
             }
             int dif = room2.y - room2.height - room1.y;
@@ -175,7 +175,7 @@ public class Room {
         }
     }
 
-    private boolean hallwayhelper(Room.Position room1, Room.Position room2) {
+    private boolean hallwayhelper(Position room1, Position room2) {
         for (int i = room1.y; i > room1.y - room1.height - 1; i--) {
             boolean vertfloorcheck1 = randWorld[room1.x + room1.width][i] == Tileset.FLOOR;
             boolean vertfloorcheck2 = randWorld[room1.x][i] == Tileset.FLOOR;
@@ -197,7 +197,7 @@ public class Room {
         return false;
     }
 
-    private void drawHall(String loc, Room.Position currstart, int dif) {
+    private void drawHall(String loc, Position currstart, int dif) {
 
         if (loc.equals("horizontal")) {
 
@@ -259,7 +259,20 @@ public class Room {
         }
     }
 
-//    public void horizontalhelper(Position r1, Position room2) {
+    public void horizontalhelper(Position r1, Position r2) {
+        boolean swCheck = direction(r1, r2).equals("SW");
+        boolean seCheck = direction(r1, r2).equals("SE");
+        if (swCheck
+                || seCheck) {
+            Position store = r1;
+            r1 = r2;
+            r2 = store;
+        }
+
+    }
+
+    private void horitonzalhallway(Position room1, Position room2) {
+        horizontalhelper(room1, room2);
 //        boolean swCheck = direction(room1, room2).equals("SW");
 //        boolean seCheck = direction(room1, room2).equals("SE");
 //        if (swCheck
@@ -268,19 +281,6 @@ public class Room {
 //            room1 = room2;
 //            room2 = store;
 //        }
-//
-//    }
-
-    private void horitonzalhallway(Position room1, Position room2) {
-//        horizontalhelper(room1, room2);
-        boolean swCheck = direction(room1, room2).equals("SW");
-        boolean seCheck = direction(room1, room2).equals("SE");
-        if (swCheck
-                || seCheck) {
-            Position store = room1;
-            room1 = room2;
-            room2 = store;
-        }
         String roomdirect = direction(room1, room2);
         if (roomdirect.equals("NE")) {
             int areaWithinRoomx = room2.x - (room1.x + room1.width);
@@ -292,17 +292,17 @@ public class Room {
             int newhorposxx = room1.x + room1.width;
             int newvertposxx = room1.x + room1.width
                     + hallwayheight;
-            Room.Position horWall = new Room.Position(newhorposxx, randY, 0, 0);
+            Position horWall = new Position(newhorposxx, randY, 0, 0);
 
 
-            Room.Position vertWall = new Room.Position(newvertposxx, randY, 0, 0);
+            Position vertWall = new Position(newvertposxx, randY, 0, 0);
 
 
             drawHall("horizontal", horWall, hallwayheight);
             drawHall("vertical", vertWall, room2.y - room2.height - randY + 2);
-            Room.Position cornerPoint = new Room.Position(vertWall.x, vertWall.y
+            Position cornerPoint = new Position(vertWall.x, vertWall.y
                     + (room2.y - room2.height - randY) - 2, 0, 0);
-            roomcorner(cornerPoint, "bottopright");
+//            roomcorner(cornerPoint, "bottopright");
         } else if (roomdirect.equals("NW")) {
             int areaWithinRoom = room1.x - (room2.x + room2.width);
             int hallwayheight = RandomUtils.uniform(SEED, areaWithinRoom + 1,
@@ -311,14 +311,14 @@ public class Room {
             int randY = RandomUtils.uniform(SEED, ranheight, room2.y);
             int horposx = room2.x + room2.width;
             int verposx = room2.x + room2.width + hallwayheight;
-            Room.Position horWall = new Room.Position(horposx, randY, 0, 0);
-            Room.Position vertWall = new Room.Position(verposx, room1.y, 0, 0);
+            Position horWall = new Position(horposx, randY, 0, 0);
+            Position vertWall = new Position(verposx, room1.y, 0, 0);
 
 
 
             drawHall("horizontal", horWall, hallwayheight);
             drawHall("vertical", vertWall, randY - room1.y);
-            roomcorner(vertWall, "bottopright");
+//            roomcorner(vertWall, "bottopright");
         }
     }
 
@@ -352,49 +352,49 @@ public class Room {
             int areaWithinRoom = room2.y - room2.height - room1.y;
             int hallwayheight = RandomUtils.uniform(SEED, areaWithinRoom + 1, room2.y - room1.y);
             int randX = RandomUtils.uniform(SEED, room1.x + 1, room1.x + room1.width);
-            Room.Position vertWall = new Room.Position(randX, room1.y, 0, 0);
-            Room.Position horWall = new Room.Position(randX, room1.y + hallwayheight, 0, 0);
+            Position vertWall = new Position(randX, room1.y, 0, 0);
+            Position horWall = new Position(randX, room1.y + hallwayheight, 0, 0);
 
             drawHall("vertical", vertWall, hallwayheight);
             drawHall("horizontal", horWall, room2.x - randX);
-            roomcorner(horWall, "topcorner");
+//            roomcorner(horWall, "topcorner");
         } else if (nwdirect) {
             int areaWithinRoom = room2.y - room2.height - room1.y;
             int hallwayheight = RandomUtils.uniform(SEED, areaWithinRoom + 1, room2.y - room1.y);
             int rana = room1.x + 1;
             int ranb = room1.x + room1.width;
             int randX = RandomUtils.uniform(SEED, rana, ranb);
-            Room.Position vertWall = new Room.Position(randX, room1.y, 0, 0);
+            Position vertWall = new Position(randX, room1.y, 0, 0);
 
             int posxx = room2.x + room2.width;
             int posyy = room1.y + hallwayheight;
-            Room.Position horWall = new Room.Position(posxx, posyy, 0, 0);
+            Position horWall = new Position(posxx, posyy, 0, 0);
 
             drawHall("vertical", vertWall, hallwayheight);
 
             int diffnum = randX - room2.x - room2.width;
             drawHall("horizontal", horWall, diffnum);
-            roomcorner(horWall, "bottom left");
+//            roomcorner(horWall, "bottom left");
         }
     }
 
-    private void roomcorner(Room.Position currstart, String pos) {
-        if (pos.equals("bottom left")) {
-            randWorld[currstart.x - 1][currstart.y - 1] = Tileset.WALL;
-            randWorld[currstart.x][currstart.y - 1] = Tileset.WALL;
-            randWorld[currstart.x + 1][currstart.y - 1] = Tileset.WALL;
-        } else if (pos.equals("topcorner")) {
-            randWorld[currstart.x - 1][currstart.y + 1] = Tileset.WALL;
-            randWorld[currstart.x][currstart.y + 1] = Tileset.WALL;
-            randWorld[currstart.x + 1][currstart.y + 1] = Tileset.WALL;
-        } else if (pos.equals("bottopright")) {
-            randWorld[currstart.x + 1][currstart.y + 1] = Tileset.WALL;
-            randWorld[currstart.x + 1][currstart.y] = Tileset.WALL;
-            randWorld[currstart.x + 1][currstart.y - 1] = Tileset.WALL;
-        }
-    }
+//    private void roomcorner(Position currstart, String pos) {
+//        if (pos.equals("bottom left")) {
+//            randWorld[currstart.x - 1][currstart.y - 1] = Tileset.WALL;
+//            randWorld[currstart.x][currstart.y - 1] = Tileset.WALL;
+//            randWorld[currstart.x + 1][currstart.y - 1] = Tileset.WALL;
+//        } else if (pos.equals("topcorner")) {
+//            randWorld[currstart.x - 1][currstart.y + 1] = Tileset.WALL;
+//            randWorld[currstart.x][currstart.y + 1] = Tileset.WALL;
+//            randWorld[currstart.x + 1][currstart.y + 1] = Tileset.WALL;
+//        } else if (pos.equals("bottopright")) {
+//            randWorld[currstart.x + 1][currstart.y + 1] = Tileset.WALL;
+//            randWorld[currstart.x + 1][currstart.y] = Tileset.WALL;
+//            randWorld[currstart.x + 1][currstart.y - 1] = Tileset.WALL;
+//        }
+//    }
 
-    private boolean hallwayhelper2(String loc, Room.Position currstart, int dif) {
+    private boolean hallwayhelper2(String loc, Position currstart, int dif) {
         if (loc.equals("vertical")) {
             for (int i = 0; i < dif; i++) {
                 if (randWorld[currstart.x][currstart.y + i] == Tileset.WALL
@@ -418,12 +418,12 @@ public class Room {
 
     public void drawMapHallways() {
         for (int i = 0; i < (roomNum - 1); i++) {
-            Room.Position r1 = gameRoom.get(i);
-            Room.Position r2 = gameRoom.get(i + 1);
+            Position r1 = gameRoom.get(i);
+            Position r2 = gameRoom.get(i + 1);
             connect(r1, r2);
         }
-        Room.Position r11 = gameRoom.get(roomNum - 1);
-        Room.Position r22 =  gameRoom.get(0);
+        Position r11 = gameRoom.get(roomNum - 1);
+        Position r22 =  gameRoom.get(0);
         connect(r11, r22);
 
     }
@@ -440,9 +440,8 @@ public class Room {
         }
 
         drawRoomsMap();
-
         drawMapHallways();
-
+        drawWalls(randWorld);
 
         int wid = gameRoom.get(0).x + gameRoom.get(0).width / 2;
         int he = gameRoom.get(0).y - gameRoom.get(0).height / 2;
@@ -456,18 +455,18 @@ public class Room {
 
 
 
-        return new Room.Position(newx, newy, 0, 0);
+        return new Position(newx, newy, 0, 0);
     }
 
     private void drawRoomsMap() {
 
 
 //
-//            Room.Position nroom = new Room.Position(randoma, randomb, randomc, randomd);
+//            Position nroom = new Position(randoma, randomb, randomc, randomd);
 //            while (roomchecker(nroom)) {
 //
 //
-//                nroom = new Room.Position(rpart1, rpart2, rpart3, rpart4);
+//                nroom = new Position(rpart1, rpart2, rpart3, rpart4);
 ////                Position p = new Position(rpart1, rpart2);
 ////                Position newPos = new Position(rpart1 + rpart3 - 1, rpart2 + rpart4 - 1);
 ////                gameRoom.put(p, newPos);
@@ -483,16 +482,16 @@ public class Room {
             int randoma = RandomUtils.uniform(SEED, 10, 70);
             int randomb = RandomUtils.uniform(SEED, 12, 50);
             int randomc = RandomUtils.uniform(SEED, 6, 12);
-            int randomd = RandomUtils.uniform(SEED, 6, 12);
+            int randomd = RandomUtils.uniform(SEED, 6, 8);
 
-            Position nroom = new Room.Position(randoma, randomb, randomc, randomd);
+            Position nroom = new Position(randoma, randomb, randomc, randomd);
             while (roomchecker(nroom)) {
                 int rpart1 = RandomUtils.uniform(SEED, 5, 60);
                 int rpart2 = RandomUtils.uniform(SEED, 9, 52);
                 int rpart3 = RandomUtils.uniform(SEED, 4, 9);
                 int rpart4 = RandomUtils.uniform(SEED, 4, 9);
 
-                nroom = new Room.Position(rpart1, rpart2, rpart3, rpart4);
+                nroom = new Position(rpart1, rpart2, rpart3, rpart4);
             }
 
             gameRoom.put(x, nroom);
@@ -557,7 +556,7 @@ public class Room {
                 return true;
             }
         }
-        for (Room.Position nroom : gameRoom.values()) {
+        for (Position nroom : gameRoom.values()) {
             boolean checkroom1 = nroom.y < topcorner.y;
             boolean checkroom2 = nroom.x < (topcorner.x + topcorner.width);
             boolean checkroom3 = nroom.y > (topcorner.y - topcorner.height);
@@ -612,6 +611,41 @@ public class Room {
 //        } else {
 //            return "E";
 //        }
+    }
+
+    public static void drawWalls(TETile[][] tiles) {
+        int height = tiles[0].length;
+        int width = tiles.length;
+        for (int x = 1; x < width; x+= 1) {
+            for (int y = 1; y < height; y += 1) {
+                if (tiles[x][y] == Tileset.FLOOR) {
+                    if (tiles[x-1][y] == Tileset.NOTHING) {
+                        tiles[x-1][y] = Tileset.WALL;
+                    }
+                    if (tiles[x-1][y-1] == Tileset.NOTHING) {
+                        tiles[x-1][y-1] = Tileset.WALL;
+                    }
+                    if (tiles[x-1][y+1] == Tileset.NOTHING) {
+                        tiles[x-1][y+1] = Tileset.WALL;
+                    }
+                    if (tiles[x+1][y] == Tileset.NOTHING) {
+                        tiles[x+1][y] = Tileset.WALL;
+                    }
+                    if (tiles[x+1][y-1] == Tileset.NOTHING) {
+                        tiles[x+1][y-1] = Tileset.WALL;
+                    }
+                    if (tiles[x+1][y+1] == Tileset.NOTHING) {
+                        tiles[x+1][y+1] = Tileset.WALL;
+                    }
+                    if (tiles[x][y-1] == Tileset.NOTHING) {
+                        tiles[x][y-1] = Tileset.WALL;
+                    }
+                    if (tiles[x][y+1] == Tileset.NOTHING) {
+                        tiles[x][y+1] = Tileset.WALL;
+                    }
+                }
+            }
+        }
     }
 
 
@@ -848,7 +882,7 @@ public class Room {
 //            int randomc = RandomUtils.uniform(SEED, 2, 6);
 //            int randomd = RandomUtils.uniform(SEED, 4, 13);
 //
-//            Room.Position nroom = new Room.Position(randoma, randomb, randomc, randomd);
+//            Position nroom = new Position(randoma, randomb, randomc, randomd);
 //            while (roomhelper(nroom)) {
 //                int rpart1 = RandomUtils.uniform(SEED, 5, 60);
 //                int rpart2 = RandomUtils.uniform(SEED, 9, 30);
@@ -856,7 +890,7 @@ public class Room {
 //                int rpart4 = RandomUtils.uniform(SEED, 4, 13);
 //
 //
-//                nroom = new Room.Position(rpart1, rpart2, rpart3, rpart4);
+//                nroom = new Position(rpart1, rpart2, rpart3, rpart4);
 //                Position2 p = new Position2(rpart1, rpart2);
 //                Position2 newPos = new Position2(rpart1 + rpart3 - 1, rpart2 + rpart4 - 1);
 //                gameRoom2.put(p, newPos);
@@ -989,40 +1023,7 @@ public class Room {
 ////    }
 ////
 ////    // Scan through the world and fill in walls
-////    public static void fillWalls(TETile[][] tiles) {
-////        int height = tiles[0].height;
-////        int width = tiles.height;
-////        for (int x = 1; x < width; x+= 1) {
-////            for (int y = 1; y < height; y += 1) {
-////                if (tiles[x][y] == Tileset.FLOOR) {
-////                    if (tiles[x-1][y] == Tileset.NOTHING) {
-////                        tiles[x-1][y] = Tileset.WALL;
-////                    }
-////                    if (tiles[x-1][y-1] == Tileset.NOTHING) {
-////                        tiles[x-1][y-1] = Tileset.WALL;
-////                    }
-////                    if (tiles[x-1][y+1] == Tileset.NOTHING) {
-////                        tiles[x-1][y+1] = Tileset.WALL;
-////                    }
-////                    if (tiles[x+1][y] == Tileset.NOTHING) {
-////                        tiles[x+1][y] = Tileset.WALL;
-////                    }
-////                    if (tiles[x+1][y-1] == Tileset.NOTHING) {
-////                        tiles[x+1][y-1] = Tileset.WALL;
-////                    }
-////                    if (tiles[x+1][y+1] == Tileset.NOTHING) {
-////                        tiles[x+1][y+1] = Tileset.WALL;
-////                    }
-////                    if (tiles[x][y-1] == Tileset.NOTHING) {
-////                        tiles[x][y-1] = Tileset.WALL;
-////                    }
-////                    if (tiles[x][y+1] == Tileset.NOTHING) {
-////                        tiles[x][y+1] = Tileset.WALL;
-////                    }
-////                }
-////            }
-////        }
-////    }
+
 ////
 ////    private int[] moving(char direction, Position curr) {
 ////        int[] directioner = new int[2];
@@ -1084,7 +1085,7 @@ public class Room {
 ////        TETile[][] returnWorld2 = byow.Core.Engine.interactWithInputString(userinput);
 ////        ter.initialize(WIDTH, HEIGHT);
 //
-//    private void drawRoom(Room.Position topcorner) {
+//    private void drawRoom(Position topcorner) {
 //        for (int i = topcorner.x;
 //             i < topcorner.width; i++) {
 //            randWorld[i][topcorner.y] = Tileset.WALL;
@@ -1108,7 +1109,7 @@ public class Room {
 //
 //
 //
-//    public static String direction(Room.Position a, Room.Position b) {
+//    public static String direction(Position a, Position b) {
 //
 //        if (room2.x > room1.x && room2.y > room1.y) {
 //            return "NE";
@@ -1129,7 +1130,7 @@ public class Room {
 //        }
 //    }
 //
-//    private int[] moving(char d, Room.Position avatar1) {
+//    private int[] moving(char d, Position avatar1) {
 //        int[] directioner = new int[2];
 //        if (d == 'w') {
 //            directioner[0] = avatar1.x;
@@ -1165,13 +1166,13 @@ public class Room {
 //        int newposy = avatar1.avatarPosition.y;
 //        worldTiles[newposx][newposy] = Tileset.FLOOR;
 //
-//        avatar1.avatarPosition = new Room.Position(movex, movey, 0, 0);
+//        avatar1.avatarPosition = new Position(movex, movey, 0, 0);
 //        worldTiles[movex][movey] = atype;
 //        ter.renderFrame(worldTiles);
 //        return avatar1;
 //    }
 //
-//    public Room.Position drawGameRooms(TETile avatar) {
+//    public Position drawGameRooms(TETile avatar) {
 //        ter.initialize(WIDTH, HEIGHT);
 //        randWorld = new TETile[WIDTH][HEIGHT];
 //        for (int i = 0; i < WIDTH; i++) {
@@ -1196,11 +1197,11 @@ public class Room {
 //
 //
 //
-//        return new Room.Position(newx, newy, 0, 0);
+//        return new Position(newx, newy, 0, 0);
 //    }
 //
 //
-//    public boolean roomhelper(Room.Position topcorner) {
+//    public boolean roomhelper(Position topcorner) {
 //        for (int i = topcorner.x; i < topcorner.width; i++) {
 //            boolean checktopcorner = randWorld[i][topcorner.y] != Tileset.NOTHING;
 //            int heightt = topcorner.y - topcorner.height;
@@ -1225,7 +1226,7 @@ public class Room {
 //                return true;
 //            }
 //        }
-//        for (Room.Position nroom : gameRoom.values()) {
+//        for (Position nroom : gameRoom.values()) {
 //            boolean checkroom1 = nroom.y < topcorner.y;
 //            boolean checkroom2 = nroom.x < (topcorner.x + topcorner.width);
 //            boolean checkroom3 = nroom.y > (topcorner.y - topcorner.height);

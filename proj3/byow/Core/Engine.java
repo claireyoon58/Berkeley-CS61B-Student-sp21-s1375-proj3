@@ -114,31 +114,61 @@ public class Engine {
         StdDraw.setPenColor(Color.WHITE);
 
         String game = "../proj3/gamebackground.png";
-
+//        "Please insert string "
+//                + "starting with 'N' and ending with 'S'.
         StdDraw.setXscale(0, WIDTH);
         StdDraw.setYscale(0, HEIGHT);
         StdDraw.enableDoubleBuffering();
         StdDraw.picture(WIDTH / 2, HEIGHT / 2, game);
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Please input a seed");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Please input a seed to kill demons!");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 4, "Press (s) after inputing seed");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: ");
         StdDraw.show();
         long seed = 0;
+        String seedprint;
+        long printseed = 0;
         while (true) {
+
             if (StdDraw.hasNextKeyTyped()) {
                 StdDraw.setPenColor(Color.WHITE);
                 char type = Character.toLowerCase(StdDraw.nextKeyTyped());
-                StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: " + seed);
+//                StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: " + seed);
+//                StdDraw.show();
                 if (type == 's') {
 
                     return seed;
                 } else {
                     int currInt = Integer.parseInt(String.valueOf(type));
                     seed = seed * 10 + currInt;
-                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: " + seed);
+                    seedprint = Long.toString(seed);
+                    StdDraw.clear();
+//add background photo again
+                    StdDraw.setXscale(0, WIDTH);
+                    StdDraw.setYscale(0, HEIGHT);
+                    StdDraw.enableDoubleBuffering();
+                    StdDraw.picture(WIDTH / 2, HEIGHT / 2, game);
+                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Please input a seed to kill demons!");
+                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 4, "Press (s) after inputing seed");
+                    StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "Seed: ");
+
                     System.out.println("seed: " + seed);
+                    Font seedf = new Font("Herculanum", Font.BOLD, 30);
+                    StdDraw.setFont(seedf);
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.text(WIDTH * 0.5, HEIGHT * 0.2, seedprint);
+                    StdDraw.show();
                 }
+//                printseed = seed;
             }
+//            StdDraw.clear();
+//            StdDraw.setPenColor(Color.BLUE);
+//            StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 10, String.valueOf("█████████████████████████████████████"));
+//            StdDraw.setPenColor(Color.WHITE);
+//            StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 10, String.valueOf(printseed));
+//            StdDraw.show();
+
         }
+
     }
 
     public String drawStartScreen()
@@ -167,30 +197,40 @@ public class Engine {
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4, "Demon Slayer");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 8, "New Game (N)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 12, "Load Game (L)");
-        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit (Q)");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 16, "Quit (:Q)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 20, "Replay Previous Game (R)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 24, "Avatar Selection (A)");
         StdDraw.text(WIDTH / 2, HEIGHT / 2 + HEIGHT / 4 - 28, "Backstory (B)");
 
         StdDraw.show();
-
+        boolean colon = false;
         while (true) {
+
             if (StdDraw.hasNextKeyTyped()) {
                 char curr = Character.toLowerCase(StdDraw.nextKeyTyped());
 
                 if (curr == 'n') {
+                    colon = false;
                     return "new game";
                 } else if (curr == 'l') {
+                    colon = false;
                     return "load game";
                 } else if (curr == 'r') {
+                    colon = false;
                     return "replay previous game";
-                } else if (curr == 'q') {
+                } else if (curr == ':') {
+                    colon = true;
+                } else if (curr == 'q' && colon) {
                     return "Quit";
                 } else if (curr == 'a') {
+                    colon = false;
 //                    audioClip.stop();
                     return "avatar selection";
                 } else if (curr == 'b') {
+                    colon = false;
                     return "backstory";
+                } else {
+                    colon = false;
                 }
             }
         }

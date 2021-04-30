@@ -1,4 +1,5 @@
 package byow.Core;
+
 import byow.TileEngine.*;
 
 import javax.sound.sampled.*;
@@ -14,7 +15,7 @@ public class Room {
     private final int HEIGHT;
     int demonsoul;
     TETile[][] randWorld;
-//    TERenderer ter = new TERenderer();
+    TERenderer ter = new TERenderer();
     HashMap<Integer, Position> gameRoom;
     int roomNum;
 
@@ -430,7 +431,7 @@ public class Room {
 
 
     public Position drawGameRooms(TETile avatar) {
-//        ter.initialize(WIDTH, HEIGHT);
+        ter.initialize(WIDTH, HEIGHT);
         randWorld = new TETile[WIDTH][HEIGHT];
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
@@ -447,8 +448,8 @@ public class Room {
 
         randWorld[wid][he] = avatar;
         demon(avatar);
-//        ter.renderFrame(randWorld);
-//        ter.renderFrame(randWorld);
+        ter.renderFrame(randWorld);
+        ter.renderFrame(randWorld);
         int newx = gameRoom.get(0).x + gameRoom.get(0).width / 2;
         int newy = gameRoom.get(0).y - gameRoom.get(0).height / 2;
 
@@ -615,32 +616,32 @@ public class Room {
     public static void drawWalls(TETile[][] tiles) {
         int height = tiles[0].length;
         int width = tiles.length;
-        for (int x = 1; x < width; x += 1) {
+        for (int x = 1; x < width; x+= 1) {
             for (int y = 1; y < height; y += 1) {
                 if (tiles[x][y] == Tileset.FLOOR) {
-                    if (tiles[x - 1][y] == Tileset.NOTHING) {
-                        tiles[x - 1][y] = Tileset.WALL;
+                    if (tiles[x-1][y] == Tileset.NOTHING) {
+                        tiles[x-1][y] = Tileset.WALL;
                     }
-                    if (tiles[x - 1][y - 1] == Tileset.NOTHING) {
-                        tiles[x - 1][y - 1] = Tileset.WALL;
+                    if (tiles[x-1][y-1] == Tileset.NOTHING) {
+                        tiles[x-1][y-1] = Tileset.WALL;
                     }
-                    if (tiles[x - 1][y + 1] == Tileset.NOTHING) {
-                        tiles[x - 1][y + 1] = Tileset.WALL;
+                    if (tiles[x-1][y+1] == Tileset.NOTHING) {
+                        tiles[x-1][y+1] = Tileset.WALL;
                     }
-                    if (tiles[x + 1][y] == Tileset.NOTHING) {
-                        tiles[x + 1][y] = Tileset.WALL;
+                    if (tiles[x+1][y] == Tileset.NOTHING) {
+                        tiles[x+1][y] = Tileset.WALL;
                     }
-                    if (tiles[x + 1][y - 1] == Tileset.NOTHING) {
-                        tiles[x + 1][y - 1] = Tileset.WALL;
+                    if (tiles[x+1][y-1] == Tileset.NOTHING) {
+                        tiles[x+1][y-1] = Tileset.WALL;
                     }
-                    if (tiles[x + 1][y + 1] == Tileset.NOTHING) {
-                        tiles[x + 1][y + 1] = Tileset.WALL;
+                    if (tiles[x+1][y+1] == Tileset.NOTHING) {
+                        tiles[x+1][y+1] = Tileset.WALL;
                     }
-                    if (tiles[x][y - 1] == Tileset.NOTHING) {
-                        tiles[x][y - 1] = Tileset.WALL;
+                    if (tiles[x][y-1] == Tileset.NOTHING) {
+                        tiles[x][y-1] = Tileset.WALL;
                     }
-                    if (tiles[x][y + 1] == Tileset.NOTHING) {
-                        tiles[x][y + 1] = Tileset.WALL;
+                    if (tiles[x][y+1] == Tileset.NOTHING) {
+                        tiles[x][y+1] = Tileset.WALL;
                     }
                 }
             }
@@ -666,28 +667,28 @@ public class Room {
 
         if (checkfreewall
                 || checkfreespace) {
-//            ter.renderFrame(worldTiles);
+            ter.renderFrame(worldTiles);
             return gameavatar;
         } else if (checksoul) {
             if (avatarType == Tileset.AVATAR) {
                 int soundver = RandomUtils.uniform(SEED, 0, 3);
                 if (soundver == 0) {
-                    playSound("../proj3/killing.wav");
+                    playSound("../proj3/music/killing.wav");
 
                 } else if (soundver == 1) {
-                    playSound("../proj3/killing2.wav");
+                    playSound("../proj3/music/killing2.wav");
 
 //                    horitonzalhallway(room1, room2);
                 } else if (soundver == 2) {
-                    playSound("../proj3/killing3.wav");
+                    playSound("../proj3/music/killing3.wav");
                 }
             }
             if (avatarType == Tileset.NEZUKO) {
                 int nezukover = RandomUtils.uniform(SEED, 0, 3);
                 if (nezukover == 0) {
-                    playSound("../proj3/nezukill2.wav");
+                    playSound("../proj3/music/nezukill2.wav");
                 } else if (nezukover == 1) {
-                    playSound("../proj3/nezukill.wav");
+                    playSound("../proj3/music/nezukill.wav");
                 }
             }
             demonsoul += 1;
@@ -696,7 +697,7 @@ public class Room {
         worldTiles[gameavatar.avatarxy.x][gameavatar.avatarxy.y] = Tileset.FLOOR;
         gameavatar.avatarxy = new Position(directions[0], directions[1], 0, 0);
         worldTiles[directions[0]][directions[1]] = avatarType;
-//        ter.renderFrame(worldTiles);
+        ter.renderFrame(worldTiles);
         return gameavatar;
     }
 
@@ -1150,153 +1151,6 @@ public class Room {
 //        Ingame avatar1 = new Ingame(worldTiles, avatarPosition);
 //        int[] directions = moving(d, avatarPosition);
 //        boolean movewall = worldTiles[directions[0]][directions[1]] == Tileset.NOTHING;
-//        boolean movewall2 = worldTiles[directions[0]][directions[1]] == Tileset.WALL;
-//        boolean soulcheck = worldTiles[directions[0]][directions[1]] == Tileset.SOUL;
-//        int movex = directions[0];
-//        int movey = directions[1];
-//
-//        if (movewall || movewall2) {
-//            return avatar1;
-//        } else if (soulcheck) {
-//            demonsoul += 1;
-//        }
-//
-//        int newposx = avatar1.avatarPosition.x;
-//        int newposy = avatar1.avatarPosition.y;
-//        worldTiles[newposx][newposy] = Tileset.FLOOR;
-//
-//        avatar1.avatarPosition = new Position(movex, movey, 0, 0);
-//        worldTiles[movex][movey] = atype;
-//        ter.renderFrame(worldTiles);
-//        return avatar1;
-//    }
-//
-//    public Position drawGameRooms(TETile avatar) {
-//        ter.initialize(WIDTH, HEIGHT);
-//        randWorld = new TETile[WIDTH][HEIGHT];
-//        for (int i = 0; i < WIDTH; i++) {
-//            for (int j = 0; j < HEIGHT; j++) {
-//                randWorld[i][j] = Tileset.NOTHING;
-//            }
-//        }
-//
-//        drawRoomsMap()();
-//        drawhallwaysMap();
-//
-//        int wid = gameRoom.get(0).x + gameRoom.get(0).width / 2;
-//        int he = gameRoom.get(0).y - gameRoom.get(0).height / 2;
-//
-//        randWorld[wid][he] = avatar;
-//        demon(avatar);
-//        fillWalls(randWorld);
-//        ter.renderFrame(randWorld);
-//
-//        int newx = gameRoom.get(0).x + gameRoom.get(0).width / 2;
-//        int newy = gameRoom.get(0).y - gameRoom.get(0).height / 2;
-//
-//
-//
-//        return new Position(newx, newy, 0, 0);
-//    }
-//
-//
-//    public boolean roomhelper(Position topcorner) {
-//        for (int i = topcorner.x; i < topcorner.width; i++) {
-//            boolean checktopcorner = randWorld[i][topcorner.y] != Tileset.NOTHING;
-//            int heightt = topcorner.y - topcorner.height;
-//            boolean checktopheight = randWorld[i]
-//            [heightt] != Tileset.NOTHING;
-//            int heighttt = topcorner.y + 1;
-//            boolean checktop = randWorld[i][heighttt] != Tileset.NOTHING;
-//            int cc = topcorner.y - topcorner.height - 1;
-//            boolean checkdiff = randWorld[i][cc] != Tileset.NOTHING;
-//            if (checkdiff || checktop || checktopcorner || checktopheight) {
-//                return true;
-//            }
-//        }
-//        for (int j = topcorner.y; j < topcorner.height; j++) {
-//            boolean checktopcorner2 = randWorld[topcorner.y][j] != Tileset.NOTHING;
-//            int xx = topcorner.x + topcorner.width;
+//        boolean movewall2 = worldTiles[directions[0]][di
 
-//            boolean checkdiff2 = randWorld[topcorner.x
-//            + topcorner.width + 1][j] != Tileset.NOTHING;
-//
-//            if (checkdiff2 || checktop2 || checktopcorner2 || checktopheight2) {
-//                return true;
-//            }
-//        }
-//        for (Position nroom : gameRoom.values()) {
-//            boolean checkroom1 = nroom.y < topcorner.y;
-//            boolean checkroom2 = nroom.x < (topcorner.x + topcorner.width);
-//            boolean checkroom3 = nroom.y > (topcorner.y - topcorner.height);
-//            boolean checkroom4 = nroom.x > topcorner.x;
-//            if (checkroom1 && checkroom2 && checkroom3  && checkroom4) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public static void fillWalls(TETile[][] tiles) {
-//        int height = tiles[0].height;
-//        int width = tiles.height;
-//        for (int x = 1; x < width; x += 1) {
-//            for (int y = 1; y < height; y += 1) {
-//                boolean fillHelper = tiles[x][y] == Tileset.FLOOR;
-//                boolean fillSoul = tiles[x][y] == Tileset.SOUL;
-//                if (fillHelper || fillSoul) {
-//                    if (tiles[x - 1][y] == Tileset.NOTHING) {
-//                        tiles[x - 1][y] = Tileset.WALL;
-//                    }
-//                    if (tiles[x + 1][y] == Tileset.NOTHING) {
-//                        tiles[x + 1][y] = Tileset.WALL;
-//                    }
-//                    if (tiles[x - 1][y - 1] == Tileset.NOTHING) {
-//                        tiles[x - 1][y - 1] = Tileset.WALL;
-//                    }
-//                    if (tiles[x + 1][y - 1] == Tileset.NOTHING) {
-//                        tiles[x + 1][y - 1] = Tileset.WALL;
-//                    }
-//                    if (tiles[x][y - 1] == Tileset.NOTHING) {
-//                        tiles[x][y - 1] = Tileset.WALL;
-//                    }
-//                    if (tiles[x - 1][y + 1] == Tileset.NOTHING) {
-//                        tiles[x - 1][y + 1] = Tileset.WALL;
-//                    }
-//
-//                    if (tiles[x + 1][y + 1] == Tileset.NOTHING) {
-//                        tiles[x + 1][y + 1] = Tileset.WALL;
-//                    }
-//
-//                    if (tiles[x][y + 1] == Tileset.NOTHING) {
-//                        tiles[x][y + 1] = Tileset.WALL;
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    class Ingame {
-//        TETile[][] worldTiles;
-//        Position avatarPosition;
-//
-//        Ingame(TETile[][] t, Position avatarPos) {
-//            this.worldTiles = t;
-//            this.avatarPosition = avatarPos;
-//        }
-//    }
-//
-//
-//
-////        ter.initialize(WIDTH, HEIGHT);
-////        randWorld = new TETile[WIDTH][HEIGHT];
-////        for (int i = 0; i < WIDTH; i++) {
-////            for (int j = 0; j < HEIGHT; j++) {
-////                randWorld[i][j] = Tileset.NOTHING;
-////            }
-//
-//
-//
-//
-//}
 

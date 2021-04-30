@@ -23,8 +23,8 @@ public class Tileset {
             "../proj3/Soul.png");
     public static final TETile NEZUKO = new TETile('✼', Color.white, Color.black, "Nezuko",
             "../proj3/nezuko.png");
-    public static final TETile DEMON = new TETile('▒', Color.white, Color.black, "demon");
-//            "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/demon.png");
+    public static final TETile DEMON = new TETile('▒', Color.white, Color.black, "demon",
+            "/Users/claireyoon/Desktop/61B/sp21-s1375/proj3/demon.png");
     public static final TETile WALL = new TETile('█', new Color(216, 128, 128), Color.darkGray,
             "wall");
     public static final TETile FLOOR = new TETile('·', new Color(128, 192, 128), Color.black,

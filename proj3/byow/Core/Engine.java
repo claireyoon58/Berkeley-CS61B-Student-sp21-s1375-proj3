@@ -41,7 +41,7 @@ public class Engine {
             java.io.IOException, javax.sound.sampled.UnsupportedAudioFileException {
 
 
-        File theme = new File("../proj3/gametheme.wav");
+        File theme = new File("../proj3/music/gametheme.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
 
         AudioFormat play = playtheme.getFormat();
@@ -623,7 +623,7 @@ public class Engine {
 
 
 
-    public TETile[][] interactWithInputString(String input) {
+    public TETile[][] interactWithInputString(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         input = input.toLowerCase();
         if (!(input.contains("l") || input.contains("n"))) {
             throw new IllegalArgumentException("invalid input");
@@ -702,7 +702,7 @@ public class Engine {
     }
 
 
-    private TETile[][] inputStringHelper(long S, String historylog) {
+    private TETile[][] inputStringHelper(long S, String historylog) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         Room gamescreen = new Room(WIDTH, HEIGHT, S);
         Position positionavatar = gamescreen.drawGameRooms(avatar);
         TETile[][] gameworld = gamescreen.randWorld;
@@ -813,7 +813,7 @@ public class Engine {
 
         String winscreen = "../proj3/win.png";
 
-        File win = new File("../proj3/winning.wav");
+        File win = new File("../proj3/music/winning.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(win);
 
         AudioFormat play = playtheme.getFormat();
@@ -823,8 +823,8 @@ public class Engine {
 
 
 
-        File laugh = new File("../proj3/laugh.wav");
-        AudioInputStream playtheme1 = AudioSystem.getAudioInputStream(win);
+        File laugh = new File("../proj3/music/laugh.wav");
+        AudioInputStream playtheme1 = AudioSystem.getAudioInputStream(laugh);
 
         AudioFormat play2 = playtheme.getFormat();
         DataLine.Info info2 = new DataLine.Info(Clip.class, play2);
@@ -877,7 +877,7 @@ public class Engine {
             UnsupportedAudioFileException,
             IOException,
             LineUnavailableException {
-        File lost = new File("../proj3/ending.wav");
+        File lost = new File("../proj3/music/ending.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(lost);
 
         AudioFormat play = playtheme.getFormat();

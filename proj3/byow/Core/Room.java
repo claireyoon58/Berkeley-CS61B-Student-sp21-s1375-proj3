@@ -673,22 +673,22 @@ public class Room {
             if (avatarType == Tileset.AVATAR) {
                 int soundver = RandomUtils.uniform(SEED, 0, 3);
                 if (soundver == 0) {
-                    playSound("../proj3/music/killing.wav");
+                    playSound("../proj3/killing.wav");
 
                 } else if (soundver == 1) {
-                    playSound("../proj3/music/killing2.wav");
+                    playSound("../proj3/killing2.wav");
 
 //                    horitonzalhallway(room1, room2);
                 } else if (soundver == 2) {
-                    playSound("../proj3/music/killing3.wav");
+                    playSound("../proj3/killing3.wav");
                 }
             }
             if (avatarType == Tileset.NEZUKO) {
                 int nezukover = RandomUtils.uniform(SEED, 0, 3);
                 if (nezukover == 0) {
-                    playSound("../proj3/music/nezukill2.wav");
+                    playSound("../proj3/nezukill2.wav");
                 } else if (nezukover == 1) {
-                    playSound("../proj3/music/nezukill.wav");
+                    playSound("../proj3/nezukill.wav");
                 }
             }
             demonsoul += 1;
@@ -771,6 +771,7 @@ public class Room {
     }
 
 }
+
 //    static TETile[][] randWorld;
 //    static Random SEED;
 //    final int WIDTH;

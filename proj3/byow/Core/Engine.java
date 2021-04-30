@@ -41,7 +41,7 @@ public class Engine {
             java.io.IOException, javax.sound.sampled.UnsupportedAudioFileException {
 
 
-        File theme = new File("../proj3/music/gametheme.wav");
+        File theme = new File("../proj3/gametheme.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(theme);
 
         AudioFormat play = playtheme.getFormat();
@@ -813,7 +813,7 @@ public class Engine {
 
         String winscreen = "../proj3/win.png";
 
-        File win = new File("../proj3/music/winning.wav");
+        File win = new File("../proj3/winning.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(win);
 
         AudioFormat play = playtheme.getFormat();
@@ -823,7 +823,7 @@ public class Engine {
 
 
 
-        File laugh = new File("../proj3/music/laugh.wav");
+        File laugh = new File("../proj3/laugh.wav");
         AudioInputStream playtheme1 = AudioSystem.getAudioInputStream(laugh);
 
         AudioFormat play2 = playtheme.getFormat();
@@ -877,7 +877,7 @@ public class Engine {
             UnsupportedAudioFileException,
             IOException,
             LineUnavailableException {
-        File lost = new File("../proj3/music/ending.wav");
+        File lost = new File("../proj3/ending.wav");
         AudioInputStream playtheme = AudioSystem.getAudioInputStream(lost);
 
         AudioFormat play = playtheme.getFormat();
